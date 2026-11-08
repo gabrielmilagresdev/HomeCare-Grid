@@ -12,7 +12,7 @@
     "ios": "expo start --go --ios",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "test": "node --test tests/domain.test.mjs tests/tooling.test.mjs",
+    "test": "node --test tests/domain.test.mjs tests/demo-engine.test.mjs tests/tooling.test.mjs",
     "test:ui": "jest --runInBand",
     "doctor": "expo-doctor",
     "bundle": "expo export --platform android --platform ios --output-dir dist",
@@ -22,8 +22,11 @@
     "check:foundation": "node scripts/check-foundation.mjs"
   },
   "dependencies": {
+    "@expo/vector-icons": "15.0.2",
     "expo": "58.0.23",
     "expo-constants": "58.0.15",
+    "expo-font": "58.0.11",
+    "expo-linear-gradient": "58.0.3",
     "expo-linking": "58.0.16",
     "expo-router": "58.0.30",
     "expo-status-bar": "58.0.4",

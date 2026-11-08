@@ -31,8 +31,8 @@ export function parseConciergeFilters(input: unknown, serviceIds: readonly strin
   const nullableKnown = (v: unknown, known: readonly string[]) => v === null || (typeof v === 'string' && known.includes(v));
   if (!nullableKnown(input.serviceId, serviceIds) || !nullableKnown(input.regionCode, regionCodes)) return invalid('Serviço ou região desconhecidos.');
   if (input.window !== null && !isTimeWindow(input.window)) return invalid('Disponibilidade inválida.');
-  if (input.frequency !== null && !nonempty(input.frequency)) return invalid('Frequência inválida.');
-  if (!strings(input.accessibilityTags) || typeof input.clarificationNeeded !== 'boolean') return invalid('Resposta incompleta.');
+  if (input.frequency !== null && !['unica', 'semanal'].includes(String(input.frequency))) return invalid('Frequência inválida.');
+  if (!strings(input.accessibilityTags) || !input.accessibilityTags.every(tag => ['mobilidade', 'comunicacao', 'wheelchair'].includes(tag)) || typeof input.clarificationNeeded !== 'boolean') return invalid('Resposta incompleta.');
   const window = input.window === null ? null : { startsAt: (input.window as TimeWindow).startsAt, endsAt: (input.window as TimeWindow).endsAt };
   return { ok: true, data: { serviceId: input.serviceId as string | null, regionCode: input.regionCode as string | null,
     window, frequency: input.frequency as string | null, accessibilityTags: [...input.accessibilityTags],

@@ -23,6 +23,7 @@ test('Concierge valida catálogo e não transporta campos clínicos', () => {
   assert.equal(result.ok,true); assert.equal('diagnosis' in result.data,false);
   assert.deepEqual(Object.keys(result.data.window).sort(),['endsAt','startsAt']);
   assert.equal(parseConciergeFilters({...input,serviceId:'invented'},[service.id],[request.regionCode]).ok,false);
+  assert.equal(parseConciergeFilters({...input,accessibilityTags:['diagnóstico privado']},[service.id],[request.regionCode]).ok,false);
   assert.equal(parseConciergeFilters({},[service.id],[request.regionCode]).ok,false);
 });
 test('Concierge ambíguo exige esclarecimento', () => {
