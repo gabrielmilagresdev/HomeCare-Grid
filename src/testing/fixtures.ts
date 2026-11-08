@@ -38,21 +38,22 @@ export function createDemoFixture(now = new Date()): DemoFixture {
   const physio: Service = { id: 'demo-service-physio', name: 'Fisioterapia domiciliar', requiresCredential: true };
   const company: Service = { id: 'demo-service-company', name: 'Companhia e bem-estar', requiresCredential: false };
   const availability = () => [{ ...slot }];
+  const professionals: Professional[] = [
+    { id: 'demo-professional-a', userId: 'demo-pro-a', displayName: 'Marina Azevedo', serviceIds: [support.id, company.id], regionCodes: ['DEMO-CENTRO', 'DEMO-ZONA-SUL'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 7800, accessibilityTags: ['mobilidade'] },
+    { id: 'demo-professional-b', userId: 'demo-pro-b', displayName: 'Caio Martins', serviceIds: [support.id, physio.id], regionCodes: ['DEMO-CENTRO', 'DEMO-ZONA-OESTE'], credentialStatus: 'verified', availability: availability(), hourlyPriceCents: 11000, accessibilityTags: ['mobilidade', 'comunicacao'] },
+    { id: 'demo-professional-c', userId: 'demo-pro-c', displayName: 'Lia Ferreira', serviceIds: [support.id, company.id], regionCodes: ['DEMO-ZONA-SUL'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 6900, accessibilityTags: ['comunicacao'] },
+    { id: 'demo-professional-d', userId: 'demo-pro-d', displayName: 'Nina Ribeiro', serviceIds: [physio.id], regionCodes: ['DEMO-ZONA-OESTE'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 9500, accessibilityTags: [] }
+  ];
   return {
     users: [
       { id: 'demo-contractor', displayName: 'Você', roles: ['recipient', 'contractor'] },
-      { id: 'demo-pro-a', displayName: 'Marina', roles: ['professional'] },
+      ...professionals.map((professional): User => ({ id: professional.userId, displayName: professional.displayName.split(' ')[0] ?? professional.displayName, roles: ['professional'] })),
       { id: 'demo-family', displayName: 'Rafa', roles: ['contractor'] }
     ],
     recipient: { id: 'demo-recipient', ownerUserId: 'demo-contractor', displayName: 'Pessoa atendida (fictícia)' },
     memberships: [{ id: 'demo-membership-family', recipientId: 'demo-recipient', userId: 'demo-family', canBook: false, canViewSchedule: true, revokedAt: null }],
     services: [support, physio, company],
-    professionals: [
-      { id: 'demo-professional-a', userId: 'demo-pro-a', displayName: 'Marina Azevedo', serviceIds: [support.id, company.id], regionCodes: ['DEMO-CENTRO', 'DEMO-ZONA-SUL'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 7800, accessibilityTags: ['mobilidade'] },
-      { id: 'demo-professional-b', userId: 'demo-pro-b', displayName: 'Caio Martins', serviceIds: [support.id, physio.id], regionCodes: ['DEMO-CENTRO', 'DEMO-ZONA-OESTE'], credentialStatus: 'verified', availability: availability(), hourlyPriceCents: 11000, accessibilityTags: ['mobilidade', 'comunicacao'] },
-      { id: 'demo-professional-c', userId: 'demo-pro-c', displayName: 'Lia Ferreira', serviceIds: [support.id, company.id], regionCodes: ['DEMO-ZONA-SUL'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 6900, accessibilityTags: ['comunicacao'] },
-      { id: 'demo-professional-d', userId: 'demo-pro-d', displayName: 'Nina Ribeiro', serviceIds: [physio.id], regionCodes: ['DEMO-ZONA-OESTE'], credentialStatus: 'unverified', availability: availability(), hourlyPriceCents: 9500, accessibilityTags: [] }
-    ],
+    professionals,
     suggestedWindow,
     alternateWindow
   };

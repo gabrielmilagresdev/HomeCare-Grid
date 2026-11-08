@@ -17,7 +17,7 @@ function PathCard({ icon, title, description, onPress, color }: { icon: React.Co
 
 export default function Home() {
   const { setActiveUserId } = useDemo();
-  const enter = (id: string, route: '/(patient)/home' | '/(professional)/agenda' | '/(family)/schedule') => { setActiveUserId(id); router.push(route); };
+  const enter = (id: string, route: '/(patient)/home' | '/(family)/schedule') => { setActiveUserId(id); router.push(route); };
   return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}>
     <View style={styles.topbar}><Brand /><DemoPill /></View>
     <LinearGradient colors={[theme.colors.deep, '#11685F']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.hero}>
@@ -30,7 +30,7 @@ export default function Home() {
     <View style={styles.intro}><Eyebrow>COMECE POR AQUI</Eyebrow><SectionTitle title="Como podemos ajudar?" caption="Escolha um papel para explorar a jornada demonstrativa." /></View>
     <View style={styles.paths}>
       <PathCard icon="search-outline" title="Preciso de cuidado" description="Explore profissionais e solicite atendimento." color={theme.colors.mint} onPress={() => enter('demo-contractor', '/(patient)/home')} />
-      <PathCard icon="calendar-outline" title="Sou profissional" description="Acompanhe solicitações e sua agenda." color={theme.colors.peach} onPress={() => enter('demo-pro-a', '/(professional)/agenda')} />
+      <PathCard icon="calendar-outline" title="Sou profissional" description="Escolha seu perfil e responda solicitações." color={theme.colors.peach} onPress={() => router.push('/(auth)/sign-in')} />
       <PathCard icon="people-outline" title="Cuido junto com a família" description="Veja a agenda com permissões explícitas." color={theme.colors.blue} onPress={() => enter('demo-family', '/(family)/schedule')} />
     </View>
     <Pressable accessibilityRole="button" onPress={() => router.push('/(auth)/sign-in')} style={styles.accessLink}><Ionicons name="shield-checkmark-outline" size={18} color={theme.colors.primary} /><Text style={styles.accessText}>Entenda o acesso na demonstração</Text><Ionicons name="chevron-forward" size={16} color={theme.colors.primary} /></Pressable>

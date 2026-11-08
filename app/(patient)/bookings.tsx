@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../src/components/ui/Button';
 import { Avatar, Badge, Card, Divider, Screen, SectionTitle, StateMessage } from '../../src/components/ui/Primitives';
+import { BookingTimeline } from '../../src/features/bookings/BookingTimeline';
 import { useDemo } from '../../src/features/demo/DemoContext';
-import { money, statusLabel, windowLabel } from '../../src/features/demo/format';
+import { eventTimeLabel, money, statusLabel, windowLabel } from '../../src/features/demo/format';
 import { theme } from '../../src/theme/tokens';
 
 export default function PatientBookings() {
   const { engine, activeUserId, setSearch, search, transition } = useDemo();
   const [error, setError] = useState('');
+  const [historyId, setHistoryId] = useState<string | null>(null);
   const result = engine.listForRecipient(activeUserId ?? '');
   const bookings = result.ok ? [...result.data].reverse() : [];
   const cancel = (bookingId: string, version: number) => {
@@ -32,16 +34,19 @@ export default function PatientBookings() {
         : <View style={styles.list}><SectionTitle title="Atendimentos" caption={`${bookings.length} registro${bookings.length === 1 ? '' : 's'} na demonstração`} />{bookings.map(booking => {
           const professional = engine.fixture.professionals.find(item => item.id === booking.professionalId);
           const request = engine.getRequest(activeUserId ?? '', booking.id);
+          const history = engine.getEvents(activeUserId ?? '', booking.id);
           const service = request.ok ? engine.fixture.services.find(item => item.id === request.data.serviceId) : undefined;
           return <Card key={booking.id}><View style={styles.row}><Avatar name={professional?.displayName ?? 'Profissional'} tone="peach" /><View style={{ flex: 1, gap: 4 }}><Text style={styles.name}>{professional?.displayName ?? 'Profissional'}</Text><Text style={styles.muted}>{service?.name ?? 'Atendimento'}</Text></View><Badge label={statusLabel[booking.status]} tone={booking.status === 'accepted' ? 'mint' : booking.status === 'requested' ? 'peach' : 'neutral'} /></View>
             <Divider /><View style={styles.detail}><Ionicons name="calendar-outline" size={18} color={theme.colors.primary} /><Text style={styles.value}>{windowLabel(booking)}</Text></View><View style={styles.detail}><Ionicons name="wallet-outline" size={18} color={theme.colors.primary} /><Text style={styles.value}>{money(professional?.hourlyPriceCents ?? 0)} / hora · simulado</Text></View>
             {booking.status === 'requested' && <Text style={styles.muted}>Aguardando resposta do profissional. Troque de papel na tela inicial para demonstrar o aceite.</Text>}
             {(booking.status === 'requested' || booking.status === 'accepted') && <Button label="Cancelar solicitação" variant="ghost" onPress={() => cancel(booking.id, booking.version)} />}
             {['rejected', 'cancelled', 'completed'].includes(booking.status) && <Button label="Solicitar novamente" variant="secondary" onPress={() => repeat(booking.id, booking.professionalId)} />}
+            <Pressable accessibilityRole="button" accessibilityLabel={`${historyId === booking.id ? 'Ocultar' : 'Ver'} histórico de ${professional?.displayName ?? 'atendimento'}`} accessibilityState={{ expanded: historyId === booking.id }} onPress={() => setHistoryId(value => value === booking.id ? null : booking.id)} style={styles.historyAction}><Text style={styles.historyText}>{historyId === booking.id ? 'Ocultar histórico' : 'Ver histórico'}</Text><Ionicons name={historyId === booking.id ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.primary} /></Pressable>
+            {historyId === booking.id && <BookingTimeline entries={history.ok ? history.data.map(event => ({ id: event.id, label: statusLabel[event.to], detail: `${eventTimeLabel(event.createdAt)} · horário de São Paulo` })) : []} />}
           </Card>;
         })}</View>}
     <Button label="Buscar profissionais" variant="secondary" onPress={() => router.push('/(patient)/home')} />
     <Button label="Ver agenda da família" variant="ghost" onPress={() => router.push('/(family)/schedule')} />
   </Screen>;
 }
-const styles = StyleSheet.create({ lead: { color: theme.colors.deep, fontSize: 17, fontWeight: '800', lineHeight: 23 }, muted: { color: theme.colors.muted, fontSize: 12, lineHeight: 18 }, error: { color: theme.colors.error, fontSize: 13, fontWeight: '700' }, list: { gap: 13 }, row: { flexDirection: 'row', gap: 10, alignItems: 'center' }, name: { color: theme.colors.ink, fontSize: 16, fontWeight: '800' }, detail: { flexDirection: 'row', alignItems: 'center', gap: 9 }, value: { color: theme.colors.ink, fontSize: 13, lineHeight: 19, flex: 1 } });
+const styles = StyleSheet.create({ lead: { color: theme.colors.deep, fontSize: 17, fontWeight: '800', lineHeight: 23 }, muted: { color: theme.colors.muted, fontSize: 12, lineHeight: 18 }, error: { color: theme.colors.error, fontSize: 13, fontWeight: '700' }, list: { gap: 13 }, row: { flexDirection: 'row', gap: 10, alignItems: 'center' }, name: { color: theme.colors.ink, fontSize: 16, fontWeight: '800' }, detail: { flexDirection: 'row', alignItems: 'center', gap: 9 }, value: { color: theme.colors.ink, fontSize: 13, lineHeight: 19, flex: 1 }, historyAction: { minHeight: 44, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, historyText: { color: theme.colors.primary, fontSize: 13, fontWeight: '800' } });

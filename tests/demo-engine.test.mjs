@@ -50,6 +50,35 @@ test('horários adjacentes podem ser aceitos pelo mesmo profissional', () => {
   assert.equal(demo.transition('demo-pro-a', b.data.id, 'accepted', 1).ok, true);
 });
 
+test('todo perfil profissional da demo possui papel acessível e somente profissionais veem oportunidades', () => {
+  const demo = engine();
+  for (const professional of demo.fixture.professionals) {
+    const user = demo.fixture.users.find(item => item.id === professional.userId);
+    assert.equal(user?.roles.includes('professional'), true, professional.displayName);
+    assert.equal(demo.listForProfessional(professional.userId).ok, true);
+    assert.equal(demo.listDemandAggregates(professional.userId).ok, true);
+  }
+  assert.equal(demo.listDemandAggregates('demo-contractor').error.code, 'unauthorized');
+  assert.equal(demo.listDemandAggregates('demo-family').error.code, 'unauthorized');
+});
+
+test('solicitações de Caio e Lia podem ser aceitas pelo profissional correto', () => {
+  for (const [professionalId, userId, regionCode] of [
+    ['demo-professional-b', 'demo-pro-b', 'DEMO-CENTRO'],
+    ['demo-professional-c', 'demo-pro-c', 'DEMO-ZONA-SUL']
+  ]) {
+    const demo = engine();
+    const input = { ...requestFor(demo, `request-${professionalId}`), regionCode };
+    const booking = demo.request('demo-contractor', input, professionalId, `key-${professionalId}`);
+    assert.equal(booking.ok, true, professionalId);
+    assert.equal(demo.listForProfessional(userId).data[0].id, booking.data.id);
+    assert.equal(demo.transition('demo-pro-a', booking.data.id, 'accepted', 1).error.code, 'unauthorized');
+    assert.equal(demo.transition(userId, booking.data.id, 'accepted', 1).ok, true);
+    assert.equal(demo.listForRecipient('demo-family').data[0].status, 'accepted');
+    assert.equal(demo.getEvents('demo-contractor', booking.data.id).data[0].to, 'accepted');
+  }
+});
+
 test('demanda exige consentimento, usa allowlist e suprime grupos pequenos', () => {
   const demo = engine();
   assert.equal(demo.recordUnservedDemand('demo-contractor', 'demo-service-support', 'DEMO-ZONA-NORTE', false).error.code, 'validation');

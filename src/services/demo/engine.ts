@@ -137,7 +137,8 @@ export class DemoEngine {
   }
 
   listDemandAggregates(actorUserId: ID): Result<DemandAggregate[]> {
-    if (!this.fixture.users.some(user => user.id === actorUserId)) return fail('unauthorized', 'Acesso restrito.');
+    if (!this.fixture.professionals.some(professional => professional.userId === actorUserId))
+      return fail('unauthorized', 'Acesso restrito ao profissional.');
     // Fixed synthetic projections avoid revealing a newly recorded small group by differencing.
     return { ok: true, data: syntheticAggregates.filter(item => item.count >= 5).map(clone) };
   }

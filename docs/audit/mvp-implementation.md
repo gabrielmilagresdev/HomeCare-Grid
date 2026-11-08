@@ -1,8 +1,8 @@
 # Auditoria local do repositório e entrega do MVP — 08/11/2026
 
-Base analisada: `origin/develop` em `adb1f11`; `origin/main` permanece no commit inicial `104ab17`. Trabalho local: branch `codex/hackathon-mvp`, criada a partir de `develop`. Nada foi enviado ao GitHub, integrado em `develop/main`, aplicado em banco ou publicado fora desta máquina.
+Base analisada: `origin/develop` em `adb1f11`; `origin/main` permanece no commit inicial `104ab17`. A branch `codex/hackathon-mvp`, criada a partir de `develop`, foi publicada no GitHub. Nada foi integrado em `develop/main` ou aplicado em banco.
 
-No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois integrados e dois abertos). O backlog original classifica dez epics, 31 stories MVP, oito histórias pós-MVP, o bootstrap #2 e cinco tarefas posteriores de governança. Os rótulos `blocked` e as dependências remotas não foram alterados. A implementação local abaixo é evidência de código, não aceite ou fechamento das issues.
+No inventário inicial havia **55 issues abertas** e **4 pull requests**; posteriormente foi aberto o PR #60 de governança dual. O backlog original classifica dez epics, 31 stories MVP, oito histórias pós-MVP, o bootstrap #2 e cinco tarefas posteriores de governança. Os rótulos `blocked` e as dependências remotas não foram alterados por esta branch. A implementação abaixo é evidência de código, não aceite ou fechamento das issues.
 
 ## Todas as issues
 
@@ -21,7 +21,7 @@ No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois in
 | #11 | Post-MVP | Epic; preservado no backlog futuro. |
 | #13 | Expo e TypeScript | Scaffold em `develop`; export Android/iOS local aprovado. |
 | #14 | Arquitetura e contratos | Tipos únicos, parsers e ports da base preservados; regras locais ampliadas. |
-| #15 | Qualidade e Actions | CI existente analisada; checks locais executados, nenhuma CI remota disparada por este trabalho. |
+| #15 | Qualidade e Actions | CI existente analisada; checks locais executados. A branch do MVP ainda não tem PR e não disparou a CI de PR. |
 | #16 | Políticas e isolamento | `.agents` lidos; infraestrutura real de agentes não provisionada. |
 | #17 | Proteções e gate de merge | Exige prova de enforcement e identidade independente; nenhuma mudança remota autorizada. |
 | #18 | Tema e componentes | Tokens, botão, campos, cartões, chips, badges, estados e identidade visual locais. |
@@ -48,7 +48,7 @@ No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois in
 | #39 | FamilyPay | Divisão exata em centavos com rótulo SIMULAÇÃO; sem provedor/cartão. |
 | #40 | Compatibilidade Expo Go | Bundle Android/iOS, Expo Doctor e jornada em emulador Android locais; aparelho físico não testado. |
 | #41 | Documentação e demo | README e roteiro atualizados com passos e limites reais. |
-| #42 | Auditoria de PRs | Quatro PRs inventariados abaixo; aprovação independente/CI no SHA remoto não executadas. |
+| #42 | Auditoria de PRs | Cinco PRs inventariados abaixo; a branch do MVP segue sem PR/revisão independente. |
 | #43 | Release candidata | Não aberta/integrada: requer revisão, CI e autorização remota. |
 | #44 | Grid Routes avançado | Pós-MVP, fora do recorte do hackathon. |
 | #45 | Care Passport completo | Pós-MVP; prontuário/escopo clínico não introduzidos. |
@@ -62,7 +62,7 @@ No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois in
 | #54 | Elegibilidade de PRs na CI | Correções já integradas via PR #55; política local analisada, aceite remoto ainda aberto. |
 | #56 | Executor isolado e broker | PR #57 aberto, código em branch separada; não integrado ao MVP local. |
 | #58 | Piloto isolado e gates reais | Bloqueado por App/identidades/host e prova externa; não executado. |
-| #59 | DUAL_AGENT_MODE | Em andamento no GitHub; branch remota apontava para `develop`, sem mudança integrada no recorte local. |
+| #59 | DUAL_AGENT_MODE | PR #60 aberto para `develop`, ainda não integrado. O código do aplicativo desta branch não depende de sua integração para a demonstração local. |
 
 ## Pull requests
 
@@ -72,6 +72,7 @@ No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois in
 | #55 | Integrado em `develop` | Corrige política de elegibilidade/revalidação de PR. Código está na base local; testes de política devem ser conferidos separadamente dos testes de domínio. |
 | #52 | Aberto para `main` | Promoção inicial da fundação, vinculada à #53. `main` ainda é o commit inicial; dependências e revisão impedem aceite. Não integrar como release do MVP. |
 | #57 | Aberto para `develop` | Adiciona broker, isolamento, leases e políticas de autonomia (27 arquivos no diff local). A própria entrega declara `NOT READY`: App exclusivo, restrição nativa, Docker/host, credenciais e piloto #58 ainda faltam. Nenhuma aprovação formal ou merge foi feita. |
+| #60 | Aberto para `develop` | Adapta governança para dois papéis de Lucas. Diff de 18 arquivos sem sobreposição com o código do MVP; análise técnica local e checks do SHA `eb1b374` aprovados, com integração pendente de aceite/revisão humana. |
 
 ## Evidências e limites
 
@@ -79,4 +80,4 @@ No inventário remoto havia **55 issues abertas** e **4 pull requests** (dois in
 - Smoke visual local em emulador **Medium_Phone_API_37.0**, Android 17/API 37, Expo Go 58.0.5: entrada, busca, perfil, solicitação, aceite profissional e agenda familiar confirmada. Os screenshots ficam apenas em `.runtime/` (ignorado pelo Git). Isso não equivale a teste em aparelho físico nem a auditoria de acessibilidade com leitor de tela.
 - Os testes locais verificam domínio e fluxo sintético, mas não segurança de uma instância remota. O SQL foi escrito para revisão e aplicação futura, sem afirmar RLS ou transações verificadas.
 - O dispositivo Expo Go, o banco PostgreSQL concorrente, a CI no SHA remoto, a revisão humana independente e os gates de governança exigem ações/ambientes que não foram autorizados ou disponibilizados nesta tarefa.
-- `main`, `develop`, labels, issues, PRs e configurações do GitHub permanecem sem alterações por este trabalho.
+- `main`, `develop`, labels, issues, PRs e configurações do GitHub permanecem sem alterações por esta branch; somente `codex/hackathon-mvp` foi publicada. O PR do MVP exige reempacotar as Stories em branches rastreáveis por Issue ou uma decisão explícita de governança sobre esta entrega agrupada.

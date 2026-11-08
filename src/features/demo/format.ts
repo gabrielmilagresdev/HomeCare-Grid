@@ -11,7 +11,9 @@ export const regionLabel = (code: string) => regions.find(item => item.code === 
 export const money = (cents: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 const date = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'short', day: '2-digit', month: 'short' });
 const time = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', hour12: false });
+const eventTime = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
 export const windowLabel = (window: TimeWindow) => `${date.format(new Date(window.startsAt))} · ${time.format(new Date(window.startsAt))}–${time.format(new Date(window.endsAt))}`;
+export const eventTimeLabel = (createdAt: string) => eventTime.format(new Date(createdAt));
 export const statusLabel: Record<BookingStatus, string> = {
   requested: 'Aguardando aceite', accepted: 'Confirmado', rejected: 'Recusado', cancelled: 'Cancelado', completed: 'Concluído'
 };
