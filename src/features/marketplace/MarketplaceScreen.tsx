@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { BottomNavigation } from '../../components/ui/BottomNavigation';
 import { Avatar, Badge, Chip, Field, Screen, StateMessage } from '../../components/ui/Primitives';
 import { evaluateProfessional, rankProfessionals } from '../../domain/rules/matching.ts';
@@ -15,10 +15,12 @@ import { money, regionLabel, regions, windowLabel } from '../demo/format';
 type FilterPanel = 'date' | 'price' | 'more' | null;
 
 export function MarketplaceScreen() {
-  const { engine, activeUserId, search, setSearch, intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, applyIntent } = useDemo();
+  const { engine, activeUserId, search, setSearch, intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, suggestIntent } = useDemo();
   const largeText = useWindowDimensions().fontScale >= 1.4;
   const [panel, setPanel] = useState<FilterPanel>(null);
   const [editingIntent, setEditingIntent] = useState(false);
+  const [applyingIntent, setApplyingIntent] = useState(false);
+  const [intentError, setIntentError] = useState('');
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'low' | 'high'>('low');
   const [budget, setBudget] = useState(() => search.maxPriceCents === null ? '' : String(search.maxPriceCents / 100).replace('.', ','));
@@ -61,8 +63,9 @@ export function MarketplaceScreen() {
 
     {editingIntent ? <View style={styles.intentEditor}><TextInput accessibilityLabel="Editar sua busca" value={intent} onChangeText={setIntent} maxLength={500} multiline autoFocus
         placeholder="Descreva o cuidado que procura" placeholderTextColor={theme.colors.textMuted} style={styles.intentInput} />
-      <Pressable accessibilityRole="button" accessibilityLabel="Aplicar busca" accessibilityState={{ disabled: !intent.trim() }} disabled={!intent.trim()}
-        onPress={() => { const result = applyIntent(intent); if (result.ok) setEditingIntent(false); }} style={[styles.apply, !intent.trim() && styles.applyDisabled]}><Text style={styles.applyText}>Aplicar busca</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.ink} /></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="Aplicar busca" accessibilityState={{ disabled: !intent.trim() || applyingIntent, busy: applyingIntent }} disabled={!intent.trim() || applyingIntent}
+        onPress={async () => { setApplyingIntent(true); setIntentError(''); try { const result = await suggestIntent(intent); if (result.ok) setEditingIntent(false); else setIntentError(result.error.message); } finally { setApplyingIntent(false); } }} style={[styles.apply, (!intent.trim() || applyingIntent) && styles.applyDisabled]}><Text style={styles.applyText}>Aplicar busca</Text>{applyingIntent ? <ActivityIndicator color={theme.colors.ink} /> : <Ionicons name="arrow-forward" size={17} color={theme.colors.ink} />}</Pressable>
+      {!!intentError && <Text accessibilityRole="alert" style={styles.error}>{intentError}</Text>}
     </View> : <Pressable accessibilityRole="button" accessibilityLabel="Editar sua busca" onPress={() => setEditingIntent(true)} style={styles.intentCompact}><Text numberOfLines={2} style={[styles.intentSummary, !intent && styles.intentPlaceholder]}>{intent || 'Descreva o cuidado que procura'}</Text><Ionicons name="create-outline" size={20} color={theme.colors.ink} /></Pressable>}
     {!!conciergeNotice && <View style={styles.notice}><Ionicons name="information-circle-outline" size={18} color={theme.colors.ink} /><Text accessibilityRole="alert" style={styles.noticeText}>{conciergeNotice}</Text></View>}
 
