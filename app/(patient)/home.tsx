@@ -1,2 +1,2 @@
-import { MarketplaceScreen } from '../../src/features/marketplace/MarketplaceScreen';
-export default function PatientHome() { return <MarketplaceScreen />; }
+import { ConciergeHomeScreen } from '../../src/features/marketplace/ConciergeHomeScreen';
+export default function PatientHome() { return <ConciergeHomeScreen />; }

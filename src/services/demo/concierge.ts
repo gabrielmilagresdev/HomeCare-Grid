@@ -7,6 +7,8 @@ export function interpretDemoConcierge(text: string, fixture: DemoFixture): Resu
   if (!text.trim() || text.length > 500) return { ok: false, error: { code: 'validation', message: 'Descreva o serviço e a região em até 500 caracteres.' } };
   const normalized = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const serviceId = normalized.includes('fisio') ? 'demo-service-physio'
+    : normalized.includes('enferm') ? 'demo-service-nursing'
+      : normalized.includes('fono') ? 'demo-service-speech'
     : normalized.includes('companh') || normalized.includes('bem-estar') ? 'demo-service-company'
       : normalized.includes('apoio') || normalized.includes('cuidado') ? 'demo-service-support' : null;
   const regionCode = normalized.includes('centro') ? 'DEMO-CENTRO'

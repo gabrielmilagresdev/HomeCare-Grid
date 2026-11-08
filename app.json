@@ -6,7 +6,7 @@
     "scheme": "homecaregrid",
     "orientation": "default",
     "userInterfaceStyle": "light",
-    "backgroundColor": "#F8FBF9",
+    "backgroundColor": "#F8F7F4",
     "platforms": ["android", "ios"],
     "plugins": ["expo-router"]
   }

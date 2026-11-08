@@ -17,7 +17,9 @@ npm ci
 npm start
 ```
 
-Abra o QR no Expo Go. Na tela inicial, escolha **Preciso de cuidado**. O logotipo em cada tela volta ao início para trocar o papel fictício. Veja o [roteiro completo](docs/demo/demo-flow.md).
+Abra o QR no Expo Go. Na tela inicial, escolha **Preciso de cuidado**. O Concierge aceita texto e oferece atalhos; a busca compara profissionais, horários e valores; a revisão mostra pessoa atendida, endereço fictício e total demonstrativo antes de criar um pedido pendente. Para trocar de papel fictício, use **Conta** ou volte à tela inicial. Veja o [roteiro completo](docs/demo/demo-flow.md).
+
+A identidade visual usa porcelana, tinta ameixa e citron. Os avatares são iniciais, e não há notas nem fotos inventadas. Voz, pagamento e IA remota não estão conectados; a entrada por voz informa a indisponibilidade e o Concierge local aplica apenas filtros administrativos.
 
 ## Qualidade local
 
