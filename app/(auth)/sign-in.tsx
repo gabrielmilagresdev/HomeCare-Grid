@@ -1,13 +1,14 @@
 import { router } from 'expo-router';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from '../../src/components/ui/Button';
+import { BottomNavigation } from '../../src/components/ui/BottomNavigation';
 import { Avatar, Badge, Card, Screen, SectionTitle } from '../../src/components/ui/Primitives';
 import { useDemo } from '../../src/features/demo/DemoContext';
 import { theme } from '../../src/theme/tokens';
 
 export default function AccessScreen() {
   const { engine, user, setActiveUserId } = useDemo();
-  return <Screen back title="Acesso à demonstração" subtitle="Papéis fictícios ajudam a explorar a experiência. Nenhum login ou dado pessoal é necessário.">
+  return <Screen back title="Acesso à demonstração" subtitle="Papéis fictícios ajudam a explorar a experiência. Nenhum login ou dado pessoal é necessário." bottom={<BottomNavigation active="account" />}>
     <Card style={{ backgroundColor: theme.colors.mint }}><Badge label="SESSÃO LOCAL" /><Text style={styles.cardTitle}>{user ? `Explorando como ${user.displayName}` : 'Sem sessão ativa'}</Text><Text style={styles.body}>A troca de papel abaixo vale apenas nesta simulação. No produto real, permissões são verificadas no servidor por pessoa e ação.</Text></Card>
     <View style={styles.group}><SectionTitle title="Pessoa e família" /><Button label="Pessoa atendida / responsável" onPress={() => { setActiveUserId('demo-contractor'); router.replace('/(patient)/home'); }} />
       <Button label="Familiar Rafa" variant="ghost" onPress={() => { setActiveUserId('demo-family'); router.replace('/(family)/schedule'); }} />

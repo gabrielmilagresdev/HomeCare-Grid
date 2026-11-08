@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../src/components/ui/Button';
+import { BottomNavigation } from '../../src/components/ui/BottomNavigation';
 import { Avatar, Badge, Card, Divider, Screen, SectionTitle, StateMessage } from '../../src/components/ui/Primitives';
 import { BookingTimeline } from '../../src/features/bookings/BookingTimeline';
 import { useDemo } from '../../src/features/demo/DemoContext';
@@ -26,7 +27,7 @@ export default function PatientBookings() {
       window: engine.fixture.alternateWindow, accessibilityTags: request.data.requiredAccessibilityTags, maxPriceCents: request.data.maxPriceCents });
     router.push(`/(patient)/profile/${professionalId}`);
   };
-  return <Screen back title="Minha agenda" subtitle="Acompanhe solicitações e confirmações da pessoa atendida.">
+  return <Screen back title="Minha agenda" subtitle="Acompanhe solicitações e confirmações da pessoa atendida." bottom={<BottomNavigation active="agenda" />}>
     <Card style={{ backgroundColor: theme.colors.mint }}><Badge label="AGENDA COMPARTILHÁVEL" /><Text style={styles.lead}>Cada atualização aparece para quem tem permissão ativa.</Text><Text style={styles.muted}>Horários exibidos no fuso de São Paulo. Todos os dados são fictícios.</Text></Card>
     {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
     {!result.ok ? <StateMessage icon="lock-closed-outline" title="Agenda protegida" message={result.error.message} action="Escolher acesso" onAction={() => router.push('/(auth)/sign-in')} />

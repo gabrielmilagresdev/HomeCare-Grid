@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../src/components/ui/Button';
+import { BottomNavigation } from '../../src/components/ui/BottomNavigation';
 import { Avatar, Badge, Card, Divider, Screen, SectionTitle, StateMessage } from '../../src/components/ui/Primitives';
 import { splitSimulatedAmount } from '../../src/domain/rules/payments.ts';
 import { useDemo } from '../../src/features/demo/DemoContext';
@@ -22,9 +23,9 @@ export default function FamilySchedule() {
     const result = setPermission('demo-family', permission, enabled);
     setError(result.ok ? '' : result.error.message);
   };
-  if (!schedule.ok) return <Screen back title="Agenda da família"><StateMessage icon="lock-closed-outline" title="Agenda protegida" message={schedule.error.message} action="Escolher outro acesso" onAction={() => router.push('/(auth)/sign-in')} /></Screen>;
+  if (!schedule.ok) return <Screen back title="Agenda da família" bottom={<BottomNavigation active="family" />}><StateMessage icon="lock-closed-outline" title="Agenda protegida" message={schedule.error.message} action="Escolher outro acesso" onAction={() => router.push('/(auth)/sign-in')} /></Screen>;
   const bookings = [...schedule.data].reverse();
-  return <Screen back title="Cuidar é trabalho de equipe." subtitle="Uma agenda compartilhada, com acesso definido por quem é responsável.">
+  return <Screen back title="Cuidar é trabalho de equipe." subtitle="Uma agenda compartilhada, com acesso definido por quem é responsável." bottom={<BottomNavigation active="family" />}>
     <Card style={{ backgroundColor: theme.colors.mint }}><Badge label="FAMILY HUB · DEMONSTRAÇÃO" /><Text style={styles.hero}>Todo mundo informado, cada um com sua permissão.</Text><Text style={styles.body}>Você está vendo a agenda de {engine.fixture.recipient.displayName}.</Text></Card>
     <View style={styles.group}><SectionTitle title="Próximos atendimentos" caption="Apenas vínculos ativos podem consultar esta agenda." />
       {bookings.length === 0 ? <StateMessage icon="calendar-outline" title="Ainda sem atendimentos" message="Quando um profissional aceitar uma solicitação, ela ficará visível aqui." action={canBook ? 'Buscar cuidado' : undefined} onAction={canBook ? () => router.push('/(patient)/home') : undefined} />
