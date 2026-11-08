@@ -79,7 +79,8 @@ test('bootstrap não ignora status nem dependências', async () => {
   const p = pr(12, 'Refs #2', 'develop', 'chore/2-bootstrap-foundation');
   const blocked = await evaluate(p, [issue(2, { status: 'blocked', body: 'Blocked by #17' }), issue(17)]);
   assert.equal(blocked.kind, 'bootstrap'); has(blocked, /está bloqueada/); has(blocked, /Dependência #17/);
-  assert.deepEqual((await evaluate(p, [issue(2)])).errors, []);
+  has(await evaluate(p, [issue(2), issue(17)]), /Dependência #17/);
+  assert.deepEqual((await evaluate(p, [issue(2), completed(17)])).errors, []);
 });
 const release = () => pr(70, 'Refs #43', 'main', 'develop');
 test('release elegível mantém revisão independente obrigatória', async () => {

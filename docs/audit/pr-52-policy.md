@@ -16,7 +16,7 @@ Classificação baseada no diff: promoção inicial da fundação, sem declaraç
 
 ## Política resultante
 - Operacionais: feature|fix|chore/<Issue>-descricao → develop, Issue operacional aberta e estado elegível.
-- Bootstrap: #2/chore/2-bootstrap-foundation → develop, sem pular status/dependências.
+- Bootstrap: #2/chore/2-bootstrap-foundation → develop, sem pular status/dependências; #17 é pré-requisito obrigatório, conforme as condições de integração da Issue #2.
 - Release final: develop do próprio repo → main, Issue #43, dependências mínimas #41/#42 e checklist de aceite comprovado.
 - Promoção inicial única: somente PR #52 + Issue #53 + main no commit inicial auditado; dependências mínimas #2/#17 e aceite. Não há exceção por label ou origem develop; outro PR/main avançado é recusado. Retirar esse caso ao encerrar a promoção, por PR revisado.
 - PRs/épicos/Issues encerradas, branch incompatível, backlog, blocked, status ausente, mapeamento ausente e dependência não closed/completed/integration:verified são recusados com motivo.

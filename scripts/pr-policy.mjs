@@ -90,6 +90,7 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
     }
   }
   // Pisos explícitos impedem retirar pré-requisitos críticos editando o texto da Issue.
+  if (kind === 'bootstrap') dependencies.add(17);
   if (kind === 'foundation-promotion') [2, 17].forEach(n => dependencies.add(n));
   if (kind === 'release') [41, 42].forEach(n => dependencies.add(n));
   if (dependencies.size > 100) throw new Error('Mais de 100 dependências: revisar a modelagem antes de validar.');
