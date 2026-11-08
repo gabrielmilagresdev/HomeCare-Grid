@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { evaluatePullRequest, snapshotErrors, FOUNDATION_BASELINE } from './pr-policy.mjs';
+import { evaluatePullRequest, snapshotErrors, linkedIssues, FOUNDATION_BASELINE, FOUNDATION_PROMOTION } from './pr-policy.mjs';
 
 export async function runPolicy(event, env, request = fetch) {
   const repository = env.GITHUB_REPOSITORY;
@@ -39,7 +39,12 @@ export async function runPolicy(event, env, request = fetch) {
     if (!cache.has(number)) cache.set(number, get('issues/' + number));
     return cache.get(number);
   }
-  const result = await evaluatePullRequest({ pr, eventPr, repository, readIssue, plan, issueMap });
+  let foundationComparison;
+  if (pr.base.ref === 'main' && pr.number === FOUNDATION_PROMOTION.pr &&
+      linkedIssues(pr.body).includes(FOUNDATION_PROMOTION.issue) && pr.head.sha !== FOUNDATION_BASELINE) {
+    foundationComparison = await get('compare/' + FOUNDATION_BASELINE + '...' + pr.head.sha);
+  }
+  const result = await evaluatePullRequest({ pr, eventPr, repository, readIssue, plan, issueMap, foundationComparison });
   if (result.errors.length) throw new Error(result.errors.join('\n'));
   return result;
 }

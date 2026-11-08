@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { evaluatePullRequest, linkedIssues, acceptance, FOUNDATION_PROMOTION } from '../scripts/pr-policy.mjs';
+import { evaluatePullRequest, linkedIssues, acceptance, FOUNDATION_PROMOTION, FOUNDATION_BASELINE } from '../scripts/pr-policy.mjs';
 import { runPolicy } from '../scripts/check-pr.mjs';
 
 const repository = 'gabrielmilagresdev/HomeCare-Grid';
@@ -105,7 +105,7 @@ test('release sem checklist de aceite não é elegível', async () => {
 test('checklist de Tasks fora do aceite não é confundido com pendência de release', () => {
   assert.deepEqual(acceptance(checked + '\n## Tasks\n- [ ] Depois da integração'), { total: 2, pending: 0 });
 });
-const promotion = () => { const p = pr(52, 'Refs #53', 'main', 'develop'); p.base.sha = FOUNDATION_PROMOTION.initialMain; return p; };
+const promotion = () => { const p = pr(52, 'Refs #53', 'main', 'develop'); p.base.sha = FOUNDATION_PROMOTION.initialMain; p.head.sha = FOUNDATION_BASELINE; return p; };
 const promotionIssue = options => issue(53, { role: 'arbiter', body: checked, extra: ['type:foundation-promotion'], ...options });
 test('promoção inicial tem todos os gates; não usa artificialmente a release #43', async () => {
   const result = await evaluate(promotion(), [promotionIssue(), completed(2), completed(17)]);
@@ -161,4 +161,23 @@ test('workflow revalida edição sem trocar permissões ou usar pull_request_tar
   assert.match(yaml, /types: \[opened, synchronize, reopened, edited, ready_for_review, converted_to_draft\]/);
   assert.ok(yaml.includes('node --test tests/pr-policy.test.mjs'));
   assert.ok(yaml.includes('pull-requests: read')); assert.equal(yaml.includes('pull_request_target:'), false);
+});
+
+test('promoção inicial não pode esconder funcionalidades MVP em novo head', async () => {
+  const p = promotion(); p.head.sha = 'c'.repeat(40);
+  const entries = [promotionIssue(), completed(2), completed(17)];
+  const valid = { status: 'ahead', merge_base_commit: { sha: FOUNDATION_BASELINE }, files: [] };
+  for (const comparison of [undefined, { ...valid, merge_base_commit: { sha: 'd'.repeat(40) } },
+    { ...valid, files: [{ filename: 'app/marketplace.tsx', status: 'added' }] }]) {
+    has(await evaluate(p, entries, { foundationComparison: comparison }), /fora do escopo/);
+  }
+});
+test('promoção admite somente a correção de governança revisável #54 após a fundação', async () => {
+  const p = promotion(); p.head.sha = 'c'.repeat(40);
+  const result = await evaluate(p, [promotionIssue(), completed(2), completed(17)], {
+    foundationComparison: { status: 'ahead', merge_base_commit: { sha: FOUNDATION_BASELINE }, files: [
+      { filename: 'scripts/pr-policy.mjs', status: 'added' }, { filename: '.github/workflows/ci.yml', status: 'modified' }
+    ] }
+  });
+  assert.deepEqual(result.errors, []);
 });

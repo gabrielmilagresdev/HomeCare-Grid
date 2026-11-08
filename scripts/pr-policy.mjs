@@ -38,7 +38,7 @@ export function snapshotErrors(pr, eventPr) {
   }
   return [];
 }
-export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIssue, plan, issueMap }) {
+export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIssue, plan, issueMap, foundationComparison }) {
   const errors = snapshotErrors(pr, eventPr);
   if (errors.length) return { errors };
   if (pr.state !== 'open') return { errors: ['PR não está aberto; use o evento atual de uma integração aberta.'] };
@@ -62,6 +62,16 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
       kind = 'foundation-promotion';
       if (pr.number !== FOUNDATION_PROMOTION.pr || pr.base.sha !== FOUNDATION_PROMOTION.initialMain) {
         errors.push('Promoção inicial restrita ao PR #52 e ao main inicial auditado; não reutilizar #53 em outras integrações.');
+      }
+      if (pr.head.sha !== FOUNDATION_BASELINE) {
+        const allowed = new Set(['scripts/check-pr.mjs', 'scripts/pr-policy.mjs', 'tests/pr-policy.test.mjs',
+          '.github/workflows/ci.yml', 'docs/audit/pr-52-policy.md']);
+        if (!foundationComparison || !['ahead', 'identical'].includes(foundationComparison.status) ||
+            foundationComparison.merge_base_commit?.sha !== FOUNDATION_BASELINE ||
+            !Array.isArray(foundationComparison.files) ||
+            foundationComparison.files.some(file => !allowed.has(file.filename) || file.status === 'removed')) {
+          errors.push('Promoção inicial fora do escopo: head deve ser a fundação auditada ou conter apenas os cinco arquivos da correção de governança #54. Funcionalidades MVP exigem a release #43.');
+        }
       }
       if (!labels(issue).includes('type:foundation-promotion')) errors.push('Issue #53 não está identificada como promoção inicial da fundação.');
     } else {
