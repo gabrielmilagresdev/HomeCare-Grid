@@ -28,12 +28,12 @@ A política de promoção inicial aceita apenas lista exata de infraestrutura ap
 
 ## D. Verificações e evidências
 
-- **66 testes Node aprovados:** 30 de infraestrutura e 36 da política de PR, sem skips. Incluem dois processos reais disputando a mesma reserva, DB persistente, fencing/quarentena, escopos críticos, orçamento, timeout/cancelamento de processos, redaction e servidor HTTP real em loopback.
+- **68 testes Node aprovados:** 32 de infraestrutura e 36 da política de PR, sem skips. Incluem dois processos reais disputando a mesma reserva, DB persistente, fencing/quarentena, escopos críticos, orçamento, timeout/cancelamento de processos, redaction e servidor HTTP real em loopback.
 - GitHub/modelo nos testes do executor são simulados. Testes negativos de merge e SHA provam as condições do código; não provam restrições reais das credenciais GitHub.
 - Ruleset e flags protected foram lidos do GitHub real. Isso comprova configuração ativa, não todos os cenários de enforcement da Issue #17.
 - Docker/gh ausentes localmente; Codex CLI observado 0.166.0-alpha.6, Node 24.11.1. Docker build, Linux sandbox, provider auth, cinco containers e piloto real não executados.
 - A CI desta entrega deve ser consultada no SHA atual do [PR #57](https://github.com/gabrielmilagresdev/HomeCare-Grid/pull/57); seu resultado não foi presumido. O job quality mantém toda a validação Expo anterior e acrescenta os testes de autonomia.
-- Os 23 testes de domínio/tooling existentes também passaram, além dos 66 testes de infraestrutura/política. Scanner de segredos não detectou padrões; sintaxe dos módulos validada.
+- Os 23 testes de domínio/tooling existentes também passaram, além dos 68 testes de infraestrutura/política. Scanner de segredos não detectou padrões; sintaxe dos módulos validada.
 - Configuração offline/dry-run reproduzível em .runtime/autonomy; nenhum segredo foi versionado. Teste físico Expo Go não executado.
 
 ## E. Matriz dos agentes

@@ -36,8 +36,15 @@ export async function profiles(root,config) {
     await fs.writeFile(path.join(root,'profiles',actor+'.toml'),text,{mode:0o600});
   }
 }
+export function configErrors(config) {
+  const errors=[];
+  if(config.schema!==1||config.repository!=='gabrielmilagresdev/HomeCare-Grid'||config.baseBranch!=='develop')errors.push('Unsupported repository/configuration');
+  if(!Array.isArray(config.actors)||config.actors.length!==5||ACTORS.some(id=>config.actors.filter(a=>a.id===id).length!==1))errors.push('Exactly five known actor IDs required');
+  if(!Number.isSafeInteger(config.maxAttempts)||config.maxAttempts<1||config.maxAttempts>2||!Number.isSafeInteger(config.maxRunSeconds)||config.maxRunSeconds<1||config.maxRunSeconds>5400||!Number.isSafeInteger(config.leaseSeconds)||config.leaseSeconds<3||config.leaseSeconds>300||!Number.isSafeInteger(config.modelMaxRequests)||config.modelMaxRequests<1||config.modelMaxRequests>60)errors.push('Execution/lease/model budgets outside allowed bounds');
+  return errors;
+}
 export async function verify(root,{processRunner=boundedProcess}={}) {
-  const config=await readJSON(path.join(root,'config.json')),blockers=[];
+  const config=await readJSON(path.join(root,'config.json')),blockers=configErrors(config);
   if(config.repository!=='gabrielmilagresdev/HomeCare-Grid')blockers.push('Repository mismatch');
   if(config.actors.length!==5||new Set(config.actors.map(a=>a.id)).size!==5||ACTORS.some(id=>!config.actors.some(a=>a.id===id)))blockers.push('Five known actor IDs required');
   if(new Set(config.actors.map(a=>a.githubLogin).filter(Boolean)).size!==5)blockers.push('Five distinct GitHub identities missing');
@@ -53,6 +60,7 @@ export async function verify(root,{processRunner=boundedProcess}={}) {
 }
 export async function startBroker(root) {
   const checked=await verify(root),config=checked.config;
+  const invalid=configErrors(config);if(invalid.length)throw new Error(invalid.join('; '));
   const secrets=await readJSON(path.join(root,'secrets.json')),clients={},identities=[];
   for(const actor of config.actors) {
     if(!actor.githubLogin)throw new Error('Unprovisioned identity: '+actor.id);

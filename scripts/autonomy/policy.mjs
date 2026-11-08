@@ -45,7 +45,7 @@ export async function eligible(issue, actor, {plan,map,readIssue,statuses=['stat
   return {ready:!reasons.length,reasons,scopes:story?.files??[],resources:story?resourcesFor(story.files):[]};
 }
 export function validProtection(rule) {
-  if(!rule||!Array.isArray(rule.rules)||rule.enforcement!=='active'||rule.bypass_actors?.length||rule.current_user_can_bypass!=='never')return false;
+  if(!rule||!Array.isArray(rule.rules)||rule.enforcement!=='active'||!Array.isArray(rule.bypass_actors)||rule.bypass_actors.length||rule.current_user_can_bypass!=='never')return false;
   const targets=rule.conditions?.ref_name;
   if(!targets||!['refs/heads/main','refs/heads/develop'].every(n=>targets.include?.includes(n))||!Array.isArray(targets.exclude)||targets.exclude.length)return false;
   const pr=rule.rules.find(r=>r.type==='pull_request')?.parameters;

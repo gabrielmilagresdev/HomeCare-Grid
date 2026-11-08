@@ -1,3 +1,4 @@
+import { TextDecoder } from 'node:util';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { boundedProcess, checkpoint } from './process.mjs';
@@ -24,7 +25,9 @@ export async function collectChanges(workspace,scopes,{processRunner=boundedProc
     if(!withinScope(file,scopes))throw new Error('Change outside reserved Issue scope: '+file);
     const real=await fs.realpath(path.join(workspace,file)),root=await fs.realpath(workspace);
     if(!real.startsWith(root+path.sep)||(await fs.lstat(path.join(workspace,file))).isSymbolicLink())throw new Error('Symlink/outside workspace');
-    result.push({path:file,content:await fs.readFile(real,'utf8'),mode:'100644'});
+    const bytes=await fs.readFile(real);if(bytes.includes(0))throw new Error('Binary files require manual publication');
+    let content;try{content=new TextDecoder('utf8',{fatal:true}).decode(bytes);}catch{throw new Error('Non-UTF-8 files require manual publication');}
+    result.push({path:file,content,mode:'100644'});
   }
   return result;
 }

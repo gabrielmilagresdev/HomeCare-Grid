@@ -11,7 +11,7 @@ import { GitHub } from '../scripts/autonomy/github.mjs';
 import { boundedProcess, redact } from '../scripts/autonomy/process.mjs';
 import { containerArgs, runOperational, collectChanges } from '../scripts/autonomy/controller.mjs';
 import { prepareSnapshot } from '../scripts/autonomy/prepare.mjs';
-import { init, verify } from '../scripts/autonomy/cli.mjs';
+import { init, verify, configErrors } from '../scripts/autonomy/cli.mjs';
 const tempRoot=await fs.realpath(os.tmpdir());
 async function temp(t) {const dir=await fs.mkdtemp(path.join(tempRoot,'hcg-autonomy-'));t.after(async()=>{assert.ok(path.resolve(dir).startsWith(tempRoot+path.sep+'hcg-autonomy-'));await fs.rm(dir,{recursive:true,force:true});});return dir;}
 function store(t,opts={}) {const s=new LeaseStore(':memory:',opts);t.after(()=>s.close());return s;}
@@ -228,4 +228,15 @@ test('exclusive update rule permits only arbiter App through PR, without bypassi
   const r=exclusive();r.bypass_actors[0].bypass_mode='always';assert.equal(validExclusiveRule(r,999),false);
   const s=exclusive();s.bypass_actors.push({actor_type:'RepositoryRole',actor_id:5,bypass_mode:'always'});assert.equal(validExclusiveRule(s,999),false);
   assert.equal(validExclusiveRule(exclusive(),1000),false);assert.equal(validExclusiveRule(null,999),false);
+});
+
+test('binary/non-UTF-8 files are never silently converted by publisher',async t=>{
+  const dir=await temp(t),file=path.join(dir,'a.txt'),runner=async()=>({ok:true,output:'?? a.txt\0'});
+  await fs.writeFile(file,new Uint8Array([65,0,66]));await assert.rejects(collectChanges(dir,['a.txt'],{processRunner:runner}),/Binary/);
+  await fs.writeFile(file,new Uint8Array([255,254,253]));await assert.rejects(collectChanges(dir,['a.txt'],{processRunner:runner}),/UTF-8/);
+});
+test('trusted configuration rejects unknown actors and unbounded retries/time',async()=>{
+  const config=JSON.parse(await fs.readFile(new URL('../infra/autonomy/config.example.json',import.meta.url),'utf8'));assert.deepEqual(configErrors(config),[]);
+  config.maxAttempts=999;assert.ok(configErrors(config).length);config.maxAttempts=2;config.maxRunSeconds=99999;assert.ok(configErrors(config).length);
+  config.maxRunSeconds=5400;config.actors[0].id='untrusted';assert.ok(configErrors(config).length);
 });
