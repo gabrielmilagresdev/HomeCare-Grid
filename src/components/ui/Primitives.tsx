@@ -13,7 +13,7 @@ export function Brand({ light = false }: { light?: boolean }) {
     <Path d="M26 10C16 10 9 18 9 28v7c0 10 7 18 17 18h4" fill="none" stroke={stroke} strokeWidth={7} strokeLinecap="round" />
     <Path d="M38 54c10 0 17-8 17-18v-7c0-10-7-18-17-18h-4" fill="none" stroke={stroke} strokeWidth={7} strokeLinecap="round" />
     <Circle cx={32} cy={32} r={7} fill={theme.colors.accent} />
-  </Svg><Text style={[styles.brandText, light && { color: theme.colors.white }]}>tato</Text></View>;
+  </Svg><Text style={[styles.brandText, light && { color: theme.colors.white }]}>Tato</Text></View>;
 }
 
 export function Screen({ children, back, title, subtitle, right, bottom, header = true, footer = true, compact = false }: { children: ReactNode; back?: boolean; title?: string; subtitle?: string; right?: ReactNode; bottom?: ReactNode; header?: boolean; footer?: boolean; compact?: boolean }) {
