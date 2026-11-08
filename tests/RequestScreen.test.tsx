@@ -17,16 +17,16 @@ test('trocar para região sem cobertura invalida a escolha e preserva o restante
   await render(<DemoProvider><RequestScreen /><BookingCount /></DemoProvider>);
   expect(screen.getByText('Marina Azevedo')).toBeTruthy();
   expect(screen.getByText('Pedidos: 0')).toBeTruthy();
-  await fireEvent.press(screen.getByRole('button', { name: 'Alterar endereço' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'Alterar região' }));
   await fireEvent.press(screen.getByRole('button', { name: 'Escolher Zona Norte' }));
   expect(screen.getByText('Escolha outro horário ou local')).toBeTruthy();
-  expect(screen.getByRole('button', { name: /Simular (solicitação|pedido)/ }).props.accessibilityState.disabled).toBe(true);
+  expect(screen.getByRole('button', { name: /Salvar (solicitação|pedido)/ }).props.accessibilityState.disabled).toBe(true);
   expect(screen.getByText('Pedidos: 0')).toBeTruthy();
 });
 
 test('duplo envio usa a mesma chave e cria uma solicitação pendente', async () => {
   await render(<DemoProvider><RequestScreen /><BookingCount /></DemoProvider>);
-  const action = screen.getByRole('button', { name: /Simular (solicitação|pedido)/ });
+  const action = screen.getByRole('button', { name: /Salvar (solicitação|pedido)/ });
   await fireEvent.press(action);
   await fireEvent.press(action);
   expect(screen.getByText('Pedidos: 1')).toBeTruthy();

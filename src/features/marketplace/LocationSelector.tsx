@@ -15,7 +15,7 @@ export function LocationSelector({ regionCode, onSelect, initiallyExpanded = fal
       <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color={theme.colors.muted} />
     </Pressable>
     {expanded && <View style={styles.options}>
-      <Text style={styles.caption}>Locais fictícios da demonstração</Text>
+      <Text style={styles.caption}>Escolha a região do atendimento</Text>
       {demoLocations.map(location => <Pressable key={location.regionCode} accessibilityRole="button"
         accessibilityLabel={`Escolher ${location.neighborhood}`} accessibilityState={{ selected: location.regionCode === regionCode }}
         onPress={() => { onSelect(location.regionCode); setExpanded(false); }} style={styles.option}>

@@ -9,6 +9,7 @@ import { parseHourlyPriceLimit } from '../../domain/schemas/index.ts';
 import type { CareRequest, TimeWindow } from '../../domain/types/index.ts';
 import { theme } from '../../theme/tokens';
 import { useDemo } from '../demo/DemoContext';
+import { portraitFor } from '../demo/portraits';
 import { money, regionLabel, regions, windowLabel } from '../demo/format';
 
 type FilterPanel = 'date' | 'price' | 'more' | null;
@@ -32,7 +33,7 @@ export function MarketplaceScreen() {
 
   const { fixture } = engine;
   const service = fixture.services.find(item => item.id === search.serviceId);
-  if (!service) return <Screen title="Encontre cuidado"><StateMessage title="Catálogo indisponível" message="Tente abrir a demonstração novamente." /></Screen>;
+  if (!service) return <Screen title="Encontre cuidado"><StateMessage title="Catálogo indisponível" message="Volte ao início e tente novamente." /></Screen>;
   const requestFor = (window: TimeWindow): CareRequest => ({ id: 'demo-preview', recipientId: fixture.recipient.id,
     requesterUserId: activeUserId ?? '', serviceId: service.id, regionCode: search.regionCode,
     startsAt: window.startsAt, endsAt: window.endsAt, requiredAccessibilityTags: search.accessibilityTags,
@@ -77,7 +78,7 @@ export function MarketplaceScreen() {
       </View></>}
       {panel === 'price' && <><Field label="Valor máximo por hora (R$, opcional)" value={budget} onChangeText={setBudgetFromText} placeholder="Ex.: 100" />{!!budgetError && <Text accessibilityRole="alert" style={styles.error}>{budgetError}</Text>}</>}
       {panel === 'more' && <><Text style={styles.filterTitle}>Tipo de serviço</Text><View style={styles.chips}>{fixture.services.map(item => <Chip key={item.id} label={item.name} selected={!serviceChoiceRequired && item.id === search.serviceId} onPress={() => chooseService(item.id)} />)}</View>
-        <Text style={styles.filterTitle}>Região fictícia</Text><View style={styles.chips}>{regions.map(item => <Chip key={item.code} label={item.label} selected={item.code === search.regionCode} onPress={() => update({ regionCode: item.code })} />)}</View>
+        <Text style={styles.filterTitle}>Região</Text><View style={styles.chips}>{regions.map(item => <Chip key={item.code} label={item.label} selected={item.code === search.regionCode} onPress={() => update({ regionCode: item.code })} />)}</View>
         <Text style={styles.filterTitle}>Acessibilidade</Text><View style={styles.chips}><Chip label="Apoio à mobilidade" selected={search.accessibilityTags.includes('mobilidade')} onPress={() => update({ accessibilityTags: search.accessibilityTags.includes('mobilidade') ? [] : ['mobilidade'] })} /></View>
         <Field label="Buscar por nome" value={query} onChangeText={setQuery} placeholder="Nome do profissional" />
       </>}
@@ -91,15 +92,15 @@ export function MarketplaceScreen() {
         if (!professional) return null;
         const slots = [fixture.suggestedWindow, fixture.alternateWindow].filter(window => evaluateProfessional(requestFor(window), service, professional).eligible);
         return <View key={professional.id} style={styles.profileCard}>
-          <View style={styles.profileTop}><Avatar name={professional.displayName} tone={index % 2 ? 'blue' : 'peach'} size={52} /><View style={styles.profileIdentity}><Text style={styles.profileName}>{professional.displayName}</Text><Text style={styles.profileService}>{service.name}</Text><Text style={styles.profileRegion}>{regionLabel(search.regionCode)} · Atendimento em casa</Text></View></View>
-          <View style={styles.badges}>{professional.credentialStatus === 'verified' && <Badge label="Credencial verificada na demo" />}
+          <View style={styles.profileTop}><Avatar name={professional.displayName} source={portraitFor(professional.id)} tone={index % 2 ? 'blue' : 'peach'} size={52} /><View style={styles.profileIdentity}><Text style={styles.profileName}>{professional.displayName}</Text><Text style={styles.profileService}>{service.name}</Text><Text style={styles.profileRegion}>{regionLabel(search.regionCode)} · Atendimento em casa</Text></View></View>
+          <View style={styles.badges}>
             <Badge label="Ainda sem avaliações" tone="neutral" /></View>
           <Text style={styles.slotLabel}>HORÁRIOS DISPONÍVEIS</Text><View style={styles.slots}>{slots.map(window => <Pressable key={window.startsAt} accessibilityRole="button" accessibilityLabel={`Escolher ${windowLabel(window)} com ${professional.displayName}`} onPress={() => openSlot(professional.id, window)} style={[styles.slot, window.startsAt === search.window.startsAt && styles.slotSelected]}><Text style={styles.slotText}>{windowLabel(window).split('·')[1]?.trim()}</Text></Pressable>)}</View>
-          <View style={[styles.cardFoot, largeText && styles.cardFootLarge]}><View><Text style={styles.price}>{money(professional.hourlyPriceCents)}<Text style={styles.perHour}> / hora</Text></Text><Text style={styles.demoNote}>Valor demonstrativo</Text></View><Pressable accessibilityRole="button" accessibilityLabel={`Ver perfil de ${professional.displayName}`} onPress={() => router.push(`/(patient)/profile/${professional.id}`)} style={[styles.profileAction, largeText && styles.profileActionLarge]}><Text style={styles.profileActionText}>Ver perfil</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.white} /></Pressable></View>
+          <View style={[styles.cardFoot, largeText && styles.cardFootLarge]}><View><Text style={styles.price}>{money(professional.hourlyPriceCents)}<Text style={styles.perHour}> / hora</Text></Text><Text style={styles.demoNote}>Deslocamento incluído</Text></View><Pressable accessibilityRole="button" accessibilityLabel={`Ver perfil de ${professional.displayName}`} onPress={() => router.push(`/(patient)/profile/${professional.id}`)} style={[styles.profileAction, largeText && styles.profileActionLarge]}><Text style={styles.profileActionText}>Ver perfil</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.white} /></Pressable></View>
         </View>;
-      }) : <StateMessage icon="search-outline" title={ranked.length ? 'Nome não encontrado' : 'Não encontramos horários com esses filtros.'} message={ranked.length ? 'Tente outro nome ou remova o filtro.' : 'Ajuste serviço, região, horário ou preço. Você também pode registrar uma demanda fictícia.'} action={ranked.length ? 'Limpar nome' : 'Ajustar busca'} onAction={() => ranked.length ? setQuery('') : setPanel('more')} />}
+      }) : <StateMessage icon="search-outline" title={ranked.length ? 'Nome não encontrado' : 'Não encontramos horários com esses filtros.'} message={ranked.length ? 'Tente outro nome ou remova o filtro.' : 'Ajuste serviço, região, horário ou preço. Você também pode registrar seu interesse.'} action={ranked.length ? 'Limpar nome' : 'Ajustar busca'} onAction={() => ranked.length ? setQuery('') : setPanel('more')} />}
       {!ranked.length && !budgetError && <Pressable accessibilityRole="button" onPress={() => router.push('/(patient)/demand')} style={styles.demand}><Text style={styles.demandText}>Registrar demanda voluntariamente</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.ink} /></Pressable>}
-      <Text style={styles.disclaimer}>Compatibilidade por critérios administrativos. A demonstração não avalia qualidade clínica.</Text>
+      <Text style={styles.disclaimer}>Resultados baseados em serviço, região e horário. Escolha o profissional que melhor atende você.</Text>
     </>}
   </Screen>;
 }

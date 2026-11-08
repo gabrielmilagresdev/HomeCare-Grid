@@ -11,6 +11,6 @@ test('cada profissional da vitrine pode assumir sua própria agenda na demonstra
     expect(screen.getByRole('button', { name: `Entrar como ${name}` })).toBeTruthy();
   }
   await fireEvent.press(screen.getByRole('button', { name: 'Entrar como Caio Martins' }));
-  expect(screen.getByText('Explorando como Caio')).toBeTruthy();
+  expect(screen.getByText('Você está como Caio')).toBeTruthy();
   expect(router.replace).toHaveBeenCalledWith('/(professional)/agenda');
 });

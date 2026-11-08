@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Brand, DemoPill } from '../src/components/ui/Primitives';
+import { Brand } from '../src/components/ui/Primitives';
 import { useDemo } from '../src/features/demo/DemoContext';
 import { theme } from '../src/theme/tokens';
 
@@ -18,16 +18,16 @@ export default function Home() {
   const { setActiveUserId } = useDemo();
   const enter = (id: string, route: '/(patient)/home' | '/(family)/schedule') => { setActiveUserId(id); router.push(route); };
   return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}>
-    <View style={styles.topbar}><Brand /><DemoPill /></View>
-    <View style={styles.intro}><Text style={styles.kicker}>HOMECARE GRID · DEMONSTRAÇÃO</Text><Text accessibilityRole="header" style={styles.title}>Cuidado em casa, com clareza.</Text><Text style={styles.description}>Encontre profissionais, organize horários e acompanhe a família em uma jornada simples.</Text></View>
+    <View style={styles.topbar}><Brand /></View>
+    <View style={styles.intro}><Text style={styles.kicker}>CUIDADO NO SEU RITMO</Text><Text accessibilityRole="header" style={styles.title}>Cuidado em casa, com clareza.</Text><Text style={styles.description}>Encontre profissionais, organize horários e acompanhe a família em uma jornada simples.</Text></View>
     <View style={styles.rule} />
-    <View style={styles.paths}><Text accessibilityRole="header" style={styles.sectionTitle}>Como você quer começar?</Text><Text style={styles.sectionDescription}>Escolha um papel para explorar os fluxos com dados fictícios.</Text>
+    <View style={styles.paths}><Text accessibilityRole="header" style={styles.sectionTitle}>Como você quer começar?</Text><Text style={styles.sectionDescription}>Escolha a jornada que faz sentido para você.</Text>
       <PathCard icon="search-outline" title="Preciso de cuidado" description="Busque profissionais e envie uma solicitação." onPress={() => enter('demo-contractor', '/(patient)/home')} />
       <PathCard icon="calendar-outline" title="Sou profissional" description="Veja e responda às solicitações recebidas." onPress={() => router.push('/(auth)/sign-in')} />
       <PathCard icon="people-outline" title="Cuido junto com a família" description="Acompanhe a agenda conforme suas permissões." onPress={() => enter('demo-family', '/(family)/schedule')} />
     </View>
-    <Pressable accessibilityRole="button" onPress={() => router.push('/(auth)/sign-in')} style={styles.accessLink}><Ionicons name="information-circle-outline" size={19} color={theme.colors.ink} /><Text style={styles.accessText}>Entenda o acesso na demonstração</Text><Ionicons name="chevron-forward" size={17} color={theme.colors.ink} /></Pressable>
-    <Text style={styles.footer}>Experiência demonstrativa · sem dados pessoais ou pagamentos reais</Text>
+    <Pressable accessibilityRole="button" onPress={() => router.push('/(auth)/sign-in')} style={styles.accessLink}><Ionicons name="information-circle-outline" size={19} color={theme.colors.ink} /><Text style={styles.accessText}>Escolher perfil de acesso</Text><Ionicons name="chevron-forward" size={17} color={theme.colors.ink} /></Pressable>
+    <Text style={styles.footer}>HomeCare Grid · Cuidado que conecta</Text>
   </ScrollView></SafeAreaView>;
 }
 

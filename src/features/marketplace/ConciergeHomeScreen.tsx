@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } fro
 import { BottomNavigation } from '../../components/ui/BottomNavigation';
 import { Avatar, Brand, Divider, Screen, SectionTitle } from '../../components/ui/Primitives';
 import { useDemo } from '../demo/DemoContext';
+import { portraitFor } from '../demo/portraits';
 import { demoLocationForRegion } from '../demo/locations';
 import { statusLabel, windowLabel } from '../demo/format';
 import { LocationSelector } from './LocationSelector';
@@ -66,13 +67,13 @@ export function ConciergeHomeScreen() {
     {next && <View style={styles.section}><SectionTitle title="Próxima visita" /><Pressable accessibilityRole="button" accessibilityLabel="Abrir próximo atendimento" onPress={() => router.push('/(patient)/bookings')} style={styles.visit}>
       <View style={styles.visitTop}><View style={styles.dateBlock}><Text style={styles.dateDay}>{new Intl.DateTimeFormat('pt-BR', { day: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date(next.startsAt))}</Text><Text style={styles.dateMonth}>{new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'America/Sao_Paulo' }).format(new Date(next.startsAt)).replace('.', '').toUpperCase()}</Text></View>
         <View style={styles.visitInfo}><Text style={styles.visitTime}>{windowLabel(next)}</Text><Text style={styles.visitService}>{nextService?.name ?? 'Atendimento'} · Para {activeUserId === engine.fixture.recipient.ownerUserId ? 'você' : engine.fixture.recipient.displayName}</Text></View></View>
-      <Divider /><View style={styles.visitBottom}><Avatar name={nextProfessional?.displayName ?? 'Profissional'} size={38} /><View style={{ flex: 1 }}><Text style={styles.visitName}>{nextProfessional?.displayName ?? 'Profissional'}</Text><Text style={styles.visitStatus}>{statusLabel[next.status]} · demonstração</Text></View><Ionicons name="chevron-forward" size={19} color={theme.colors.ink} /></View>
+      <Divider /><View style={styles.visitBottom}><Avatar name={nextProfessional?.displayName ?? 'Profissional'} source={portraitFor(nextProfessional?.id)} size={38} /><View style={{ flex: 1 }}><Text style={styles.visitName}>{nextProfessional?.displayName ?? 'Profissional'}</Text><Text style={styles.visitStatus}>{statusLabel[next.status]}</Text></View><Ionicons name="chevron-forward" size={19} color={theme.colors.ink} /></View>
     </Pressable></View>}
     <Pressable accessibilityRole="button" accessibilityLabel="Abrir área da família" onPress={() => router.push('/(family)/schedule')} style={styles.family}>
       <View style={styles.familyAvatars}><Avatar name={user?.displayName ?? 'Você'} size={34} /><View style={styles.familyOverlap}><Avatar name="Rafa" size={34} tone="blue" /></View></View>
       <Text style={styles.familyText}>Organize o cuidado da família</Text><Ionicons name="arrow-forward" size={19} color={theme.colors.ink} />
     </Pressable>
-    <Text style={styles.demoNote}>Experiência demonstrativa · {location.neighborhood} e endereços fictícios</Text>
+    <Text style={styles.demoNote}>Atendimento em {location.neighborhood}, São Paulo</Text>
   </Screen>;
 }
 
