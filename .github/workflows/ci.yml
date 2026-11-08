@@ -20,13 +20,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24.11.1
-      - name: Resolve missing bootstrap lockfile without lifecycle scripts
-        if: hashFiles('package-lock.json') == ''
-        run: npm install --package-lock-only --ignore-scripts
-      - name: Expose generated lockfile for bootstrap review
-        if: hashFiles('package-lock.json') != ''
-        run: node -e "const fs=require('fs'),z=require('zlib'); console.log('HCG_LOCK_GZIP='+z.gzipSync(fs.readFileSync('package-lock.json')).toString('base64'))"
       - run: npm ci
+      - run: npm audit --audit-level=high
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test

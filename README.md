@@ -12,7 +12,7 @@ Nenhum dado real, diagnóstico, prontuário, pagamento real ou módulo que exija
 
 ## Executar
 
-Node 24.11.1 e npm 11.6.2. Após obter o lockfile versionado:
+Node 24.11.1 e npm 11.6.2. Com o lockfile versionado:
 
 ```sh
 npm ci
@@ -21,7 +21,7 @@ npm start
 
 Abrir QR no Expo Go compatível com SDK 58. O scaffold não precisa de .env ou credenciais; .env.example contém apenas configuração pública reservada. Consultar docs/demo/demo-flow.md para smoke e registro de evidências.
 
-Neste sandbox, rede npm/Git e escrita em .git estão bloqueadas. O conector GitHub autorizado publica a branch remota; CI resolve/valida dependências. Até lockfile incorporado e CI verde, instalação reproduzível está pendente. Não inferir teste físico de bundle.
+Neste sandbox, rede npm/Git e escrita em .git estão bloqueadas. O conector GitHub autorizado publica a branch remota; CI resolve/valida dependências. O lockfile gerado na CI foi incorporado; consulte os checks atuais do PR para o resultado final. Não inferir teste físico de bundle.
 
 ## Qualidade
 
