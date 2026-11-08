@@ -27,7 +27,7 @@ export default function Home() {
       <PathCard icon="people-outline" title="Cuido junto com a família" description="Acompanhe a agenda conforme suas permissões." onPress={() => enter('demo-family', '/(family)/schedule')} />
     </View>
     <Pressable accessibilityRole="button" onPress={() => router.push('/(auth)/sign-in')} style={styles.accessLink}><Ionicons name="information-circle-outline" size={19} color={theme.colors.ink} /><Text style={styles.accessText}>Escolher perfil de acesso</Text><Ionicons name="chevron-forward" size={17} color={theme.colors.ink} /></Pressable>
-    <Text style={styles.footer}>HomeCare Grid · Cuidado que conecta</Text>
+    <Text style={styles.footer}>Tato · Cuidado que conecta</Text>
   </ScrollView></SafeAreaView>;
 }
 

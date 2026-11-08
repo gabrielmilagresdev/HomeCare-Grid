@@ -19,11 +19,12 @@ test('aplica sugestão remota e preserva filtros editáveis', async () => {
   let context!: ContextValue;
   (interpretRemoteConcierge as jest.Mock).mockImplementation(async (_text, fixture) => ({ ok: true,
     data: { serviceId: 'demo-service-physio', regionCode: 'DEMO-CENTRO', window: fixture.suggestedWindow,
-      frequency: null, accessibilityTags: [], clarificationNeeded: false } }));
+      frequency: null, accessibilityTags: [], clarificationNeeded: false, reply: 'Encontrei opções de fisioterapia no Centro.' } }));
   await render(<DemoProvider><Capture onValue={value => { context = value; }} /></DemoProvider>);
   await act(async () => { expect((await context.suggestIntent('Fisioterapia amanhã no Centro')).ok).toBe(true); });
   expect(context.search.serviceId).toBe('demo-service-physio');
-  expect(context.conciergeNotice).toContain('Grok');
+  expect(context.conciergeNotice).toContain('TatinhIA');
+  expect(context.conciergeReply).toContain('fisioterapia');
   await act(async () => { context.setSearch({ ...context.search, regionCode: 'DEMO-ZONA-OESTE' }); });
   expect(context.search.regionCode).toBe('DEMO-ZONA-OESTE');
 });

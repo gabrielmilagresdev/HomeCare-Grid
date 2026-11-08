@@ -1,4 +1,4 @@
-# HomeCare Grid
+# Tato
 
 **O cuidado certo, onde você está.** Aplicativo mobile Expo para aproximar pessoas com barreiras de deslocamento, profissionais independentes e famílias autorizadas.
 
@@ -17,11 +17,11 @@ npm ci
 npm start
 ```
 
-Abra o QR no Expo Go. Na tela inicial, escolha **Preciso de cuidado**. O Concierge aceita texto e oferece atalhos; a busca compara profissionais, horários e valores; a revisão mostra pessoa atendida, região e total previsto antes de salvar um pedido local. Para trocar de perfil, use **Conta** ou volte à tela inicial. Veja o [roteiro completo](docs/demo/demo-flow.md).
+Abra o QR no Expo Go. Na tela inicial, escolha **Preciso de cuidado**. A **TatinhIA** aceita texto ou voz, responde em linguagem simples e sugere filtros revisáveis; a busca compara profissionais, horários e valores. Para trocar de perfil, use **Conta** ou volte à tela inicial. Veja o [roteiro completo](docs/demo/demo-flow.md).
 
 A identidade visual usa porcelana, tinta ameixa e citron. Os quatro retratos de profissionais são imagens geradas para perfis sintéticos; não representam pessoas cadastradas. A voz e o pagamento não estão conectados.
 
-Para usar o **Grok** no Concierge, configure `XAI_API_KEY` apenas no ambiente do servidor e execute `npm run concierge:dev` antes de iniciar o Expo. O comando configura uma sessão local em `.env.local` (ignorado pelo Git). Em Android, execute também `adb reverse tcp:8787 tcp:8787`. Sem o serviço, o app usa filtros locais. Consulte o [guia da integração xAI](docs/operations/CONCIERGE-XAI.md) para aparelho físico, limites e privacidade.
+Para usar a **TatinhIA** com Grok e transcrição de voz, configure `XAI_API_KEY` apenas no ambiente do servidor e execute `npm run concierge:dev` antes de iniciar o Expo. O comando configura uma sessão local em `.env.local` (ignorado pelo Git). Em Android via USB, execute também `adb reverse tcp:8787 tcp:8787`; para Expo Go remoto, configure uma URL HTTPS pública para o serviço local. Sem o serviço, o texto usa filtros locais e a gravação informa que a voz está indisponível. Consulte o [guia da integração xAI](docs/operations/CONCIERGE-XAI.md) para aparelho físico, limites e privacidade.
 
 ## Qualidade local
 

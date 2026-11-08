@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <title>Tato — ícone do aplicativo</title>
+  <rect width="1024" height="1024" rx="230" fill="#29232C"/>
+  <path d="M416 268c-116 0-196 92-196 204v80c0 112 80 204 196 204h36" stroke="#F8F7F4" stroke-width="80" stroke-linecap="round"/>
+  <path d="M608 756c116 0 196-92 196-204v-80c0-112-80-204-196-204h-36" stroke="#F8F7F4" stroke-width="80" stroke-linecap="round"/>
+  <circle cx="512" cy="512" r="78" fill="#DCEA9C"/>
+</svg>

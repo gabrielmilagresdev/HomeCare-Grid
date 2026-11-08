@@ -1,11 +1,11 @@
-# Roteiro de demonstração — HomeCare Grid
+# Roteiro de demonstração — Tato
 
 **Ambiente:** Expo Go SDK 58, dados sintéticos e estado mantido apenas durante a sessão do app. O perfil de acesso e a revisão informam os limites de login, envio e cobrança.
 
 ## Jornada principal (3–4 minutos)
 
 1. Inicie com `npm ci` e `npm start`, abra o QR em um Expo Go compatível. Na tela inicial, escolha **Preciso de cuidado**.
-2. No Concierge, digite “Fisioterapia amanhã no Centro” ou selecione **Fisioterapia**. Na busca, edite a intenção se necessário; use **Data**, **Preço** e **Mais filtros**. Com o serviço xAI local ativo, o Grok sugere filtros administrativos; sem ele, o app usa o fallback local. **Pós-operatório** sozinho pede escolha explícita de serviço.
+2. Na **TatinhIA**, digite ou grave “Fisioterapia amanhã no Centro” e toque para enviar. Leia a resposta, use **Ouvir resposta** se desejar e abra **Ver profissionais**. Na busca, edite a intenção se necessário; use **Data**, **Preço** e **Mais filtros**. Com o serviço xAI ativo, os filtros administrativos são sugeridos; sem ele, o texto usa o fallback local. **Pós-operatório** sozinho pede escolha explícita de serviço.
 3. Compare os perfis sintéticos e horários disponíveis. Em fisioterapia no Centro, **Nina Ribeiro** e **Caio Martins** aparecem com preços diferentes e retratos gerados. Abra um perfil, selecione o horário e avance para a revisão. Confira pessoa atendida, região e total previsto; alterar a região pode invalidar a escolha. Toque em **Salvar solicitação** para criar um registro local, sem envio ou cobrança.
 4. Na agenda da pessoa, observe **Aguardando aceite**. Volte ao início e escolha **Sou profissional**. Selecione o mesmo profissional escolhido na etapa 3 e aceite a solicitação.
 5. Volte ao início e escolha **Cuido junto com a família**. Rafa vê a agenda confirmada, mas não pode solicitar outro atendimento. A seção **Divisão de custos** mostra os valores em centavos, sem cobrança.
@@ -25,6 +25,8 @@
 ## O que conferir em dispositivo
 
 Registrar aparelho, SO, versão do Expo Go, SDK, SHA e data. Conferir navegação, contraste, fonte ampliada, leitor de tela, alvos de toque e rotação. Em 08/11/2026, a entrada, o Concierge, resultados e revisão foram inspecionados no emulador Medium_Phone_API_37.0 (Android 17/API 37, Expo Go SDK 58) em 393 dp; o Concierge também foi inspecionado em 320 dp, e a jornada até a revisão com escala de fonte 200%. O teste em aparelho físico, leitor de tela e iOS continuam **NÃO EXECUTADOS**. Bundle Android/iOS não substitui esses checks.
+
+Na mesma data, a TatinhIA foi aberta pelo túnel Expo Go; permissão do microfone, gravação, parada e envio do arquivo pelo túnel HTTPS foram verificados no emulador. Como o emulador está sem entrada de áudio, a xAI retornou silêncio não transcritível e a interface mostrou o erro recuperável. Uma fala sintética em português foi transcrita pela xAI e a resposta com filtros foi recebida pelo serviço via túnel. O microfone com fala em aparelho físico ainda não foi verificado.
 
 ## Limites reais
 

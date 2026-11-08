@@ -48,6 +48,18 @@ const suggestionSchema = {
 
 function error(code, message) { return { ok: false, error: { code, message } }; }
 
+/** Ground the answer in validated catalog filters. No clinical answer is generated from free text. */
+export function replyForSuggestion(filters, hints = []) {
+  if (!filters.serviceId) return hints.includes('pos-operatorio')
+    ? 'Entendi que você procura cuidado após uma cirurgia. Qual serviço deseja buscar: fisioterapia, enfermagem ou outro cuidado? Posso organizar as opções para você.'
+    : 'Estou aqui para ajudar a encontrar cuidado em casa. Conte qual serviço procura e, se puder, informe a região e quando prefere o atendimento.';
+  const service = services.find(item => item.id === filters.serviceId)?.name.toLowerCase() ?? 'cuidado';
+  const region = regions.find(item => item.code === filters.regionCode)?.label;
+  const place = region ? `${region === 'Centro' ? ' no ' : ' na '}${region}` : '';
+  const when = filters.slot === 'suggested' ? ' amanhã pela manhã' : filters.slot === 'alternate' ? ' amanhã à tarde' : '';
+  return `Entendi que você procura ${service}${place}${when}. Posso mostrar profissionais e horários para comparar. Confira os detalhes antes de solicitar.`;
+}
+
 export function validateSuggestion(value, hints) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return error('validation', 'Resposta do assistente inválida.');
   if (Object.keys(value).sort().join(',') !== suggestionSchema.required.slice().sort().join(',')) return error('validation', 'Resposta do assistente incompleta.');
@@ -86,7 +98,10 @@ export async function interpretWithGrok(text, { apiKey = process.env.XAI_API_KEY
   if (typeof text !== 'string' || !text.trim() || text.length > 500) return error('validation', 'Descreva serviço, região ou horário em até 500 caracteres.');
   if (!apiKey) return error('unavailable', 'Concierge indisponível no momento.');
   const hints = administrativeHints(text);
-  if (!hints.length) return { ok: true, data: { serviceId: null, regionCode: null, slot: 'none', accessibilityTags: [], clarificationNeeded: true } };
+  if (!hints.length) {
+    const data = { serviceId: null, regionCode: null, slot: 'none', accessibilityTags: [], clarificationNeeded: true };
+    return { ok: true, data: { ...data, reply: replyForSuggestion(data) } };
+  }
   const request = {
     model: XAI_MODEL, reasoning: { effort: 'none' }, store: false, max_output_tokens: 180,
     input: [
@@ -105,7 +120,7 @@ export async function interpretWithGrok(text, { apiKey = process.env.XAI_API_KEY
     if (json?.status !== 'completed' || typeof content !== 'string') return error('unavailable', 'Resposta do assistente incompleta.');
     const parsed = validateSuggestion(JSON.parse(content), hints);
     if (parsed.ok) console.info(JSON.stringify({ event: 'concierge_xai', model: XAI_MODEL, inputTokens: json.usage?.input_tokens ?? null, outputTokens: json.usage?.output_tokens ?? null }));
-    return parsed;
+    return parsed.ok ? { ok: true, data: { ...parsed.data, reply: replyForSuggestion(parsed.data, hints) } } : parsed;
   } catch (cause) {
     return error(cause?.name === 'TimeoutError' || cause?.name === 'AbortError' ? 'timeout' : 'network', 'Concierge indisponível no momento.');
   }

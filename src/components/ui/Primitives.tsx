@@ -3,14 +3,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type ImageSourcePropType } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { theme } from '../../theme/tokens';
 import { Button } from './Button';
 
 export function Brand({ light = false }: { light?: boolean }) {
-  return <View style={styles.brandRow} accessibilityLabel="HomeCare Grid"><View style={styles.brandMark}>
-    <View style={[styles.brandCell, light && styles.brandCellLight]} /><View style={[styles.brandCell, light && styles.brandCellLight]} />
-    <View style={[styles.brandCell, light && styles.brandCellLight]} /><View style={styles.brandCellAccent} />
-  </View><Text style={[styles.brandText, light && { color: theme.colors.white }]}>homecare <Text style={{ fontWeight: '500' }}>grid</Text></Text></View>;
+  const stroke = light ? theme.colors.white : theme.colors.ink;
+  return <View style={styles.brandRow} accessibilityLabel="Tato"><Svg width={32} height={32} viewBox="0 0 64 64" accessibilityRole="image" accessibilityLabel="Marca Tato, duas formas em contato">
+    <Path d="M26 10C16 10 9 18 9 28v7c0 10 7 18 17 18h4" fill="none" stroke={stroke} strokeWidth={7} strokeLinecap="round" />
+    <Path d="M38 54c10 0 17-8 17-18v-7c0-10-7-18-17-18h-4" fill="none" stroke={stroke} strokeWidth={7} strokeLinecap="round" />
+    <Circle cx={32} cy={32} r={7} fill={theme.colors.accent} />
+  </Svg><Text style={[styles.brandText, light && { color: theme.colors.white }]}>tato</Text></View>;
 }
 
 export function Screen({ children, back, title, subtitle, right, bottom, header = true, footer = true, compact = false }: { children: ReactNode; back?: boolean; title?: string; subtitle?: string; right?: ReactNode; bottom?: ReactNode; header?: boolean; footer?: boolean; compact?: boolean }) {
@@ -18,7 +21,7 @@ export function Screen({ children, back, title, subtitle, right, bottom, header 
     {header && <View style={styles.topbar}><View style={styles.topLeft}>{back && <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Voltar" style={styles.back}><Ionicons name="arrow-back" size={21} color={theme.colors.ink} /></Pressable>}<Pressable accessibilityRole="button" accessibilityLabel="Ir ao início" onPress={() => router.replace('/')}><Brand /></Pressable></View>{right}</View>}
     {title && <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>{title}</Text>{subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}</View>}
     {children}
-    {footer && <Text style={styles.footer}>HomeCare Grid · Cuidado que conecta</Text>}
+    {footer && <Text style={styles.footer}>Tato · Cuidado que conecta</Text>}
   </ScrollView>{bottom}</SafeAreaView>;
 }
 
@@ -44,7 +47,7 @@ export function Divider() { return <View style={styles.divider} />; }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: theme.colors.background }, scroll: { flex: 1 }, content: { width: '100%', maxWidth: 720, alignSelf: 'center', paddingHorizontal: 20, paddingTop: 18, paddingBottom: 32, gap: 24 }, contentCompact: { gap: 16 },
   topbar: { minHeight: 48, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }, topLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 }, back: { width: 44, height: 44, borderRadius: 11, backgroundColor: theme.colors.white, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: theme.colors.borderStrong },
-  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 }, brandMark: { width: 29, height: 29, flexDirection: 'row', flexWrap: 'wrap', gap: 3, transform: [{ rotate: '-8deg' }] }, brandCell: { width: 13, height: 13, borderRadius: 4, backgroundColor: theme.colors.ink }, brandCellLight: { backgroundColor: theme.colors.white }, brandCellAccent: { width: 13, height: 13, borderRadius: 4, backgroundColor: theme.colors.accent }, brandText: { fontSize: 17, fontWeight: '700', letterSpacing: -0.7, color: theme.colors.ink },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 }, brandText: { fontSize: 23, fontWeight: '800', letterSpacing: -1.2, color: theme.colors.ink },
   heading: { gap: 7, paddingTop: 6 }, title: { fontSize: 26, lineHeight: 32, letterSpacing: -0.8, fontWeight: '700', color: theme.colors.ink }, subtitle: { fontSize: 15, lineHeight: 22, color: theme.colors.muted },
   card: { borderRadius: 16, padding: 18, backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.line, gap: 14 }, eyebrow: { fontSize: 11, fontWeight: '700', letterSpacing: 1, color: theme.colors.muted, textTransform: 'uppercase' },
   sectionTitle: { gap: 4 }, sectionText: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: -0.3, color: theme.colors.ink }, sectionCaption: { color: theme.colors.muted, lineHeight: 20, fontSize: 14 },

@@ -1,4 +1,4 @@
-/** HomeCare Grid: porcelain, plum ink and restrained citron. */
+/** Tato: porcelain, plum ink and restrained citron. */
 export const theme = {
   colors: {
     background: '#F8F7F4', surface: '#FFFFFF', ink: '#29232C', muted: '#655F67', textMuted: '#777178',

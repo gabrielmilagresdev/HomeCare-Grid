@@ -6,25 +6,28 @@ const apiUrl = process.env.EXPO_PUBLIC_CONCIERGE_API_URL;
 const clientToken = process.env.EXPO_PUBLIC_CONCIERGE_CLIENT_TOKEN;
 
 export const remoteConciergeConfigured = Boolean(apiUrl && clientToken);
+export type RemoteConciergeAnswer = ConciergeFilters & { reply: string };
 
-function failure(code: 'network' | 'timeout' | 'unavailable' | 'validation', message: string): Result<ConciergeFilters> {
+function failure(code: 'network' | 'timeout' | 'unavailable' | 'validation', message: string): Result<RemoteConciergeAnswer> {
   return { ok: false, error: { code, message } };
 }
 
 /** The client accepts only catalog IDs and symbolic slots, never arbitrary model text. */
-export function parseRemoteSuggestion(input: unknown, fixture: DemoFixture): Result<ConciergeFilters> {
+export function parseRemoteSuggestion(input: unknown, fixture: DemoFixture): Result<RemoteConciergeAnswer> {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return failure('validation', 'Resposta do concierge inválida.');
   const value = input as Record<string, unknown>;
-  if (Object.keys(value).sort().join(',') !== 'accessibilityTags,clarificationNeeded,regionCode,serviceId,slot') return failure('validation', 'Resposta do concierge incompleta.');
+  if (Object.keys(value).sort().join(',') !== 'accessibilityTags,clarificationNeeded,regionCode,reply,serviceId,slot') return failure('validation', 'Resposta do concierge incompleta.');
+  if (typeof value.reply !== 'string' || !value.reply.trim() || value.reply.length > 360) return failure('validation', 'Resposta do concierge inválida.');
   if (!['suggested', 'alternate', 'none'].includes(String(value.slot))) return failure('validation', 'Horário inválido.');
   const window = value.slot === 'none' ? null : value.slot === 'alternate' ? fixture.alternateWindow : fixture.suggestedWindow;
-  return parseConciergeFilters({ serviceId: value.serviceId, regionCode: value.regionCode, window,
+  const parsed = parseConciergeFilters({ serviceId: value.serviceId, regionCode: value.regionCode, window,
     frequency: null, accessibilityTags: value.accessibilityTags, clarificationNeeded: value.clarificationNeeded },
     fixture.services.map(item => item.id), ['DEMO-CENTRO', 'DEMO-ZONA-SUL', 'DEMO-ZONA-OESTE', 'DEMO-ZONA-NORTE']);
+  return parsed.ok ? { ok: true, data: { ...parsed.data, reply: value.reply.trim() } } : parsed;
 }
 
-export async function interpretRemoteConcierge(text: string, fixture: DemoFixture, fetchImpl: typeof fetch = fetch): Promise<Result<ConciergeFilters>> {
-  if (!apiUrl || !clientToken) return failure('unavailable', 'Concierge indisponível no momento.');
+export async function interpretRemoteConcierge(text: string, fixture: DemoFixture, fetchImpl: typeof fetch = fetch): Promise<Result<RemoteConciergeAnswer>> {
+  if (!apiUrl || !clientToken) return failure('unavailable', 'TatinhIA indisponível no momento.');
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 9000);
   try {
@@ -32,9 +35,9 @@ export async function interpretRemoteConcierge(text: string, fixture: DemoFixtur
       method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${clientToken}` },
       body: JSON.stringify({ text }), signal: controller.signal
     });
-    if (!response.ok) return failure('unavailable', 'Concierge indisponível no momento.');
+    if (!response.ok) return failure('unavailable', 'TatinhIA indisponível no momento.');
     return parseRemoteSuggestion(await response.json(), fixture);
   } catch (cause) {
-    return failure(cause instanceof Error && cause.name === 'AbortError' ? 'timeout' : 'network', 'Concierge indisponível no momento.');
+    return failure(cause instanceof Error && cause.name === 'AbortError' ? 'timeout' : 'network', 'TatinhIA indisponível no momento.');
   } finally { clearTimeout(timeout); }
 }

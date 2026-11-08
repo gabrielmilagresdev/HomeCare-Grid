@@ -9,6 +9,7 @@ interface DemoContextValue {
   engine: DemoEngine; user: User | null; activeUserId: ID | null; setActiveUserId: (id: ID | null) => void;
   search: SearchFilters; setSearch: (value: SearchFilters) => void; revision: number;
   intent: string; setIntent: (value: string) => void; conciergeNotice: string;
+  conciergeReply: string;
   serviceChoiceRequired: boolean; chooseService: (serviceId: ID) => void;
   applyIntent: (text: string) => Result<ConciergeFilters>;
   suggestIntent: (text: string) => Promise<Result<ConciergeFilters>>;
@@ -26,8 +27,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState<SearchFilters>({ serviceId: instance.fixture.services[0]?.id ?? '', regionCode: 'DEMO-CENTRO', window: instance.fixture.suggestedWindow, accessibilityTags: [], maxPriceCents: null });
   const [intent, setIntentState] = useState('');
   const intentRequest = useRef(0);
-  const setIntent = (value: string) => { intentRequest.current += 1; setIntentState(value); };
+  const setIntent = (value: string) => { intentRequest.current += 1; setIntentState(value); setConciergeReply(''); };
   const [conciergeNotice, setConciergeNotice] = useState('');
+  const [conciergeReply, setConciergeReply] = useState('');
   const [serviceChoiceRequired, setServiceChoiceRequired] = useState(false);
   const [revision, setRevision] = useState(0);
   const bump = () => setRevision(value => value + 1);
@@ -37,15 +39,21 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     setServiceChoiceRequired(false);
     setConciergeNotice('Serviço definido. Confira região e horário antes de escolher.');
   };
-  const commitFilters = (filters: ConciergeFilters, source: 'local' | 'grok' | 'fallback') => {
+  const commitFilters = (filters: ConciergeFilters, source: 'local' | 'grok' | 'fallback', reply?: string) => {
     setSearch(current => ({ ...current, serviceId: filters.serviceId ?? current.serviceId,
       regionCode: filters.regionCode ?? current.regionCode, window: filters.window ?? current.window,
       accessibilityTags: filters.accessibilityTags }));
     setServiceChoiceRequired(filters.serviceId === null);
+    const serviceName = instance.fixture.services.find(item => item.id === filters.serviceId)?.name.toLowerCase();
+    const region = filters.regionCode === 'DEMO-CENTRO' ? ' no Centro' : filters.regionCode === 'DEMO-ZONA-SUL' ? ' na Zona Sul'
+      : filters.regionCode === 'DEMO-ZONA-OESTE' ? ' na Zona Oeste' : filters.regionCode === 'DEMO-ZONA-NORTE' ? ' na Zona Norte' : '';
+    setConciergeReply(reply ?? (serviceName
+      ? `Entendi que você procura ${serviceName}${region}. Posso mostrar profissionais e horários para comparar. Confira os detalhes antes de solicitar.`
+      : 'Posso ajudar a encontrar cuidado em casa. Qual serviço você procura? Conte também a região e o horário de sua preferência.'));
     setConciergeNotice(source === 'fallback' ? 'Conexão indisponível. Aplicamos filtros básicos; revise antes de continuar.' : filters.serviceId === null
       ? 'Ainda precisamos definir o tipo de serviço. Escolha uma opção abaixo; não fazemos interpretação clínica.'
       : filters.clarificationNeeded ? 'Sugestão aplicada. Confira região e horário antes de continuar.'
-        : source === 'grok' ? 'O Grok sugeriu os filtros. Revise os detalhes antes de solicitar.'
+        : source === 'grok' ? 'A TatinhIA sugeriu os filtros. Revise os detalhes antes de solicitar.'
           : 'Filtros sugeridos. Confirme os detalhes antes de solicitar.');
   };
   const applyIntent = (text: string): Result<ConciergeFilters> => {
@@ -61,7 +69,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     if (!remoteConciergeConfigured) return applyIntent(text);
     const remote = await interpretRemoteConcierge(text, instance.fixture);
     if (sequence !== intentRequest.current) return { ok: false, error: { code: 'conflict', message: 'A busca foi alterada. Tente novamente.' } };
-    if (remote.ok) { commitFilters(remote.data, 'grok'); return remote; }
+    if (remote.ok) { commitFilters(remote.data, 'grok', remote.data.reply); return remote; }
     const local = interpretDemoConcierge(text, instance.fixture);
     if (!local.ok) { setConciergeNotice(local.error.message); return local; }
     commitFilters(local.data, 'fallback');
@@ -89,7 +97,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   };
   const revokeConsent = () => { instance.revokeDemandConsent(activeUserId ?? ''); bump(); };
   return <Context.Provider value={{ engine: instance, user, activeUserId, setActiveUserId, search, setSearch, revision,
-    intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, applyIntent, suggestIntent,
+    intent, setIntent, conciergeNotice, conciergeReply, serviceChoiceRequired, chooseService, applyIntent, suggestIntent,
     request, transition, setPermission, recordDemand, revokeConsent }}>{children}</Context.Provider>;
 }
 
