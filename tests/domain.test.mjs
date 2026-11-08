@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {canTransition, overlaps} from '../src/domain/rules/bookings.ts';
 import {canAccessRecipient} from '../src/domain/rules/authorization.ts';
 import {evaluateProfessional, rankProfessionals} from '../src/domain/rules/matching.ts';
+import {quoteVisit} from '../src/domain/rules/payments.ts';
 import {isUtcInstant, parseCareRequest, parseConciergeFilters, parseHourlyPriceLimit} from '../src/domain/schemas/index.ts';
 import {demoRequest as request, demoService as service, demoProfessionals as pros} from '../src/testing/fixtures.ts';
 
@@ -22,6 +23,12 @@ test('limite por hora interpreta centavos e não aceita entrada ambígua', () =>
     assert.deepEqual(parseHourlyPriceLimit(input), {ok:true,data:cents});
   }
   for (const input of ['abc', 'R$', '-1', '1,234', '1.000,50', '999999999999999']) assert.equal(parseHourlyPriceLimit(input).ok, false);
+});
+test('resumo de visita usa duração e deslocamento explícitos', () => {
+  assert.deepEqual(quoteVisit(12000, {startsAt:'2026-11-09T12:00:00Z',endsAt:'2026-11-09T12:50:00Z'}, 1500),
+    {ok:true,data:{attendanceCents:10000,travelCents:1500,totalCents:11500,durationMinutes:50}});
+  assert.equal(quoteVisit(12000, {startsAt:'2026-11-09T13:00:00Z',endsAt:'2026-11-09T12:00:00Z'}, 0).ok,false);
+  assert.equal(quoteVisit(12000, {startsAt:'2026-11-09T12:00:00Z',endsAt:'2026-11-09T13:00:00Z'}, -1).ok,false);
 });
 test('Concierge valida catálogo e não transporta campos clínicos', () => {
   const input={serviceId:service.id,regionCode:request.regionCode,window:request,frequency:null,accessibilityTags:[],clarificationNeeded:false,diagnosis:'ignored'};

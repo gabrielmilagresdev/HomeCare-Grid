@@ -5,10 +5,10 @@ import { Button } from '../ui/Button';
 import { theme } from '../../theme/tokens';
 export function FoundationScreen({ title, description }: { title: string; description: string }) {
   return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}>
-    <Text accessibilityRole="header" style={styles.brand}>HomeCare Grid</Text>
+    <Text accessibilityRole="header" style={styles.brand}>Tato</Text>
     <Text style={styles.slogan}>O cuidado certo, onde você está.</Text>
     <View style={styles.card}><Text accessibilityRole="header" style={styles.title}>{title}</Text>
-      <Text style={styles.body}>{description}</Text><Text style={styles.notice}>Fundação em demonstração. Sem dados reais, autenticação ou agendamentos ativos.</Text></View>
+      <Text style={styles.body}>{description}</Text><Text style={styles.notice}>Esta área está em preparação.</Text></View>
     <Button label="Voltar ao início" onPress={() => router.replace('/')} />
   </ScrollView></SafeAreaView>;
 }

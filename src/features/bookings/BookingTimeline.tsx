@@ -6,7 +6,7 @@ export interface BookingTimelineEntry { id: string; label: string; detail: strin
 export function BookingTimeline({ entries }: { entries: BookingTimelineEntry[] }) {
   return <View style={styles.container}>
     <Text style={styles.title}>Histórico administrativo</Text>
-    <View style={styles.entry}><View style={styles.dot} /><View style={styles.copy}><Text style={styles.label}>Solicitação enviada</Text><Text style={styles.detail}>Disponível ao profissional nesta sessão fictícia.</Text></View></View>
+    <View style={styles.entry}><View style={styles.dot} /><View style={styles.copy}><Text style={styles.label}>Solicitação criada</Text><Text style={styles.detail}>Registro local, sem envio ao profissional.</Text></View></View>
     {entries.map(entry => <View key={entry.id} style={styles.entry}><View style={styles.dot} /><View style={styles.copy}><Text style={styles.label}>{entry.label}</Text><Text style={styles.detail}>{entry.detail}</Text></View></View>)}
   </View>;
 }

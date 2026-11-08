@@ -11,10 +11,10 @@ export function Button({ label, onPress, disabled = false, loading = false, vari
   </Pressable>;
 }
 const styles = StyleSheet.create({
-  button: { minHeight: theme.minTouchTarget, justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 14, borderRadius: 16, borderWidth: 1 },
+  button: { minHeight: theme.minTouchTarget, justifyContent: 'center', paddingHorizontal: 18, paddingVertical: 12, borderRadius: 12, borderWidth: 1 },
   primary: { backgroundColor: theme.colors.primary, borderColor: theme.colors.primary },
-  secondary: { backgroundColor: theme.colors.mint, borderColor: theme.colors.mint },
-  ghost: { backgroundColor: theme.colors.white, borderColor: theme.colors.line },
+  secondary: { backgroundColor: theme.colors.accent, borderColor: theme.colors.accent },
+  ghost: { backgroundColor: theme.colors.white, borderColor: theme.colors.borderStrong },
   danger: { backgroundColor: theme.colors.errorSoft, borderColor: theme.colors.errorSoft },
   compact: { paddingHorizontal: 14, paddingVertical: 10 },
   inner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },

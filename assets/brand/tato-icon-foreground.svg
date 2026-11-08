@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <title>Tato — ícone adaptativo</title>
+  <path d="M444 328c-78 0-132 62-132 138v54c0 76 54 138 132 138h24" stroke="#F8F7F4" stroke-width="54" stroke-linecap="round"/>
+  <path d="M580 658c78 0 132-62 132-138v-54c0-76-54-138-132-138h-24" stroke="#F8F7F4" stroke-width="54" stroke-linecap="round"/>
+  <circle cx="512" cy="493" r="52" fill="#DCEA9C"/>
+</svg>
