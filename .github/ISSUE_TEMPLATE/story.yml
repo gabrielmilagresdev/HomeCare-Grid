@@ -1,0 +1,28 @@
+name: Story ou tarefa
+description: Unidade pequena com responsável, contratos e evidências
+title: "[EPIC X][Nome | Operacional] Descrição"
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto, objetivo e responsável lógico
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo, fora de escopo, contratos e arquivos
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependências com números de Issues
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critérios de aceite, testes e Definition of Done
+    validations:
+      required: true

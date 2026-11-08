@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {validateConfig} from './check-codex-config.mjs';
+const files=['AGENTS.md','.agents/product.md','.agents/architecture.md','.agents/security.md','.agents/testing.md','.agents/workflow.md','.agents/operational.md','.agents/arbiter.md','.agents/ownership.md','.agents/definition-of-done.md','.codex/config.toml','.github/PULL_REQUEST_TEMPLATE.md','.github/workflows/ci.yml','docs/architecture/overview.md','docs/architecture/data-model.md','docs/architecture/access-control.md','docs/agile/backlog.md','docs/agile/dependencies.md','docs/demo/demo-flow.md','README.md','.env.example','.gitignore'];
+for(const file of files)assert.ok(fs.readFileSync(file,'utf8').trim().length>30,file);
+validateConfig(fs.readFileSync('.codex/config.toml','utf8'));
+const p=JSON.parse(fs.readFileSync('package.json','utf8'));
+assert.equal(p.main,'expo-router/entry');
+for(const value of Object.values({...p.dependencies,...p.devDependencies}))assert.match(value,/^\d+\.\d+\.\d+$/);
+assert.equal(JSON.parse(fs.readFileSync('tsconfig.json','utf8')).compilerOptions.strict,true);
+console.log('Fundação: arquivos obrigatórios, versões exatas, strict e configuração conferidos.');

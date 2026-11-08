@@ -1,0 +1,15 @@
+# Autorizado explicitamente pelo usuario nesta conversa.
+# Exemplo versionado; nao altera a politica gerenciada da sessao atual.
+# https://learn.chatgpt.com/docs/config-file/config-reference
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+writable_roots = []
+exclude_tmpdir_env_var = false
+exclude_slash_tmp = true
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false

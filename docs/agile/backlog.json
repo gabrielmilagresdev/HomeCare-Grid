@@ -1,0 +1,1311 @@
+{
+  "version": 1,
+  "repository": "gabrielmilagresdev/HomeCare-Grid",
+  "bootstrap": {
+    "id": "BOOT",
+    "number": 2,
+    "epic": "0"
+  },
+  "epics": [
+    {
+      "id": "0",
+      "title": "Foundation & Governance",
+      "slug": "foundation",
+      "owner": "lucas",
+      "role": "operational",
+      "number": 1
+    },
+    {
+      "id": "1",
+      "title": "Design System & Navegação",
+      "slug": "design-system",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "2",
+      "title": "Authentication & User Roles",
+      "slug": "authentication",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "3",
+      "title": "Marketplace & Discovery",
+      "slug": "marketplace",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "4",
+      "title": "Bookings & Professional Workflow",
+      "slug": "bookings",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "5",
+      "title": "Family Hub & Continuity",
+      "slug": "family",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "6",
+      "title": "Grid Demand",
+      "slug": "demand",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "7",
+      "title": "FamilyPay Demonstrativo",
+      "slug": "payments",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "8",
+      "title": "Quality, Integration & Demo",
+      "slug": "quality",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    },
+    {
+      "id": "F",
+      "title": "Post-MVP",
+      "slug": "future",
+      "owner": "lucas",
+      "role": "operational",
+      "number": null
+    }
+  ],
+  "stories": [
+    {
+      "id": "0.1",
+      "epic": "0",
+      "title": "Inicializar Expo e TypeScript",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 0,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "BOOT"
+      ],
+      "files": [
+        "app/**",
+        "package.json",
+        "package-lock.json",
+        "app.json",
+        "tsconfig.json"
+      ],
+      "contracts": "Expo SDK 58, Router, strict",
+      "scope": "Abrir scaffold mobile sem módulos nativos customizados; preservar configuração única",
+      "acceptance": [
+        "npm ci e bundle Android/iOS aprovados",
+        "modo demo sem credenciais"
+      ],
+      "tests": [
+        "typecheck",
+        "expo install --check",
+        "doctor",
+        "bundle"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "0.2",
+      "epic": "0",
+      "title": "Revisar arquitetura e contratos iniciais",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 0,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "BOOT"
+      ],
+      "files": [
+        "src/domain/**",
+        "src/services/contracts.ts",
+        "docs/architecture/**"
+      ],
+      "contracts": "Contrato v1 e Result/RemoteState",
+      "scope": "Estabilizar IDs, UTC, centavos, estados e ports antes de consumidores",
+      "acceptance": [
+        "Uma fonte de tipos",
+        "parsers rejeitam entradas inválidas",
+        "consumidores identificados"
+      ],
+      "tests": [
+        "npm test",
+        "typecheck",
+        "revisão arquitetural"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "0.3",
+      "epic": "0",
+      "title": "Validar qualidade e GitHub Actions",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 0,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "BOOT"
+      ],
+      "files": [
+        ".github/workflows/ci.yml",
+        "tests/**",
+        "scripts/check-*.mjs"
+      ],
+      "contracts": "Checks quality/pr-policy",
+      "scope": "Conferir instalação reproduzível, lint, tipos, testes e bundle na CI",
+      "acceptance": [
+        "CI real no SHA atual",
+        "falha de teste bloqueia check",
+        "sem segredos no runner"
+      ],
+      "tests": [
+        "npm ci",
+        "lint",
+        "typecheck",
+        "npm test",
+        "test:ui",
+        "doctor",
+        "bundle"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "0.4",
+      "epic": "0",
+      "title": "Auditar políticas e isolamento",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 0,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "BOOT"
+      ],
+      "files": [
+        "AGENTS.md",
+        ".agents/**",
+        ".codex/config.toml",
+        "docs/operations/**"
+      ],
+      "contracts": "Políticas e ownership",
+      "scope": "Conferir prompts concisos, limites e isolamento real; auditoria por Lucas Árbitro",
+      "acceptance": [
+        "Cinco ambientes/credenciais especificados",
+        "limitações separadas do provisionado"
+      ],
+      "tests": [
+        "validar config",
+        "checklist de mounts e credenciais",
+        "revisão independente"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "0.5",
+      "epic": "0",
+      "title": "Ativar proteções e gate de merge",
+      "owner": "lucas",
+      "role": "arbiter",
+      "wave": 0,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [],
+      "files": [
+        "docs/operations/**",
+        ".github/CODEOWNERS"
+      ],
+      "contracts": "API/rulesets e identidades independentes",
+      "scope": "Administrador habilita proteções; árbitro valida revisão independente e merge exclusivo",
+      "acceptance": [
+        "GET comprova main/develop protegidas",
+        "operador não integra",
+        "autor não autoaprova",
+        "administradores sujeitos aos gates"
+      ],
+      "tests": [
+        "tentativa negada de merge operacional",
+        "checks falhando impedem merge",
+        "mudança invalida aprovação"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "1.1",
+      "epic": "1",
+      "title": "Tema e componentes básicos",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.1",
+        "0.2",
+        "0.3",
+        "0.4",
+        "0.5"
+      ],
+      "files": [
+        "src/theme/**",
+        "src/components/ui/**"
+      ],
+      "contracts": "Theme e props UI",
+      "scope": "Expandir tokens e Button/Input/Card reutilizáveis sem editar layout global",
+      "acceptance": [
+        "Identidade visual aplicada",
+        "alvos >=48",
+        "labels",
+        "estados disabled/loading/error"
+      ],
+      "tests": [
+        "test:ui de interação e acessibilidade",
+        "typecheck"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "1.2",
+      "epic": "1",
+      "title": "Navegação e layouts por papel",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.1",
+        "0.2",
+        "0.5",
+        "2.2"
+      ],
+      "files": [
+        "app/**",
+        "src/features/auth/navigation/**"
+      ],
+      "contracts": "UserRole e sessão",
+      "scope": "Compor layouts e retorno por capacidade sem usar seletor visual como autorização",
+      "acceptance": [
+        "Rotas sem permissão bloqueadas",
+        "multirrole funciona",
+        "sessão ausente não quebra"
+      ],
+      "tests": [
+        "testes navegação/sessão",
+        "bundle",
+        "smoke Expo Go"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "1.3",
+      "epic": "1",
+      "title": "Estados visuais e acessibilidade",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.1",
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/components/common/**"
+      ],
+      "contracts": "RemoteState",
+      "scope": "Criar loading, empty, error e recuperação para telas consumidoras",
+      "acceptance": [
+        "Textos legíveis, leitor de tela, erro claro e ação de tentar novamente"
+      ],
+      "tests": [
+        "test:ui por estado",
+        "fonte ampliada/contraste manual"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "2.1",
+      "epic": "2",
+      "title": "Autenticação compatível com Expo Go",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "0.1",
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/features/auth/**",
+        "src/lib/supabase.ts",
+        "supabase/migrations/auth/**"
+      ],
+      "contracts": "User, Result e JWT",
+      "scope": "Integrar Supabase Auth se credenciais disponíveis; preservar demo separada",
+      "acceptance": [
+        "Sessão restaurada/encerrada",
+        "JWT verificado no servidor",
+        "erro de rede recuperável",
+        "sem service_role no cliente"
+      ],
+      "tests": [
+        "testes login/logout/expiração",
+        "anon/RLS",
+        "Expo Go",
+        "scanner"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "2.2",
+      "epic": "2",
+      "title": "Papéis e autorização por recurso",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/domain/rules/authorization.ts",
+        "src/features/auth/authorization/**"
+      ],
+      "contracts": "UserRole, CareRecipient, FamilyMembership",
+      "scope": "Definir capacidades acumuláveis e negar acesso fora de vínculo explícito",
+      "acceptance": [
+        "Owner e vínculos por ação",
+        "revogado/terceiro negados",
+        "não inferir autorização da UI"
+      ],
+      "tests": [
+        "matriz owner/view-only/book-only/revogado/terceiro"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "2.3",
+      "epic": "2",
+      "title": "Fixtures e ambiente demonstrativo",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.1",
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/testing/**",
+        "src/services/demo/**"
+      ],
+      "contracts": "CatalogService/BookingService",
+      "scope": "Dados sintéticos reproduzíveis e adapters sem chamada remota",
+      "acceptance": [
+        "Modo demo explícito",
+        "datas relativas/controladas",
+        "cenários positivo/vazio/erro",
+        "nenhum dado real"
+      ],
+      "tests": [
+        "validação fixtures",
+        "isolamento de mutações",
+        "cenário sem credenciais"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "3.1",
+      "epic": "3",
+      "title": "Catálogo e perfis profissionais",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/features/professionals/**",
+        "src/features/marketplace/catalog/**"
+      ],
+      "contracts": "Service, Professional, CatalogService",
+      "scope": "Modelar projeção pública e tela de perfil; credencial nunca autodeclarada",
+      "acceptance": [
+        "Preço/região/serviço/horário claros",
+        "loading/empty/error",
+        "sem dados privados"
+      ],
+      "tests": [
+        "parser catálogo",
+        "test:ui perfil",
+        "credencial não verificada explícita"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "3.2",
+      "epic": "3",
+      "title": "Listagem, filtros e busca",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "1.1",
+        "1.3",
+        "2.3",
+        "3.1",
+        "3.4"
+      ],
+      "files": [
+        "src/features/marketplace/search/**"
+      ],
+      "contracts": "CareRequest, Match, CatalogService",
+      "scope": "Busca administrativa com filtros e explicações por elegibilidade",
+      "acceptance": [
+        "Filtro exige região/serviço/horário",
+        "nenhum elegível mostra recuperação",
+        "score não representa qualidade clínica"
+      ],
+      "tests": [
+        "test:ui filtros/resultados/vazio/erro",
+        "integração com ranking"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "3.3",
+      "epic": "3",
+      "title": "AI Care Concierge com saída validada",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p1",
+      "hours": 3,
+      "dependsOn": [
+        "0.2",
+        "2.2",
+        "3.1"
+      ],
+      "files": [
+        "src/features/concierge/**",
+        "supabase/functions/concierge/**"
+      ],
+      "contracts": "ConciergeService/ConciergeFilters",
+      "scope": "Interpretar linguagem em filtros administrativos via ambiente protegido; fallback determinístico demo",
+      "acceptance": [
+        "Allowlist validada",
+        "ambíguo pede confirmação",
+        "timeout/invalid/rede tratados",
+        "nenhuma decisão clínica ou chave no bundle"
+      ],
+      "tests": [
+        "payload clínico extra descartado",
+        "timeout",
+        "catálogo ausente",
+        "saída incompleta/inválida",
+        "scanner"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "3.4",
+      "epic": "3",
+      "title": "Smart Match determinístico e explicável",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 1,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.2",
+        "0.5"
+      ],
+      "files": [
+        "src/features/matching/**",
+        "src/domain/rules/matching.ts"
+      ],
+      "contracts": "CareRequest, Professional, Match",
+      "scope": "Revisar/expandir regra base com hard filters antes da ordenação e explicação",
+      "acceptance": [
+        "Serviço/região/credencial/horário/acessibilidade/orçamento obrigatórios",
+        "ordem estável preço+ID",
+        "sem LLM"
+      ],
+      "tests": [
+        "testes cada filtro, empate, vazio e imutabilidade"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "4.1",
+      "epic": "4",
+      "title": "Máquina de estados e backend de reservas",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 4,
+      "dependsOn": [
+        "2.1",
+        "2.2",
+        "3.1"
+      ],
+      "files": [
+        "src/features/bookings/core/**",
+        "src/services/remote/bookings.ts",
+        "supabase/migrations/bookings/**",
+        "supabase/functions/bookings/**"
+      ],
+      "contracts": "Booking, BookingEvent, BookingService",
+      "scope": "Implementar RPC/transação autorizada, versionamento, idempotência e constraint de sobreposição",
+      "acceptance": [
+        "Transições válidas",
+        "evento atômico",
+        "profissional só aceita alvo",
+        "completed após fim",
+        "SQL conflict traduzido"
+      ],
+      "tests": [
+        "máquina estados",
+        "RLS por papel",
+        "retry idempotente",
+        "rollback em erro"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "4.2",
+      "epic": "4",
+      "title": "Interface de solicitação da pessoa",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "1.1",
+        "1.3",
+        "3.2",
+        "4.1"
+      ],
+      "files": [
+        "src/features/bookings/request/**"
+      ],
+      "contracts": "BookingService/CareRequest",
+      "scope": "Selecionar pessoa autorizada, profissional e horário; enviar solicitação",
+      "acceptance": [
+        "Confirmar parâmetros",
+        "dupla submissão idempotente",
+        "conflito/erro recuperável",
+        "estados explícitos"
+      ],
+      "tests": [
+        "test:ui autorização, sucesso, conflito, timeout",
+        "integração ports"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "4.3",
+      "epic": "4",
+      "title": "Aceite e recusa profissional",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "1.3",
+        "2.1",
+        "4.1"
+      ],
+      "files": [
+        "src/features/professionals/workflow/**"
+      ],
+      "contracts": "BookingService/BookingStatus",
+      "scope": "Exibir solicitações próprias e aceitar/recusar com versão esperada",
+      "acceptance": [
+        "Nenhuma dupla reserva",
+        "stale version atualiza tela",
+        "profissional alheio negado"
+      ],
+      "tests": [
+        "test:ui aceite/recusa/conflito",
+        "autorização alvo"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "4.4",
+      "epic": "4",
+      "title": "Concorrência e consistência de agenda",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "4.1"
+      ],
+      "files": [
+        "supabase/tests/**",
+        "tests/integration/bookings/**"
+      ],
+      "contracts": "RPC e exclusion constraint",
+      "scope": "Executar duas conexões reais e testar limites de intervalo",
+      "acceptance": [
+        "Exatamente um aceite no mesmo horário",
+        "adjacentes aceitos",
+        "evento/status/versão consistentes",
+        "sem depender de UI"
+      ],
+      "tests": [
+        "PostgreSQL concorrente, rollback, idempotência, RLS",
+        "registrar evidência real"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "5.1",
+      "epic": "5",
+      "title": "Permissões e vínculos familiares",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "2.1",
+        "2.2",
+        "4.1"
+      ],
+      "files": [
+        "src/features/family/authorization/**",
+        "supabase/migrations/family/**"
+      ],
+      "contracts": "FamilyMembership/CareRecipient",
+      "scope": "Owner concede/revoga capacidades por recurso com RLS",
+      "acceptance": [
+        "View-only não reserva",
+        "revogação bloqueia próximas leituras",
+        "sem acesso clínico irrestrito"
+      ],
+      "tests": [
+        "RLS owner/membro/revogado/terceiro",
+        "grants e mass assignment"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "5.2",
+      "epic": "5",
+      "title": "Agenda compartilhada e acompanhamento",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 2,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "1.3",
+        "4.1",
+        "5.1"
+      ],
+      "files": [
+        "src/features/family/schedule/**"
+      ],
+      "contracts": "BookingService/FamilyMembership",
+      "scope": "Agenda familiar respeitando vínculos ativos e fuso",
+      "acceptance": [
+        "Somente agendamentos permitidos",
+        "revogado perde acesso",
+        "empty/error acessíveis"
+      ],
+      "tests": [
+        "test:ui e integração permissão",
+        "UTC->America/Sao_Paulo"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "5.3",
+      "epic": "5",
+      "title": "Continuidade básica de atendimento",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p2",
+      "hours": 2,
+      "dependsOn": [
+        "5.2",
+        "8.2"
+      ],
+      "files": [
+        "src/features/family/continuity/**"
+      ],
+      "contracts": "CareRequest/BookingService",
+      "scope": "Reutilizar seleção administrativa para nova solicitação, sem recorrência automática",
+      "acceptance": [
+        "Nova reserva revalida autorização/disponibilidade",
+        "sem copiar dados clínicos"
+      ],
+      "tests": [
+        "novo pedido conflita corretamente",
+        "vínculo revogado negado"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "6.1",
+      "epic": "6",
+      "title": "Registro de solicitação não atendida",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p1",
+      "hours": 2,
+      "dependsOn": [
+        "3.4",
+        "5.1"
+      ],
+      "files": [
+        "src/features/demand/core/**",
+        "supabase/migrations/demand/**"
+      ],
+      "contracts": "UnservedDemand/ConsentRecord",
+      "scope": "Persistir mínimos administrativos só com consentimento explícito válido",
+      "acceptance": [
+        "Sem consentimento nada gravado",
+        "revogação respeitada",
+        "sem endereço/texto clínico"
+      ],
+      "tests": [
+        "RLS autor/terceiro",
+        "consentimento negado/revogado",
+        "minimização"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "6.2",
+      "epic": "6",
+      "title": "Interface sem cobertura",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p1",
+      "hours": 2,
+      "dependsOn": [
+        "1.3",
+        "3.2",
+        "6.1"
+      ],
+      "files": [
+        "src/features/demand/ui/**"
+      ],
+      "contracts": "UnservedDemand/ConsentRecord",
+      "scope": "Mostrar ausência de elegíveis e opção voluntária de registrar demanda",
+      "acceptance": [
+        "Opt-in sem preseleção",
+        "recusar continua fluxo",
+        "sucesso/erro compreensíveis"
+      ],
+      "tests": [
+        "test:ui consentimento, recusa, erro e retry"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "6.3",
+      "epic": "6",
+      "title": "Oportunidades agregadas sem exposição",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p2",
+      "hours": 2,
+      "dependsOn": [
+        "6.1"
+      ],
+      "files": [
+        "src/features/demand/aggregate/**",
+        "supabase/functions/demand-aggregate/**"
+      ],
+      "contracts": "Projeção agregada por serviço/região",
+      "scope": "Demonstrar agregados sintéticos e supressão de grupos pequenos",
+      "acceptance": [
+        "Grupos <5 ocultos",
+        "sem IDs/endereço",
+        "acesso autorizado"
+      ],
+      "tests": [
+        "teste supressão, reidentificação por filtros e autorização"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "7.1",
+      "epic": "7",
+      "title": "FamilyPay simulado e divisão familiar",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p2",
+      "hours": 2,
+      "dependsOn": [
+        "5.2",
+        "8.2"
+      ],
+      "files": [
+        "src/features/payments/**"
+      ],
+      "contracts": "SimulatedPayment",
+      "scope": "Organizar centavos e divisão sem provedor financeiro ou cartão",
+      "acceptance": [
+        "SIMULADO visível",
+        "soma exata",
+        "sem cobranças/transações reais",
+        "não bloquear MVP"
+      ],
+      "tests": [
+        "arredondamento/centavos",
+        "test:ui rótulos",
+        "nenhuma chamada financeira"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "8.1",
+      "epic": "8",
+      "title": "Compatibilidade, bundle e Expo Go",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "3.2",
+        "4.2",
+        "4.3",
+        "5.2"
+      ],
+      "files": [
+        "docs/demo/mobile-smoke.md",
+        "app.json"
+      ],
+      "contracts": "SDK selecionado e navegação",
+      "scope": "Executar doctor/bundle e smoke em Expo Go compatível",
+      "acceptance": [
+        "Registrar aparelho/SO/SDK/SHA",
+        "navegação/fonte/leitor",
+        "limitações explícitas"
+      ],
+      "tests": [
+        "doctor",
+        "install --check",
+        "export Android/iOS",
+        "smoke físico real"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "8.2",
+      "epic": "8",
+      "title": "Jornada principal integrada",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p0",
+      "hours": 3,
+      "dependsOn": [
+        "4.2",
+        "4.3",
+        "4.4",
+        "5.2"
+      ],
+      "files": [
+        "tests/integration/journey/**",
+        "docs/demo/**"
+      ],
+      "contracts": "Ports, reserva e família",
+      "scope": "Solicitar -> matching -> escolha -> aceite -> confirmação -> família",
+      "acceptance": [
+        "Jornada positiva e erro/confllito/revogação",
+        "sem regressão",
+        "fixture sintética"
+      ],
+      "tests": [
+        "integração jornada com banco se remoto",
+        "test:ui",
+        "evidências SHA"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "8.3",
+      "epic": "8",
+      "title": "Documentação e roteiro demonstrativo",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 3,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "8.1",
+        "8.2"
+      ],
+      "files": [
+        "README.md",
+        "docs/demo/**"
+      ],
+      "contracts": "Funcionalidades efetivamente integradas",
+      "scope": "Revisar setup e roteiro curto com contingência offline",
+      "acceptance": [
+        "Nenhuma promessa de recurso futuro",
+        "passos reproduzíveis e simulação explícita"
+      ],
+      "tests": [
+        "executar roteiro limpo",
+        "conferir links/limitações"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "8.4",
+      "epic": "8",
+      "title": "Auditar PRs e autorizar integrações",
+      "owner": "lucas",
+      "role": "arbiter",
+      "wave": 3,
+      "priority": "p0",
+      "hours": 2,
+      "dependsOn": [
+        "0.5",
+        "8.1",
+        "8.2"
+      ],
+      "files": [
+        "docs/audit/reviews/**"
+      ],
+      "contracts": "Critérios de aceite e SHA revisado",
+      "scope": "Revisar PRs reais por identidade independente, incluindo Lucas Operacional",
+      "acceptance": [
+        "Diff completo, checks atuais, sem autoaprovação/bypass",
+        "resultado documentado"
+      ],
+      "tests": [
+        "verificar testes/CI, segurança e dependências",
+        "nova revisão após commit"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "8.5",
+      "epic": "8",
+      "title": "Release candidata e integração final",
+      "owner": "lucas",
+      "role": "arbiter",
+      "wave": 3,
+      "priority": "p0",
+      "hours": 1,
+      "dependsOn": [
+        "8.3",
+        "8.4"
+      ],
+      "files": [
+        "docs/demo/release-notes.md"
+      ],
+      "contracts": "develop -> main",
+      "scope": "Abrir/revisar PR de release e integrar somente se elegível",
+      "acceptance": [
+        "CI e revisão independentes",
+        "main estável",
+        "release descreve limites reais"
+      ],
+      "tests": [
+        "npm ci",
+        "checks completos",
+        "smoke jornada",
+        "validar main após merge"
+      ],
+      "outOfScope": "Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.",
+      "status": "blocked"
+    },
+    {
+      "id": "F.1",
+      "epic": "F",
+      "title": "Grid Routes avançado",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de grid routes avançado após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.2",
+      "epic": "F",
+      "title": "Care Passport completo",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de care passport completo após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.3",
+      "epic": "F",
+      "title": "Integração de pagamentos reais",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de integração de pagamentos reais após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.4",
+      "epic": "F",
+      "title": "Verificação automatizada de registros profissionais",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de verificação automatizada de registros profissionais após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.5",
+      "epic": "F",
+      "title": "Integração WhatsApp",
+      "owner": "matheus",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de integração whatsapp após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.6",
+      "epic": "F",
+      "title": "Notificações reais",
+      "owner": "gabriel",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de notificações reais após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.7",
+      "epic": "F",
+      "title": "Recorrência avançada",
+      "owner": "julio",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de recorrência avançada após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    },
+    {
+      "id": "F.8",
+      "epic": "F",
+      "title": "Integração geográfica real",
+      "owner": "lucas",
+      "role": "operational",
+      "wave": 4,
+      "priority": "p2",
+      "hours": null,
+      "dependsOn": [
+        "8.5"
+      ],
+      "files": [
+        "a definir após ADR pós-MVP"
+      ],
+      "contracts": "Contrato futuro exige ADR e revisão",
+      "scope": "Pesquisar viabilidade e requisitos de integração geográfica real após o hackathon.",
+      "acceptance": [
+        "ADR e escopo aprovados após MVP",
+        "Requisitos técnicos/legais e riscos verificados antes de implementar"
+      ],
+      "tests": [
+        "Plano de testes e compatibilidade Expo Go definidos antes de instalar"
+      ],
+      "outOfScope": "Implementação durante as 36 horas; não comprometer MVP.",
+      "status": "backlog"
+    }
+  ]
+}

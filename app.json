@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "HomeCare Grid",
+    "slug": "homecare-grid",
+    "version": "0.1.0",
+    "scheme": "homecaregrid",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F8FBF9",
+    "platforms": ["android", "ios"],
+    "plugins": ["expo-router"]
+  }
+}
