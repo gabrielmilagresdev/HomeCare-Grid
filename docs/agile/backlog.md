@@ -4,94 +4,94 @@ Fonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories s�
 
 31 Stories MVP (65 horas-agente estimadas), oito itens pós-MVP, dez Epics e um bootstrap. Tasks T1/T2 são checklists dentro de cada Story, sem Issues artificiais. Estimativas não são promessa de entrega; Lucas central concentra caminho crítico.
 
-## epic-0 — Foundation & Governance
+## [#1](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/1) — Foundation & Governance
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0.1 | 0.1 Inicializar Expo e TypeScript | Lucas — Operacional | p0 | 0 | 1 | BOOT | blocked |
-| 0.2 | 0.2 Revisar arquitetura e contratos iniciais | Lucas — Operacional | p0 | 0 | 1 | BOOT | blocked |
-| 0.3 | 0.3 Validar qualidade e GitHub Actions | Gabriel — Operacional | p0 | 0 | 1 | BOOT | blocked |
-| 0.4 | 0.4 Auditar políticas e isolamento | Lucas — Operacional | p0 | 0 | 1 | BOOT | blocked |
-| 0.5 | 0.5 Ativar proteções e gate de merge | Lucas — Árbitro | p0 | 0 | 1 |  | blocked |
+| 0.1 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13) Inicializar Expo e TypeScript | Lucas — Operacional | p0 | 0 | 1 | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) | blocked |
+| 0.2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14) Revisar arquitetura e contratos iniciais | Lucas — Operacional | p0 | 0 | 1 | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) | blocked |
+| 0.3 | [#15](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/15) Validar qualidade e GitHub Actions | Gabriel — Operacional | p0 | 0 | 1 | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) | blocked |
+| 0.4 | [#16](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/16) Auditar políticas e isolamento | Lucas — Operacional | p0 | 0 | 1 | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) | blocked |
+| 0.5 | [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) Ativar proteções e gate de merge | Lucas — Árbitro | p0 | 0 | 1 |  | blocked |
 
-## epic-1 — Design System & Navegação
-
-| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1.1 | 1.1 Tema e componentes básicos | Gabriel — Operacional | p0 | 1 | 2 | 0.1, 0.2, 0.3, 0.4, 0.5 | blocked |
-| 1.2 | 1.2 Navegação e layouts por papel | Lucas — Operacional | p0 | 1 | 2 | 0.1, 0.2, 0.5, 2.2 | blocked |
-| 1.3 | 1.3 Estados visuais e acessibilidade | Julio — Operacional | p0 | 1 | 2 | 0.1, 0.2, 0.5 | blocked |
-
-## epic-2 — Authentication & User Roles
+## [#3](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/3) — Design System & Navegação
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | 2.1 Autenticação compatível com Expo Go | Matheus — Operacional | p0 | 1 | 3 | 0.1, 0.2, 0.5 | blocked |
-| 2.2 | 2.2 Papéis e autorização por recurso | Lucas — Operacional | p0 | 1 | 2 | 0.2, 0.5 | blocked |
-| 2.3 | 2.3 Fixtures e ambiente demonstrativo | Matheus — Operacional | p0 | 1 | 2 | 0.1, 0.2, 0.5 | blocked |
+| 1.1 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18) Tema e componentes básicos | Gabriel — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#15](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/15), [#16](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/16), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 1.2 | [#20](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/20) Navegação e layouts por papel | Lucas — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) | blocked |
+| 1.3 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21) Estados visuais e acessibilidade | Julio — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
 
-## epic-3 — Marketplace & Discovery
-
-| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 3.1 | 3.1 Catálogo e perfis profissionais | Julio — Operacional | p0 | 1 | 2 | 0.2, 0.5 | blocked |
-| 3.2 | 3.2 Listagem, filtros e busca | Gabriel — Operacional | p0 | 2 | 3 | 1.1, 1.3, 2.3, 3.1, 3.4 | blocked |
-| 3.3 | 3.3 AI Care Concierge com saída validada | Lucas — Operacional | p1 | 2 | 3 | 0.2, 2.2, 3.1 | blocked |
-| 3.4 | 3.4 Smart Match determinístico e explicável | Lucas — Operacional | p0 | 1 | 2 | 0.2, 0.5 | blocked |
-
-## epic-4 — Bookings & Professional Workflow
+## [#4](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/4) — Authentication & User Roles
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 4.1 | 4.1 Máquina de estados e backend de reservas | Lucas — Operacional | p0 | 2 | 4 | 2.1, 2.2, 3.1 | blocked |
-| 4.2 | 4.2 Interface de solicitação da pessoa | Gabriel — Operacional | p0 | 2 | 3 | 1.1, 1.3, 3.2, 4.1 | blocked |
-| 4.3 | 4.3 Aceite e recusa profissional | Matheus — Operacional | p0 | 2 | 3 | 1.3, 2.1, 4.1 | blocked |
-| 4.4 | 4.4 Concorrência e consistência de agenda | Lucas — Operacional | p0 | 2 | 2 | 4.1 | blocked |
+| 2.1 | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22) Autenticação compatível com Expo Go | Matheus — Operacional | p0 | 1 | 3 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 2.2 | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) Papéis e autorização por recurso | Lucas — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 2.3 | [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23) Fixtures e ambiente demonstrativo | Matheus — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
 
-## epic-5 — Family Hub & Continuity
-
-| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 5.1 | 5.1 Permissões e vínculos familiares | Lucas — Operacional | p0 | 2 | 3 | 2.1, 2.2, 4.1 | blocked |
-| 5.2 | 5.2 Agenda compartilhada e acompanhamento | Julio — Operacional | p0 | 2 | 3 | 1.3, 4.1, 5.1 | blocked |
-| 5.3 | 5.3 Continuidade básica de atendimento | Julio — Operacional | p2 | 3 | 2 | 5.2, 8.2 | blocked |
-
-## epic-6 — Grid Demand
+## [#5](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/5) — Marketplace & Discovery
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 6.1 | 6.1 Registro de solicitação não atendida | Lucas — Operacional | p1 | 3 | 2 | 3.4, 5.1 | blocked |
-| 6.2 | 6.2 Interface sem cobertura | Matheus — Operacional | p1 | 3 | 2 | 1.3, 3.2, 6.1 | blocked |
-| 6.3 | 6.3 Oportunidades agregadas sem exposição | Lucas — Operacional | p2 | 3 | 2 | 6.1 | blocked |
+| 3.1 | [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) Catálogo e perfis profissionais | Julio — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 3.2 | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26) Listagem, filtros e busca | Gabriel — Operacional | p0 | 2 | 3 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18), [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24), [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) | blocked |
+| 3.3 | [#27](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/27) AI Care Concierge com saída validada | Lucas — Operacional | p1 | 2 | 3 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) | blocked |
+| 3.4 | [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) Smart Match determinístico e explicável | Lucas — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
 
-## epic-7 — FamilyPay Demonstrativo
-
-| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 7.1 | 7.1 FamilyPay simulado e divisão familiar | Julio — Operacional | p2 | 3 | 2 | 5.2, 8.2 | blocked |
-
-## epic-8 — Quality, Integration & Demo
+## [#6](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/6) — Bookings & Professional Workflow
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 8.1 | 8.1 Compatibilidade, bundle e Expo Go | Gabriel — Operacional | p0 | 3 | 2 | 3.2, 4.2, 4.3, 5.2 | blocked |
-| 8.2 | 8.2 Jornada principal integrada | Lucas — Operacional | p0 | 3 | 3 | 4.2, 4.3, 4.4, 5.2 | blocked |
-| 8.3 | 8.3 Documentação e roteiro demonstrativo | Matheus — Operacional | p0 | 3 | 1 | 8.1, 8.2 | blocked |
-| 8.4 | 8.4 Auditar PRs e autorizar integrações | Lucas — Árbitro | p0 | 3 | 2 | 0.5, 8.1, 8.2 | blocked |
-| 8.5 | 8.5 Release candidata e integração final | Lucas — Árbitro | p0 | 3 | 1 | 8.3, 8.4 | blocked |
+| 4.1 | [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) Máquina de estados e backend de reservas | Lucas — Operacional | p0 | 2 | 4 | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) | blocked |
+| 4.2 | [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29) Interface de solicitação da pessoa | Gabriel — Operacional | p0 | 2 | 3 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18), [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) | blocked |
+| 4.3 | [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30) Aceite e recusa profissional | Matheus — Operacional | p0 | 2 | 3 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) | blocked |
+| 4.4 | [#31](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/31) Concorrência e consistência de agenda | Lucas — Operacional | p0 | 2 | 2 | [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) | blocked |
 
-## epic-F — Post-MVP
+## [#7](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/7) — Family Hub & Continuity
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| F.1 | F.1 Grid Routes avançado | Lucas — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.2 | F.2 Care Passport completo | Julio — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.3 | F.3 Integração de pagamentos reais | Matheus — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.4 | F.4 Verificação automatizada de registros profissionais | Lucas — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.5 | F.5 Integração WhatsApp | Matheus — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.6 | F.6 Notificações reais | Gabriel — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.7 | F.7 Recorrência avançada | Julio — Operacional | p2 | 4 | futuro | 8.5 | backlog |
-| F.8 | F.8 Integração geográfica real | Lucas — Operacional | p2 | 4 | futuro | 8.5 | backlog |
+| 5.1 | [#32](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/32) Permissões e vínculos familiares | Lucas — Operacional | p0 | 2 | 3 | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) | blocked |
+| 5.2 | [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) Agenda compartilhada e acompanhamento | Julio — Operacional | p0 | 2 | 3 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28), [#32](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/32) | blocked |
+| 5.3 | [#35](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/35) Continuidade básica de atendimento | Julio — Operacional | p2 | 3 | 2 | [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
+
+## [#8](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/8) — Grid Demand
+
+| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6.1 | [#36](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/36) Registro de solicitação não atendida | Lucas — Operacional | p1 | 3 | 2 | [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25), [#32](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/32) | blocked |
+| 6.2 | [#37](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/37) Interface sem cobertura | Matheus — Operacional | p1 | 3 | 2 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#36](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/36) | blocked |
+| 6.3 | [#38](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/38) Oportunidades agregadas sem exposição | Lucas — Operacional | p2 | 3 | 2 | [#36](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/36) | blocked |
+
+## [#9](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/9) — FamilyPay Demonstrativo
+
+| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 7.1 | [#39](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/39) FamilyPay simulado e divisão familiar | Julio — Operacional | p2 | 3 | 2 | [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
+
+## [#10](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/10) — Quality, Integration & Demo
+
+| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 8.1 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40) Compatibilidade, bundle e Expo Go | Gabriel — Operacional | p0 | 3 | 2 | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) | blocked |
+| 8.2 | [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) Jornada principal integrada | Lucas — Operacional | p0 | 3 | 3 | [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#31](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/31), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) | blocked |
+| 8.3 | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41) Documentação e roteiro demonstrativo | Matheus — Operacional | p0 | 3 | 1 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
+| 8.4 | [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) Auditar PRs e autorizar integrações | Lucas — Árbitro | p0 | 3 | 2 | [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
+| 8.5 | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) Release candidata e integração final | Lucas — Árbitro | p0 | 3 | 1 | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41), [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) | blocked |
+
+## [#11](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/11) — Post-MVP
+
+| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| F.1 | [#44](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/44) Grid Routes avançado | Lucas — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.2 | [#45](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/45) Care Passport completo | Julio — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.3 | [#46](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/46) Integração de pagamentos reais | Matheus — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.4 | [#47](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/47) Verificação automatizada de registros profissionais | Lucas — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.5 | [#48](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/48) Integração WhatsApp | Matheus — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.6 | [#49](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/49) Notificações reais | Gabriel — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.7 | [#50](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/50) Recorrência avançada | Julio — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
+| F.8 | [#51](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/51) Integração geográfica real | Lucas — Operacional | p2 | 4 | futuro | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) | backlog |
 
 ## Escopo detalhado
 
@@ -99,7 +99,7 @@ Fonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories s�
 ### 0.1 — Inicializar Expo e TypeScript
 
 <!-- hcg:0.1 -->
-Epic: Foundation & Governance
+Epic: #1
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 0 | Estimativa: 1h
@@ -154,7 +154,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 0.2 — Revisar arquitetura e contratos iniciais
 
 <!-- hcg:0.2 -->
-Epic: Foundation & Governance
+Epic: #1
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 0 | Estimativa: 1h
@@ -207,7 +207,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 0.3 — Validar qualidade e GitHub Actions
 
 <!-- hcg:0.3 -->
-Epic: Foundation & Governance
+Epic: #1
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 0 | Estimativa: 1h
@@ -264,7 +264,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 0.4 — Auditar políticas e isolamento
 
 <!-- hcg:0.4 -->
-Epic: Foundation & Governance
+Epic: #1
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 0 | Estimativa: 1h
@@ -317,7 +317,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 0.5 — Ativar proteções e gate de merge
 
 <!-- hcg:0.5 -->
-Epic: Foundation & Governance
+Epic: #1
 
 Responsável lógico: Lucas — Árbitro
 Tipo: Story | Prioridade: P0 | Wave: 0 | Estimativa: 1h
@@ -370,7 +370,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 1.1 — Tema e componentes básicos
 
 <!-- hcg:1.1 -->
-Epic: Design System & Navegação
+Epic: #3
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -389,11 +389,11 @@ Expandir tokens e Button/Input/Card reutilizáveis sem editar layout global
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.1 (ID lógico; resolver antes de Ready)
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.3 (ID lógico; resolver antes de Ready)
-- Blocked by 0.4 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #13
+- Blocked by #14
+- Blocked by #15
+- Blocked by #16
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -426,7 +426,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 1.2 — Navegação e layouts por papel
 
 <!-- hcg:1.2 -->
-Epic: Design System & Navegação
+Epic: #3
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -445,10 +445,10 @@ Compor layouts e retorno por capacidade sem usar seletor visual como autorizaç�
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.1 (ID lógico; resolver antes de Ready)
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
-- Blocked by 2.2 (ID lógico; resolver antes de Ready)
+- Blocked by #13
+- Blocked by #14
+- Blocked by #17
+- Blocked by #19
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -481,7 +481,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 1.3 — Estados visuais e acessibilidade
 
 <!-- hcg:1.3 -->
-Epic: Design System & Navegação
+Epic: #3
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -500,9 +500,9 @@ Criar loading, empty, error e recuperação para telas consumidoras
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.1 (ID lógico; resolver antes de Ready)
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #13
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -531,7 +531,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 2.1 — Autenticação compatível com Expo Go
 
 <!-- hcg:2.1 -->
-Epic: Authentication & User Roles
+Epic: #4
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 3h
@@ -550,9 +550,9 @@ Integrar Supabase Auth se credenciais disponíveis; preservar demo separada
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.1 (ID lógico; resolver antes de Ready)
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #13
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -588,7 +588,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 2.2 — Papéis e autorização por recurso
 
 <!-- hcg:2.2 -->
-Epic: Authentication & User Roles
+Epic: #4
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -607,8 +607,8 @@ Definir capacidades acumuláveis e negar acesso fora de vínculo explícito
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -639,7 +639,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 2.3 — Fixtures e ambiente demonstrativo
 
 <!-- hcg:2.3 -->
-Epic: Authentication & User Roles
+Epic: #4
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -658,9 +658,9 @@ Dados sintéticos reproduzíveis e adapters sem chamada remota
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.1 (ID lógico; resolver antes de Ready)
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #13
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -694,7 +694,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 3.1 — Catálogo e perfis profissionais
 
 <!-- hcg:3.1 -->
-Epic: Marketplace & Discovery
+Epic: #5
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -713,8 +713,8 @@ Modelar projeção pública e tela de perfil; credencial nunca autodeclarada
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -747,7 +747,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 3.2 — Listagem, filtros e busca
 
 <!-- hcg:3.2 -->
-Epic: Marketplace & Discovery
+Epic: #5
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 3h
@@ -766,11 +766,11 @@ Busca administrativa com filtros e explicações por elegibilidade
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 1.1 (ID lógico; resolver antes de Ready)
-- Blocked by 1.3 (ID lógico; resolver antes de Ready)
-- Blocked by 2.3 (ID lógico; resolver antes de Ready)
-- Blocked by 3.1 (ID lógico; resolver antes de Ready)
-- Blocked by 3.4 (ID lógico; resolver antes de Ready)
+- Blocked by #18
+- Blocked by #21
+- Blocked by #23
+- Blocked by #24
+- Blocked by #25
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -801,7 +801,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 3.3 — AI Care Concierge com saída validada
 
 <!-- hcg:3.3 -->
-Epic: Marketplace & Discovery
+Epic: #5
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P1 | Wave: 2 | Estimativa: 3h
@@ -820,9 +820,9 @@ Interpretar linguagem em filtros administrativos via ambiente protegido; fallbac
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 2.2 (ID lógico; resolver antes de Ready)
-- Blocked by 3.1 (ID lógico; resolver antes de Ready)
+- Blocked by #14
+- Blocked by #19
+- Blocked by #24
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -858,7 +858,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 3.4 — Smart Match determinístico e explicável
 
 <!-- hcg:3.4 -->
-Epic: Marketplace & Discovery
+Epic: #5
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 1 | Estimativa: 2h
@@ -877,8 +877,8 @@ Revisar/expandir regra base com hard filters antes da ordenação e explicação
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.2 (ID lógico; resolver antes de Ready)
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
+- Blocked by #14
+- Blocked by #17
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -909,7 +909,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 4.1 — Máquina de estados e backend de reservas
 
 <!-- hcg:4.1 -->
-Epic: Bookings & Professional Workflow
+Epic: #6
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 4h
@@ -928,9 +928,9 @@ Implementar RPC/transação autorizada, versionamento, idempotência e constrain
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 2.1 (ID lógico; resolver antes de Ready)
-- Blocked by 2.2 (ID lógico; resolver antes de Ready)
-- Blocked by 3.1 (ID lógico; resolver antes de Ready)
+- Blocked by #22
+- Blocked by #19
+- Blocked by #24
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -968,7 +968,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 4.2 — Interface de solicitação da pessoa
 
 <!-- hcg:4.2 -->
-Epic: Bookings & Professional Workflow
+Epic: #6
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 3h
@@ -987,10 +987,10 @@ Selecionar pessoa autorizada, profissional e horário; enviar solicitação
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 1.1 (ID lógico; resolver antes de Ready)
-- Blocked by 1.3 (ID lógico; resolver antes de Ready)
-- Blocked by 3.2 (ID lógico; resolver antes de Ready)
-- Blocked by 4.1 (ID lógico; resolver antes de Ready)
+- Blocked by #18
+- Blocked by #21
+- Blocked by #26
+- Blocked by #28
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1022,7 +1022,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 4.3 — Aceite e recusa profissional
 
 <!-- hcg:4.3 -->
-Epic: Bookings & Professional Workflow
+Epic: #6
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 3h
@@ -1041,9 +1041,9 @@ Exibir solicitações próprias e aceitar/recusar com versão esperada
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 1.3 (ID lógico; resolver antes de Ready)
-- Blocked by 2.1 (ID lógico; resolver antes de Ready)
-- Blocked by 4.1 (ID lógico; resolver antes de Ready)
+- Blocked by #21
+- Blocked by #22
+- Blocked by #28
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1074,7 +1074,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 4.4 — Concorrência e consistência de agenda
 
 <!-- hcg:4.4 -->
-Epic: Bookings & Professional Workflow
+Epic: #6
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 2h
@@ -1093,7 +1093,7 @@ Executar duas conexões reais e testar limites de intervalo
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 4.1 (ID lógico; resolver antes de Ready)
+- Blocked by #28
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1126,7 +1126,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 5.1 — Permissões e vínculos familiares
 
 <!-- hcg:5.1 -->
-Epic: Family Hub & Continuity
+Epic: #7
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 3h
@@ -1145,9 +1145,9 @@ Owner concede/revoga capacidades por recurso com RLS
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 2.1 (ID lógico; resolver antes de Ready)
-- Blocked by 2.2 (ID lógico; resolver antes de Ready)
-- Blocked by 4.1 (ID lógico; resolver antes de Ready)
+- Blocked by #22
+- Blocked by #19
+- Blocked by #28
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1179,7 +1179,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 5.2 — Agenda compartilhada e acompanhamento
 
 <!-- hcg:5.2 -->
-Epic: Family Hub & Continuity
+Epic: #7
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 2 | Estimativa: 3h
@@ -1198,9 +1198,9 @@ Agenda familiar respeitando vínculos ativos e fuso
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 1.3 (ID lógico; resolver antes de Ready)
-- Blocked by 4.1 (ID lógico; resolver antes de Ready)
-- Blocked by 5.1 (ID lógico; resolver antes de Ready)
+- Blocked by #21
+- Blocked by #28
+- Blocked by #32
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1231,7 +1231,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 5.3 — Continuidade básica de atendimento
 
 <!-- hcg:5.3 -->
-Epic: Family Hub & Continuity
+Epic: #7
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 3 | Estimativa: 2h
@@ -1250,8 +1250,8 @@ Reutilizar seleção administrativa para nova solicitação, sem recorrência au
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 5.2 (ID lógico; resolver antes de Ready)
-- Blocked by 8.2 (ID lógico; resolver antes de Ready)
+- Blocked by #33
+- Blocked by #34
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1281,7 +1281,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 6.1 — Registro de solicitação não atendida
 
 <!-- hcg:6.1 -->
-Epic: Grid Demand
+Epic: #8
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P1 | Wave: 3 | Estimativa: 2h
@@ -1300,8 +1300,8 @@ Persistir mínimos administrativos só com consentimento explícito válido
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 3.4 (ID lógico; resolver antes de Ready)
-- Blocked by 5.1 (ID lógico; resolver antes de Ready)
+- Blocked by #25
+- Blocked by #32
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1334,7 +1334,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 6.2 — Interface sem cobertura
 
 <!-- hcg:6.2 -->
-Epic: Grid Demand
+Epic: #8
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P1 | Wave: 3 | Estimativa: 2h
@@ -1353,9 +1353,9 @@ Mostrar ausência de elegíveis e opção voluntária de registrar demanda
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 1.3 (ID lógico; resolver antes de Ready)
-- Blocked by 3.2 (ID lógico; resolver antes de Ready)
-- Blocked by 6.1 (ID lógico; resolver antes de Ready)
+- Blocked by #21
+- Blocked by #26
+- Blocked by #36
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1385,7 +1385,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 6.3 — Oportunidades agregadas sem exposição
 
 <!-- hcg:6.3 -->
-Epic: Grid Demand
+Epic: #8
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 3 | Estimativa: 2h
@@ -1404,7 +1404,7 @@ Demonstrar agregados sintéticos e supressão de grupos pequenos
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 6.1 (ID lógico; resolver antes de Ready)
+- Blocked by #36
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1435,7 +1435,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 7.1 — FamilyPay simulado e divisão familiar
 
 <!-- hcg:7.1 -->
-Epic: FamilyPay Demonstrativo
+Epic: #9
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 3 | Estimativa: 2h
@@ -1454,8 +1454,8 @@ Organizar centavos e divisão sem provedor financeiro ou cartão
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 5.2 (ID lógico; resolver antes de Ready)
-- Blocked by 8.2 (ID lógico; resolver antes de Ready)
+- Blocked by #33
+- Blocked by #34
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1488,7 +1488,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 8.1 — Compatibilidade, bundle e Expo Go
 
 <!-- hcg:8.1 -->
-Epic: Quality, Integration & Demo
+Epic: #10
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 3 | Estimativa: 2h
@@ -1507,10 +1507,10 @@ Executar doctor/bundle e smoke em Expo Go compatível
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 3.2 (ID lógico; resolver antes de Ready)
-- Blocked by 4.2 (ID lógico; resolver antes de Ready)
-- Blocked by 4.3 (ID lógico; resolver antes de Ready)
-- Blocked by 5.2 (ID lógico; resolver antes de Ready)
+- Blocked by #26
+- Blocked by #29
+- Blocked by #30
+- Blocked by #33
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1544,7 +1544,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 8.2 — Jornada principal integrada
 
 <!-- hcg:8.2 -->
-Epic: Quality, Integration & Demo
+Epic: #10
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 3 | Estimativa: 3h
@@ -1563,10 +1563,10 @@ Solicitar -> matching -> escolha -> aceite -> confirmação -> família
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 4.2 (ID lógico; resolver antes de Ready)
-- Blocked by 4.3 (ID lógico; resolver antes de Ready)
-- Blocked by 4.4 (ID lógico; resolver antes de Ready)
-- Blocked by 5.2 (ID lógico; resolver antes de Ready)
+- Blocked by #29
+- Blocked by #30
+- Blocked by #31
+- Blocked by #33
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1599,7 +1599,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 8.3 — Documentação e roteiro demonstrativo
 
 <!-- hcg:8.3 -->
-Epic: Quality, Integration & Demo
+Epic: #10
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P0 | Wave: 3 | Estimativa: 1h
@@ -1618,8 +1618,8 @@ Revisar setup e roteiro curto com contingência offline
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 8.1 (ID lógico; resolver antes de Ready)
-- Blocked by 8.2 (ID lógico; resolver antes de Ready)
+- Blocked by #40
+- Blocked by #34
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1650,7 +1650,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 8.4 — Auditar PRs e autorizar integrações
 
 <!-- hcg:8.4 -->
-Epic: Quality, Integration & Demo
+Epic: #10
 
 Responsável lógico: Lucas — Árbitro
 Tipo: Story | Prioridade: P0 | Wave: 3 | Estimativa: 2h
@@ -1669,9 +1669,9 @@ Revisar PRs reais por identidade independente, incluindo Lucas Operacional
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 0.5 (ID lógico; resolver antes de Ready)
-- Blocked by 8.1 (ID lógico; resolver antes de Ready)
-- Blocked by 8.2 (ID lógico; resolver antes de Ready)
+- Blocked by #17
+- Blocked by #40
+- Blocked by #34
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1701,7 +1701,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### 8.5 — Release candidata e integração final
 
 <!-- hcg:8.5 -->
-Epic: Quality, Integration & Demo
+Epic: #10
 
 Responsável lógico: Lucas — Árbitro
 Tipo: Story | Prioridade: P0 | Wave: 3 | Estimativa: 1h
@@ -1720,8 +1720,8 @@ Abrir/revisar PR de release e integrar somente se elegível
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by 8.3 (ID lógico; resolver antes de Ready)
-- Blocked by 8.4 (ID lógico; resolver antes de Ready)
+- Blocked by #41
+- Blocked by #42
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1754,7 +1754,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.1 — Grid Routes avançado
 
 <!-- hcg:F.1 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -1773,7 +1773,7 @@ Pesquisar viabilidade e requisitos de grid routes avançado após o hackathon.
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1802,7 +1802,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.2 — Care Passport completo
 
 <!-- hcg:F.2 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -1821,7 +1821,7 @@ Pesquisar viabilidade e requisitos de care passport completo após o hackathon.
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1850,7 +1850,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.3 — Integração de pagamentos reais
 
 <!-- hcg:F.3 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -1869,7 +1869,7 @@ Pesquisar viabilidade e requisitos de integração de pagamentos reais após o h
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1898,7 +1898,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.4 — Verificação automatizada de registros profissionais
 
 <!-- hcg:F.4 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -1917,7 +1917,7 @@ Pesquisar viabilidade e requisitos de verificação automatizada de registros pr
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1946,7 +1946,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.5 — Integração WhatsApp
 
 <!-- hcg:F.5 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Matheus — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -1965,7 +1965,7 @@ Pesquisar viabilidade e requisitos de integração whatsapp após o hackathon.
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1994,7 +1994,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.6 — Notificações reais
 
 <!-- hcg:F.6 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Gabriel — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -2013,7 +2013,7 @@ Pesquisar viabilidade e requisitos de notificações reais após o hackathon.
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -2042,7 +2042,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.7 — Recorrência avançada
 
 <!-- hcg:F.7 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Julio — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -2061,7 +2061,7 @@ Pesquisar viabilidade e requisitos de recorrência avançada após o hackathon.
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -2090,7 +2090,7 @@ Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revi
 ### F.8 — Integração geográfica real
 
 <!-- hcg:F.8 -->
-Epic: Post-MVP
+Epic: #11
 
 Responsável lógico: Lucas — Operacional
 Tipo: Story | Prioridade: P2 | Wave: 4 | Estimativa: a estimar após MVP
@@ -2109,7 +2109,7 @@ Pesquisar viabilidade e requisitos de integração geográfica real após o hack
 Implementação durante as 36 horas; não comprometer MVP.
 
 ## Dependências
-- Blocked by 8.5 (ID lógico; resolver antes de Ready)
+- Blocked by #43
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 

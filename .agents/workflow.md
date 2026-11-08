@@ -1,6 +1,6 @@
 # Fluxo
 
-main estável; develop integração. Bootstrap chore/bootstrap-foundation -> develop no commit inicial. Tarefas feature/<issue>-slug, fix/<issue>-slug, chore/<issue>-slug. Release develop -> main revisada pelo árbitro.
+main estável; develop integração. Bootstrap chore/2-bootstrap-foundation -> develop no commit inicial. Tarefas feature/<issue>-slug, fix/<issue>-slug, chore/<issue>-slug. Release develop -> main revisada pelo árbitro.
 
 Issue pronta -> dependências integradas -> reserva de workspace/branch/arquivos -> implementação/testes -> PR develop -> revisão independente -> correções -> merge pelo árbitro -> validação -> fechamento da Issue.
 
