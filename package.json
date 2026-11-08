@@ -12,14 +12,15 @@
     "ios": "expo start --go --ios",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "test": "node --test tests/domain.test.mjs tests/demo-engine.test.mjs tests/tooling.test.mjs",
+    "test": "node --test tests/domain.test.mjs tests/demo-engine.test.mjs tests/tooling.test.mjs tests/concierge-server.test.mjs",
     "test:ui": "jest --runInBand",
     "doctor": "expo-doctor",
     "bundle": "expo export --platform android --platform ios --output-dir dist",
     "check:secrets": "node scripts/check-secrets.mjs",
     "backlog:render": "node scripts/render-backlog.mjs",
     "backlog:plan": "node scripts/github-sync.mjs",
-    "check:foundation": "node scripts/check-foundation.mjs"
+    "check:foundation": "node scripts/check-foundation.mjs",
+    "concierge:dev": "node server/start.mjs"
   },
   "dependencies": {
     "@expo/vector-icons": "15.0.2",

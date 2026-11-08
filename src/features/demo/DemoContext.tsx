@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useRef, useState, type ReactNode } from 'react';
 import type { Booking, BookingStatus, CareRequest, ConciergeFilters, FamilyMembership, ID, Result, TimeWindow, UnservedDemand, User } from '../../domain/types/index.ts';
 import { DemoEngine } from '../../services/demo/engine.ts';
 import { interpretDemoConcierge } from '../../services/demo/concierge.ts';
+import { interpretRemoteConcierge, remoteConciergeConfigured } from '../../services/ai/concierge.ts';
 
 export interface SearchFilters { serviceId: ID; regionCode: string; window: TimeWindow; accessibilityTags: string[]; maxPriceCents: number | null }
 interface DemoContextValue {
@@ -10,6 +11,7 @@ interface DemoContextValue {
   intent: string; setIntent: (value: string) => void; conciergeNotice: string;
   serviceChoiceRequired: boolean; chooseService: (serviceId: ID) => void;
   applyIntent: (text: string) => Result<ConciergeFilters>;
+  suggestIntent: (text: string) => Promise<Result<ConciergeFilters>>;
   request: (input: CareRequest, professionalId: ID, key: string) => Result<Booking>;
   transition: (bookingId: ID, to: BookingStatus, version: number) => Result<Booking>;
   setPermission: (userId: ID, permission: 'canBook' | 'canViewSchedule' | 'revoke', enabled?: boolean) => Result<FamilyMembership>;
@@ -22,7 +24,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [instance] = useState(() => new DemoEngine());
   const [activeUserId, setActiveUserId] = useState<ID | null>('demo-contractor');
   const [search, setSearch] = useState<SearchFilters>({ serviceId: instance.fixture.services[0]?.id ?? '', regionCode: 'DEMO-CENTRO', window: instance.fixture.suggestedWindow, accessibilityTags: [], maxPriceCents: null });
-  const [intent, setIntent] = useState('');
+  const [intent, setIntentState] = useState('');
+  const intentRequest = useRef(0);
+  const setIntent = (value: string) => { intentRequest.current += 1; setIntentState(value); };
   const [conciergeNotice, setConciergeNotice] = useState('');
   const [serviceChoiceRequired, setServiceChoiceRequired] = useState(false);
   const [revision, setRevision] = useState(0);
@@ -33,20 +37,35 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     setServiceChoiceRequired(false);
     setConciergeNotice('Serviço definido. Confira região e horário antes de escolher.');
   };
-  const applyIntent = (text: string): Result<ConciergeFilters> => {
-    setIntent(text);
-    const result = interpretDemoConcierge(text, instance.fixture);
-    if (!result.ok) { setConciergeNotice(result.error.message); return result; }
-    const filters = result.data;
+  const commitFilters = (filters: ConciergeFilters, source: 'local' | 'grok' | 'fallback') => {
     setSearch(current => ({ ...current, serviceId: filters.serviceId ?? current.serviceId,
       regionCode: filters.regionCode ?? current.regionCode, window: filters.window ?? current.window,
       accessibilityTags: filters.accessibilityTags }));
     setServiceChoiceRequired(filters.serviceId === null);
-    setConciergeNotice(filters.serviceId === null
+    setConciergeNotice(source === 'fallback' ? 'Conexão indisponível. Aplicamos filtros básicos; revise antes de continuar.' : filters.serviceId === null
       ? 'Ainda precisamos definir o tipo de serviço. Escolha uma opção abaixo; não fazemos interpretação clínica.'
       : filters.clarificationNeeded ? 'Sugestão aplicada. Confira região e horário antes de continuar.'
-        : 'Filtros administrativos sugeridos. Confirme os detalhes antes de solicitar.');
+        : source === 'grok' ? 'O Grok sugeriu os filtros. Revise os detalhes antes de solicitar.'
+          : 'Filtros sugeridos. Confirme os detalhes antes de solicitar.');
+  };
+  const applyIntent = (text: string): Result<ConciergeFilters> => {
+    setIntent(text);
+    const result = interpretDemoConcierge(text, instance.fixture);
+    if (!result.ok) { setConciergeNotice(result.error.message); return result; }
+    commitFilters(result.data, 'local');
     return result;
+  };
+  const suggestIntent = async (text: string): Promise<Result<ConciergeFilters>> => {
+    const sequence = ++intentRequest.current;
+    setIntentState(text);
+    if (!remoteConciergeConfigured) return applyIntent(text);
+    const remote = await interpretRemoteConcierge(text, instance.fixture);
+    if (sequence !== intentRequest.current) return { ok: false, error: { code: 'conflict', message: 'A busca foi alterada. Tente novamente.' } };
+    if (remote.ok) { commitFilters(remote.data, 'grok'); return remote; }
+    const local = interpretDemoConcierge(text, instance.fixture);
+    if (!local.ok) { setConciergeNotice(local.error.message); return local; }
+    commitFilters(local.data, 'fallback');
+    return local;
   };
   const request = (input: CareRequest, professionalId: ID, key: string): Result<Booking> => {
     const result = instance.request(activeUserId ?? '', input, professionalId, key);
@@ -70,7 +89,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   };
   const revokeConsent = () => { instance.revokeDemandConsent(activeUserId ?? ''); bump(); };
   return <Context.Provider value={{ engine: instance, user, activeUserId, setActiveUserId, search, setSearch, revision,
-    intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, applyIntent,
+    intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, applyIntent, suggestIntent,
     request, transition, setPermission, recordDemand, revokeConsent }}>{children}</Context.Provider>;
 }
 

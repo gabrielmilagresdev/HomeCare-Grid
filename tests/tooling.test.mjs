@@ -16,6 +16,7 @@ test('Issue tem escopo, aceite, contratos, testes e tarefas identificáveis',()=
 test('scanner reconhece formatos de segredo sem imprimir valores',()=>{
   assert.equal(suspicious('gh'+'p_'+'x'.repeat(36)),true);
   assert.equal(suspicious('sk'+'-proj-'+'a'.repeat(24)),true);
+  assert.equal(suspicious('xai'+'-'+'a'.repeat(36)),true);
   assert.equal(suspicious('EXPO_PUBLIC_DATA_MODE=demo'),false);
 });
 test('config mantém workspace restrito e rejeita Full Access/chaves extras',()=>{

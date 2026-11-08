@@ -1,14 +1,14 @@
 # Roteiro de demonstração — HomeCare Grid
 
-**Ambiente:** Expo Go SDK 58, dados inteiramente fictícios, sem credenciais. O estado existe apenas durante a sessão do app. A tela inicial e o rodapé identificam a simulação.
+**Ambiente:** Expo Go SDK 58, dados sintéticos e estado mantido apenas durante a sessão do app. O perfil de acesso e a revisão informam os limites de login, envio e cobrança.
 
 ## Jornada principal (3–4 minutos)
 
 1. Inicie com `npm ci` e `npm start`, abra o QR em um Expo Go compatível. Na tela inicial, escolha **Preciso de cuidado**.
-2. No Concierge, digite “Preciso de apoio no Centro amanhã de manhã” ou selecione **Fisioterapia**. Na busca, edite a intenção se necessário; use **Data**, **Preço** e **Mais filtros**. O adaptador offline sugere somente filtros administrativos. **Pós-operatório** sozinho pede a escolha explícita de um serviço.
-3. Compare os perfis e horários reais da fixture. Em fisioterapia no Centro, **Nina Ribeiro** e **Caio Martins** aparecem com preços diferentes. Abra um perfil, selecione o horário e avance para a revisão. Confira pessoa atendida, endereço fictício completo e total demonstrativo; alterar a região pode invalidar o profissional escolhido. Toque em **Simular solicitação** para criar um pedido pendente, sem cobrança.
-4. Na agenda da pessoa, observe **Aguardando aceite**. Toque no logotipo para voltar ao início e escolha **Sou profissional**. Selecione **Marina Azevedo** na lista de perfis e aceite a solicitação.
-5. Volte pelo logotipo e escolha **Cuido junto com a família**. Rafa vê a agenda confirmada, mas não pode solicitar outro atendimento. A seção **FamilyPay · SIMULAÇÃO** divide o valor em centavos, sem cobrança.
+2. No Concierge, digite “Fisioterapia amanhã no Centro” ou selecione **Fisioterapia**. Na busca, edite a intenção se necessário; use **Data**, **Preço** e **Mais filtros**. Com o serviço xAI local ativo, o Grok sugere filtros administrativos; sem ele, o app usa o fallback local. **Pós-operatório** sozinho pede escolha explícita de serviço.
+3. Compare os perfis sintéticos e horários disponíveis. Em fisioterapia no Centro, **Nina Ribeiro** e **Caio Martins** aparecem com preços diferentes e retratos gerados. Abra um perfil, selecione o horário e avance para a revisão. Confira pessoa atendida, região e total previsto; alterar a região pode invalidar a escolha. Toque em **Salvar solicitação** para criar um registro local, sem envio ou cobrança.
+4. Na agenda da pessoa, observe **Aguardando aceite**. Volte ao início e escolha **Sou profissional**. Selecione o mesmo profissional escolhido na etapa 3 e aceite a solicitação.
+5. Volte ao início e escolha **Cuido junto com a família**. Rafa vê a agenda confirmada, mas não pode solicitar outro atendimento. A seção **Divisão de custos** mostra os valores em centavos, sem cobrança.
 6. Volte ao início e escolha **Preciso de cuidado**; abra **Ver agenda da família** a partir da agenda da pessoa. Como responsável, altere a permissão de solicitar para Rafa e, se desejar, revogue o vínculo. Ao voltar como Rafa, a agenda é negada após a revogação.
 7. Na agenda da pessoa, expanda **Ver histórico** para conferir o envio e o aceite no acompanhamento administrativo.
 
@@ -28,4 +28,4 @@ Registrar aparelho, SO, versão do Expo Go, SDK, SHA e data. Conferir navegaçã
 
 ## Limites reais
 
-O modo local não tem login, persistência após reiniciar ou concorrência de rede. As migrations SQL ainda não foram aplicadas em Supabase nem testadas com duas conexões PostgreSQL. O Concierge não usa IA remota; seu fallback offline nunca fornece diagnóstico. FamilyPay não processa pagamentos. Nenhuma história pós-MVP é apresentada como pronta.
+O modo local não tem login, persistência após reiniciar ou concorrência de rede. As migrations SQL ainda não foram aplicadas em Supabase nem testadas com duas conexões PostgreSQL. O Concierge usa xAI somente quando o serviço local está configurado; termos fora da allowlist não são enviados e o fallback offline nunca fornece diagnóstico. Não há processamento de pagamentos. Nenhuma história pós-MVP é apresentada como pronta.
