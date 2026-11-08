@@ -27,6 +27,7 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: node --test tests/pr-policy.test.mjs
+      - run: node --test tests/dual-agent.test.mjs
       - run: npm run test:ui
       - run: npm run check:foundation
       - run: npm run check:secrets

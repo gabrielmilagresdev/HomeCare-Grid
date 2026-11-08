@@ -181,3 +181,18 @@ test('promoção admite somente a correção de governança revisável #54 após
   });
   assert.deepEqual(result.errors, []);
 });
+
+test('promoção admite apenas adaptação dual aceita, sem dependência da infra de cinco agentes',async()=>{
+  const p=promotion();p.head.sha='c'.repeat(40);
+  const comparison={status:'ahead',merge_base_commit:{sha:FOUNDATION_BASELINE},files:[{filename:'.agents/mode.json',status:'added'},{filename:'scripts/dual-agent.mjs',status:'added'}]};
+  const entries=[promotionIssue(),completed(2),completed(17),issue(59)];
+  has(await evaluate(p,entries,{foundationComparison:comparison}),/Dependência #59/);
+  entries[3]=completed(59);const result=await evaluate(p,entries,{foundationComparison:comparison});assert.deepEqual(result.errors,[]);assert.equal(result.dependencies.includes(56),false);assert.equal(result.dependencies.includes(58),false);
+  comparison.files.push({filename:'app/mvp-screen.tsx',status:'added'});has(await evaluate(p,entries,{foundationComparison:comparison}),/fora do escopo/);
+});
+test('comparação truncada ou arquivo dual removido não autoriza promoção',async()=>{
+  const p=promotion();p.head.sha='c'.repeat(40);
+  const entries=[promotionIssue(),completed(2),completed(17),completed(59)];
+  for(const files of [[{filename:'.agents/mode.json',status:'removed'}],Array.from({length:300},()=>({filename:'scripts/check-pr.mjs',status:'added'}))])
+    has(await evaluate(p,entries,{foundationComparison:{status:'ahead',merge_base_commit:{sha:FOUNDATION_BASELINE},files}}),/fora do escopo/);
+});

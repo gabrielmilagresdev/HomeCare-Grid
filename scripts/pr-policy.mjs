@@ -7,6 +7,24 @@ export const FOUNDATION_PROMOTION = Object.freeze({
 });
 export const FOUNDATION_BASELINE = '6dbaa779d39635bd6525d255f72620bc01cff412';
 
+export const DUAL_AGENT_FOUNDATION_FILES = Object.freeze([
+  ".agents/mode.json",
+  "scripts/dual-agent-policy.mjs",
+  "scripts/dual-agent.mjs",
+  "AGENTS.md",
+  ".agents/workflow.md",
+  ".agents/ownership.md",
+  ".agents/operational.md",
+  ".agents/arbiter.md",
+  ".agents/security.md",
+  ".agents/dual-agent.md",
+  ".github/CODEOWNERS",
+  "scripts/github-sync.mjs",
+  "tests/dual-agent.test.mjs",
+  "docs/operations/DUAL-AGENTS.md",
+  "docs/audit/dual-agent-mode.md"
+]);
+
 function prose(body = '') {
   return body.replace(/<!--[\s\S]*?-->/g, '').replace(/^```[\s\S]*?^```[^\n]*/gm, '').replace(/^>.*$/gm, '');
 }
@@ -65,12 +83,12 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
       }
       if (pr.head.sha !== FOUNDATION_BASELINE) {
         const allowed = new Set(['scripts/check-pr.mjs', 'scripts/pr-policy.mjs', 'tests/pr-policy.test.mjs',
-          '.github/workflows/ci.yml', 'docs/audit/pr-52-policy.md']);
+          '.github/workflows/ci.yml', 'docs/audit/pr-52-policy.md', ...DUAL_AGENT_FOUNDATION_FILES]);
         if (!foundationComparison || !['ahead', 'identical'].includes(foundationComparison.status) ||
             foundationComparison.merge_base_commit?.sha !== FOUNDATION_BASELINE ||
-            !Array.isArray(foundationComparison.files) ||
+            !Array.isArray(foundationComparison.files) || foundationComparison.files.length >= 300 ||
             foundationComparison.files.some(file => !allowed.has(file.filename) || file.status === 'removed')) {
-          errors.push('Promoção inicial fora do escopo: head deve ser a fundação auditada ou conter apenas os cinco arquivos da correção de governança #54. Funcionalidades MVP exigem a release #43.');
+          errors.push('Promoção inicial fora do escopo: head deve ser a fundação auditada ou conter a lista da correção de governança #54 ou a lista exata de DUAL_AGENT_MODE #59, com aceite verificado. Funcionalidades MVP exigem a release #43.');
         }
       }
       if (!labels(issue).includes('type:foundation-promotion')) errors.push('Issue #53 não está identificada como promoção inicial da fundação.');
@@ -101,7 +119,10 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
   }
   // Pisos explícitos impedem retirar pré-requisitos críticos editando o texto da Issue.
   if (kind === 'bootstrap') dependencies.add(17);
-  if (kind === 'foundation-promotion') [2, 17].forEach(n => dependencies.add(n));
+  if (kind === 'foundation-promotion') {
+    [2, 17].forEach(n => dependencies.add(n));
+    if (foundationComparison?.files?.some(file => DUAL_AGENT_FOUNDATION_FILES.includes(file.filename))) dependencies.add(59);
+  }
   if (kind === 'release') [41, 42].forEach(n => dependencies.add(n));
   if (dependencies.size > 100) throw new Error('Mais de 100 dependências: revisar a modelagem antes de validar.');
   for (const depNumber of dependencies) {
