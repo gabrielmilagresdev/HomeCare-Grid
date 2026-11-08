@@ -1,22 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../components/ui/Button';
-import { Avatar, Badge, Card, Chip, Divider, Eyebrow, Field, Screen, SectionTitle, StateMessage } from '../../components/ui/Primitives';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { BottomNavigation } from '../../components/ui/BottomNavigation';
+import { Avatar, Badge, Chip, Field, Screen, StateMessage } from '../../components/ui/Primitives';
 import { evaluateProfessional, rankProfessionals } from '../../domain/rules/matching.ts';
 import { parseHourlyPriceLimit } from '../../domain/schemas/index.ts';
-import type { CareRequest } from '../../domain/types/index.ts';
-import { interpretDemoConcierge } from '../../services/demo/concierge.ts';
+import type { CareRequest, TimeWindow } from '../../domain/types/index.ts';
 import { theme } from '../../theme/tokens';
 import { useDemo } from '../demo/DemoContext';
+import { portraitFor } from '../demo/portraits';
 import { money, regionLabel, regions, windowLabel } from '../demo/format';
 
+type FilterPanel = 'date' | 'price' | 'more' | null;
+
 export function MarketplaceScreen() {
-  const { engine, user, activeUserId, search, setSearch } = useDemo();
-  const [prompt, setPrompt] = useState('');
+  const { engine, activeUserId, search, setSearch, intent, setIntent, conciergeNotice, serviceChoiceRequired, chooseService, suggestIntent } = useDemo();
+  const largeText = useWindowDimensions().fontScale >= 1.4;
+  const [panel, setPanel] = useState<FilterPanel>(null);
+  const [editingIntent, setEditingIntent] = useState(false);
+  const [applyingIntent, setApplyingIntent] = useState(false);
+  const [intentError, setIntentError] = useState('');
   const [query, setQuery] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [sort, setSort] = useState<'low' | 'high'>('low');
   const [budget, setBudget] = useState(() => search.maxPriceCents === null ? '' : String(search.maxPriceCents / 100).replace('.', ','));
   const [budgetError, setBudgetError] = useState('');
   const lastLocalBudget = useRef(search.maxPriceCents);
@@ -26,71 +32,87 @@ export function MarketplaceScreen() {
     setBudget(search.maxPriceCents === null ? '' : String(search.maxPriceCents / 100).replace('.', ','));
     setBudgetError('');
   }, [search.maxPriceCents]);
+
   const { fixture } = engine;
-  const service = fixture.services.find(item => item.id === search.serviceId) ?? fixture.services[0];
-  if (!service) return <Screen title="Encontre cuidado"><StateMessage title="Catálogo indisponível" message="Tente abrir a demonstração novamente." /></Screen>;
-  const request: CareRequest = { id: 'demo-preview', recipientId: fixture.recipient.id, requesterUserId: activeUserId ?? '', serviceId: service.id,
-    regionCode: search.regionCode, startsAt: search.window.startsAt, endsAt: search.window.endsAt,
-    requiredAccessibilityTags: search.accessibilityTags, maxPriceCents: search.maxPriceCents };
-  const ranked = budgetError ? [] : rankProfessionals(request, service, fixture.professionals);
-  const excluded = budgetError || ranked.length ? [] : fixture.professionals.map(professional => ({ professional, evaluation: evaluateProfessional(request, service, professional) }));
-  const visible = ranked.filter(item => fixture.professionals.find(p => p.id === item.professionalId)?.displayName.toLocaleLowerCase('pt-BR').includes(query.toLocaleLowerCase('pt-BR')));
-  const update = (patch: Partial<typeof search>) => { setSearch({ ...search, ...patch }); setFeedback(''); };
-  const applyConcierge = () => {
-    const result = interpretDemoConcierge(prompt, fixture);
-    if (!result.ok) { setFeedback(result.error.message); return; }
-    const filters = result.data;
-    if (filters.clarificationNeeded || !filters.serviceId || !filters.regionCode || !filters.window) {
-      setFeedback('Preciso de serviço, região e período. Confirme os filtros abaixo para continuar.');
-      return;
-    }
-    setSearch({ ...search, serviceId: filters.serviceId, regionCode: filters.regionCode, window: filters.window, accessibilityTags: filters.accessibilityTags });
-    setFeedback('Filtros sugeridos aplicados. Confira antes de escolher um profissional.');
-  };
-  const setBudgetFromText = (text: string) => {
-    setBudget(text);
-    const parsed = parseHourlyPriceLimit(text);
-    if (!parsed.ok) { setBudgetError(parsed.error.message); return; }
+  const service = fixture.services.find(item => item.id === search.serviceId);
+  if (!service) return <Screen title="Encontre cuidado"><StateMessage title="Catálogo indisponível" message="Volte ao início e tente novamente." /></Screen>;
+  const requestFor = (window: TimeWindow): CareRequest => ({ id: 'demo-preview', recipientId: fixture.recipient.id,
+    requesterUserId: activeUserId ?? '', serviceId: service.id, regionCode: search.regionCode,
+    startsAt: window.startsAt, endsAt: window.endsAt, requiredAccessibilityTags: search.accessibilityTags,
+    maxPriceCents: search.maxPriceCents });
+  const ranked = serviceChoiceRequired || budgetError ? [] : rankProfessionals(requestFor(search.window), service, fixture.professionals);
+  const filtered = ranked.filter(item => fixture.professionals.find(pro => pro.id === item.professionalId)?.displayName.toLocaleLowerCase('pt-BR').includes(query.toLocaleLowerCase('pt-BR')));
+  const visible = sort === 'high' ? [...filtered].reverse() : filtered;
+  const update = (patch: Partial<typeof search>) => setSearch({ ...search, ...patch });
+  const setBudgetFromText = (value: string) => {
+    setBudget(value);
+    const result = parseHourlyPriceLimit(value);
+    if (!result.ok) { setBudgetError(result.error.message); return; }
     setBudgetError('');
-    lastLocalBudget.current = parsed.data;
-    update({ maxPriceCents: parsed.data });
+    lastLocalBudget.current = result.data;
+    update({ maxPriceCents: result.data });
   };
-  return <Screen title={`Olá, ${user?.displayName ?? 'visitante'}.`} subtitle="Vamos encontrar o cuidado que se encaixa na sua rotina." right={<Pressable accessibilityRole="button" accessibilityLabel="Minha agenda" onPress={() => router.push('/(patient)/bookings')} style={styles.topAction}><Ionicons name="calendar-outline" size={20} color={theme.colors.primary} /></Pressable>}>
-    <View style={styles.hero}><View style={styles.heroText}><Eyebrow>ENCONTRE O CUIDADO CERTO</Eyebrow><Text style={styles.heroTitle}>Cuidar começa com uma boa conexão.</Text><Text style={styles.heroBody}>Serviços, disponibilidade e valores claros. Você escolhe com autonomia.</Text></View><View style={styles.heroArt}><Ionicons name="heart" size={38} color={theme.colors.primary} /></View></View>
-    <Card><View style={styles.cardHeading}><View style={styles.iconBox}><Ionicons name="sparkles-outline" size={22} color={theme.colors.primary} /></View><View style={{ flex: 1 }}><Text style={styles.cardTitle}>Conte o que procura</Text><Text style={styles.smallText}>Assistente de filtros em modo offline</Text></View></View>
-      <Field label="Sua necessidade administrativa" value={prompt} onChangeText={setPrompt} placeholder="Ex.: apoio no Centro amanhã de manhã" multiline />
-      <Button label="Sugerir filtros" onPress={applyConcierge} variant="secondary" />
-      {!!feedback && <Text accessibilityRole="alert" style={styles.feedback}>{feedback}</Text>}
-      <Text style={styles.disclaimer}>Sugestões exigem sua confirmação. Sem orientação clínica ou diagnóstico.</Text>
-    </Card>
-    <View style={styles.filters}><SectionTitle title="Ajuste sua busca" caption="Serviço, região e horário são essenciais para encontrar profissionais disponíveis." />
-      <View style={styles.filterGroup}><Text style={styles.filterLabel}>TIPO DE SERVIÇO</Text><View style={styles.chips}>{fixture.services.map(item => <Chip key={item.id} label={item.name} selected={item.id === search.serviceId} onPress={() => update({ serviceId: item.id })} />)}</View></View>
-      <View style={styles.filterGroup}><Text style={styles.filterLabel}>REGIÃO FICTÍCIA</Text><View style={styles.chips}>{regions.map(item => <Chip key={item.code} label={item.label} selected={item.code === search.regionCode} onPress={() => update({ regionCode: item.code })} />)}</View></View>
-      <View style={styles.filterGroup}><Text style={styles.filterLabel}>HORÁRIO</Text><View style={styles.chips}><Chip label={`Manhã · ${windowLabel(fixture.suggestedWindow).split('·')[1]?.trim() ?? ''}`} selected={search.window.startsAt === fixture.suggestedWindow.startsAt} onPress={() => update({ window: fixture.suggestedWindow })} icon="sunny-outline" /><Chip label={`Tarde · ${windowLabel(fixture.alternateWindow).split('·')[1]?.trim() ?? ''}`} selected={search.window.startsAt === fixture.alternateWindow.startsAt} onPress={() => update({ window: fixture.alternateWindow })} icon="partly-sunny-outline" /></View></View>
-      <View style={styles.filterGroup}><Text style={styles.filterLabel}>ACESSIBILIDADE</Text><View style={styles.chips}><Chip label="Apoio à mobilidade" selected={search.accessibilityTags.includes('mobilidade')} onPress={() => update({ accessibilityTags: search.accessibilityTags.includes('mobilidade') ? [] : ['mobilidade'] })} /></View></View>
-      <Field label="Valor máximo por hora (R$, opcional)" value={budget} onChangeText={setBudgetFromText} placeholder="Ex.: 100" />
-      {!!budgetError && <Text accessibilityRole="alert" style={styles.budgetError}>{budgetError}</Text>}
-      <Field label="Buscar por nome (opcional)" value={query} onChangeText={setQuery} placeholder="Nome do profissional" />
+  const openSlot = (professionalId: string, window: TimeWindow) => {
+    update({ window });
+    router.push(`/(patient)/profile/${professionalId}`);
+  };
+
+  return <Screen header={false} footer={false} compact bottom={<BottomNavigation active="home" />}>
+    <View style={styles.header}><Pressable accessibilityRole="button" accessibilityLabel="Voltar ao início" onPress={() => router.back()} style={styles.back}><Ionicons name="arrow-back" size={21} color={theme.colors.ink} /></Pressable>
+      <View style={styles.headerText}><Text accessibilityRole="header" style={styles.title}>{serviceChoiceRequired ? 'Escolha o serviço' : service.name}</Text><Text style={styles.subtitle}>{serviceChoiceRequired ? 'Defina o tipo de cuidado' : `Em casa · ${regionLabel(search.regionCode)}`}</Text></View></View>
+
+    {editingIntent ? <View style={styles.intentEditor}><TextInput accessibilityLabel="Editar sua busca" value={intent} onChangeText={setIntent} maxLength={500} multiline autoFocus
+        placeholder="Descreva o cuidado que procura" placeholderTextColor={theme.colors.textMuted} style={styles.intentInput} />
+      <Pressable accessibilityRole="button" accessibilityLabel="Aplicar busca" accessibilityState={{ disabled: !intent.trim() || applyingIntent, busy: applyingIntent }} disabled={!intent.trim() || applyingIntent}
+        onPress={async () => { setApplyingIntent(true); setIntentError(''); try { const result = await suggestIntent(intent); if (result.ok) setEditingIntent(false); else setIntentError(result.error.message); } finally { setApplyingIntent(false); } }} style={[styles.apply, (!intent.trim() || applyingIntent) && styles.applyDisabled]}><Text style={styles.applyText}>Aplicar busca</Text>{applyingIntent ? <ActivityIndicator color={theme.colors.ink} /> : <Ionicons name="arrow-forward" size={17} color={theme.colors.ink} />}</Pressable>
+      {!!intentError && <Text accessibilityRole="alert" style={styles.error}>{intentError}</Text>}
+    </View> : <Pressable accessibilityRole="button" accessibilityLabel="Editar sua busca" onPress={() => setEditingIntent(true)} style={styles.intentCompact}><Text numberOfLines={2} style={[styles.intentSummary, !intent && styles.intentPlaceholder]}>{intent || 'Descreva o cuidado que procura'}</Text><Ionicons name="create-outline" size={20} color={theme.colors.ink} /></Pressable>}
+    {!!conciergeNotice && <View style={styles.notice}><Ionicons name="information-circle-outline" size={18} color={theme.colors.ink} /><Text accessibilityRole="alert" style={styles.noticeText}>{conciergeNotice}</Text></View>}
+    <Pressable accessibilityRole="button" accessibilityLabel="Como escolher um profissional" onPress={() => router.push('/education/profissionais')} style={styles.educationLink}><Ionicons name="information-circle-outline" size={17} color={theme.colors.ink} /><Text style={styles.educationText}>Como escolher um profissional</Text><Ionicons name="arrow-forward" size={16} color={theme.colors.ink} /></Pressable>
+
+    <View style={styles.filterBar}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Data" accessibilityState={{ expanded: panel === 'date' }} onPress={() => setPanel(panel === 'date' ? null : 'date')} style={[styles.filterButton, panel === 'date' && styles.filterActive]}><Ionicons name="calendar-outline" size={16} color={theme.colors.ink} /><Text style={styles.filterText}>Data</Text></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="Preço" accessibilityState={{ expanded: panel === 'price' }} onPress={() => setPanel(panel === 'price' ? null : 'price')} style={[styles.filterButton, panel === 'price' && styles.filterActive]}><Text style={styles.filterText}>Preço</Text><Ionicons name="chevron-down" size={15} color={theme.colors.ink} /></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="Mais filtros" accessibilityState={{ expanded: panel === 'more' }} onPress={() => setPanel(panel === 'more' ? null : 'more')} style={[styles.filterButton, panel === 'more' && styles.filterActive]}><Ionicons name="options-outline" size={16} color={theme.colors.ink} /><Text style={styles.filterText}>Mais filtros</Text></Pressable>
     </View>
-    <View style={styles.resultsHeading}><View style={{ flex: 1 }}><SectionTitle title="Profissionais para você" caption={budgetError ? 'Corrija o valor máximo para ver resultados.' : `${ranked.length} ${ranked.length === 1 ? 'compatível' : 'compatíveis'} · ${regionLabel(search.regionCode)} · ${windowLabel(search.window)}`} /></View><Badge label="MATCH EXPLICÁVEL" /></View>
-    {budgetError ? <StateMessage icon="information-circle-outline" title="Confira o valor máximo" message="Use apenas números em reais. Você pode apagar o campo para remover esse filtro." /> : visible.length ? visible.map((match, index) => {
-      const professional = fixture.professionals.find(item => item.id === match.professionalId);
-      if (!professional) return null;
-      return <Card key={match.professionalId}><View style={styles.profileHead}><Avatar name={professional.displayName} tone={index % 2 ? 'blue' : 'peach'} /><View style={{ flex: 1, gap: 5 }}><Text style={styles.profileName}>{professional.displayName}</Text><Text style={styles.smallText}>{service.name} · {regionLabel(search.regionCode)}</Text></View><Ionicons name="checkmark-circle" size={22} color={theme.colors.primary} /></View>
-        <Divider /><View style={styles.profileMeta}><View style={styles.meta}><Ionicons name="time-outline" size={16} color={theme.colors.primary} /><Text style={styles.metaText}>Horário compatível</Text></View><View style={styles.meta}><Ionicons name="location-outline" size={16} color={theme.colors.primary} /><Text style={styles.metaText}>Sua região</Text></View></View>
-        <Text style={styles.explanation}>Compatível por serviço, região, horário{search.accessibilityTags.length ? ' e acessibilidade' : ''}. Ordenação por preço.</Text>
-        <View style={styles.priceRow}><View><Text style={styles.price}>{money(professional.hourlyPriceCents)} <Text style={styles.perHour}>/ hora</Text></Text><Text style={styles.smallText}>Valor demonstrativo</Text></View><Button label="Ver perfil" compact onPress={() => router.push(`/(patient)/profile/${professional.id}`)} /></View>
-      </Card>;
-    }) : <StateMessage icon="search-outline" title={ranked.length ? 'Nome não encontrado' : 'Ainda sem cobertura aqui'} message={ranked.length ? 'Tente outro nome ou limpe o campo de busca.' : 'Ajuste os filtros ou registre voluntariamente a demanda, sem compartilhar dados pessoais.'} action={ranked.length ? 'Limpar nome' : 'Ver opção de demanda'} onAction={() => ranked.length ? setQuery('') : router.push('/(patient)/demand')} />}
-    {excluded.length > 0 && <Card><SectionTitle title="Por que estes perfis não aparecem?" caption="Critérios administrativos desta busca" />{excluded.map(({ professional, evaluation }) => <View key={professional.id} style={styles.exclusion}><Text style={styles.exclusionName}>{professional.displayName}</Text><Text style={styles.smallText}>{evaluation.reasons.join(' · ')}</Text></View>)}</Card>}
-    <Text style={styles.disclaimer}>O matching considera apenas critérios administrativos. Ele não avalia qualidade clínica.</Text>
+    {panel && <View style={styles.filterPanel}>
+      {panel === 'date' && <><Text style={styles.filterTitle}>Quando você precisa?</Text><View style={styles.chips}>
+        <Chip label={`Manhã · ${windowLabel(fixture.suggestedWindow).split('·')[1]?.trim() ?? ''}`} selected={search.window.startsAt === fixture.suggestedWindow.startsAt} onPress={() => update({ window: fixture.suggestedWindow })} />
+        <Chip label={`Tarde · ${windowLabel(fixture.alternateWindow).split('·')[1]?.trim() ?? ''}`} selected={search.window.startsAt === fixture.alternateWindow.startsAt} onPress={() => update({ window: fixture.alternateWindow })} />
+      </View></>}
+      {panel === 'price' && <><Field label="Valor máximo por hora (R$, opcional)" value={budget} onChangeText={setBudgetFromText} placeholder="Ex.: 100" />{!!budgetError && <Text accessibilityRole="alert" style={styles.error}>{budgetError}</Text>}</>}
+      {panel === 'more' && <><Text style={styles.filterTitle}>Tipo de serviço</Text><View style={styles.chips}>{fixture.services.map(item => <Chip key={item.id} label={item.name} selected={!serviceChoiceRequired && item.id === search.serviceId} onPress={() => chooseService(item.id)} />)}</View>
+        <Text style={styles.filterTitle}>Região</Text><View style={styles.chips}>{regions.map(item => <Chip key={item.code} label={item.label} selected={item.code === search.regionCode} onPress={() => update({ regionCode: item.code })} />)}</View>
+        <Text style={styles.filterTitle}>Acessibilidade</Text><View style={styles.chips}><Chip label="Apoio à mobilidade" selected={search.accessibilityTags.includes('mobilidade')} onPress={() => update({ accessibilityTags: search.accessibilityTags.includes('mobilidade') ? [] : ['mobilidade'] })} /></View>
+        <Field label="Buscar por nome" value={query} onChangeText={setQuery} placeholder="Nome do profissional" />
+      </>}
+    </View>}
+
+    {serviceChoiceRequired ? <View style={styles.clarify}><Text accessibilityRole="header" style={styles.clarifyTitle}>Qual cuidado você procura?</Text><Text style={styles.body}>Escolha um serviço para consultar disponibilidade. O texto informado não define um cuidado clínico automaticamente.</Text><View style={styles.chips}>{fixture.services.map(item => <Chip key={item.id} label={item.name} onPress={() => chooseService(item.id)} />)}</View></View> : <>
+      <View style={styles.resultsHead}><View style={styles.resultsCopy}><Text accessibilityRole="header" style={styles.resultsTitle}>{budgetError ? 'Revise o preço' : `${visible.length} ${visible.length === 1 ? 'profissional encontrado' : 'profissionais encontrados'}`}</Text><Text style={styles.body}>{regionLabel(search.regionCode)} · {windowLabel(search.window)}</Text></View>
+        <Pressable accessibilityRole="button" accessibilityLabel={sort === 'low' ? 'Ordenar do maior para o menor preço' : 'Ordenar do menor para o maior preço'} onPress={() => setSort(sort === 'low' ? 'high' : 'low')} style={styles.sort}><Text style={styles.sortText}>Ordenar</Text><Ionicons name="chevron-down" size={16} color={theme.colors.ink} /></Pressable></View>
+      {budgetError ? <StateMessage title="Confira o valor máximo" message="Use apenas números em reais ou apague o campo para remover o limite." action="Ajustar preço" onAction={() => setPanel('price')} /> : visible.length ? visible.map((match, index) => {
+        const professional = fixture.professionals.find(item => item.id === match.professionalId);
+        if (!professional) return null;
+        const slots = [fixture.suggestedWindow, fixture.alternateWindow].filter(window => evaluateProfessional(requestFor(window), service, professional).eligible);
+        return <View key={professional.id} style={styles.profileCard}>
+          <View style={styles.profileTop}><Avatar name={professional.displayName} source={portraitFor(professional.id)} tone={index % 2 ? 'blue' : 'peach'} size={76} /><View style={styles.profileIdentity}><Text style={styles.profileName}>{professional.displayName}</Text><Text style={styles.profileService}>{service.name}</Text><Text style={styles.profileRegion}>{regionLabel(search.regionCode)} · Atendimento em casa</Text></View></View>
+          <View style={styles.badges}>
+            <Badge label="Ainda sem avaliações" tone="neutral" /></View>
+          <Text style={styles.slotLabel}>HORÁRIOS DISPONÍVEIS</Text><View style={styles.slots}>{slots.map(window => <Pressable key={window.startsAt} accessibilityRole="button" accessibilityLabel={`Escolher ${windowLabel(window)} com ${professional.displayName}`} onPress={() => openSlot(professional.id, window)} style={[styles.slot, window.startsAt === search.window.startsAt && styles.slotSelected]}><Text style={styles.slotText}>{windowLabel(window).split('·')[1]?.trim()}</Text></Pressable>)}</View>
+          <View style={[styles.cardFoot, largeText && styles.cardFootLarge]}><View><Text style={styles.price}>{money(professional.hourlyPriceCents)}<Text style={styles.perHour}> / hora</Text></Text><Text style={styles.demoNote}>Deslocamento incluído</Text></View><Pressable accessibilityRole="button" accessibilityLabel={`Ver perfil de ${professional.displayName}`} onPress={() => router.push(`/(patient)/profile/${professional.id}`)} style={[styles.profileAction, largeText && styles.profileActionLarge]}><Text style={styles.profileActionText}>Ver perfil</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.white} /></Pressable></View>
+        </View>;
+      }) : <StateMessage icon="search-outline" title={ranked.length ? 'Nome não encontrado' : 'Não encontramos horários com esses filtros.'} message={ranked.length ? 'Tente outro nome ou remova o filtro.' : 'Ajuste serviço, região, horário ou preço. Você também pode registrar seu interesse.'} action={ranked.length ? 'Limpar nome' : 'Ajustar busca'} onAction={() => ranked.length ? setQuery('') : setPanel('more')} />}
+      {!ranked.length && !budgetError && <Pressable accessibilityRole="button" onPress={() => router.push('/(patient)/demand')} style={styles.demand}><Text style={styles.demandText}>Registrar demanda voluntariamente</Text><Ionicons name="arrow-forward" size={17} color={theme.colors.ink} /></Pressable>}
+      <Text style={styles.disclaimer}>Resultados baseados em serviço, região e horário. Escolha o profissional que melhor atende você.</Text>
+    </>}
   </Screen>;
 }
 
 const styles = StyleSheet.create({
-  topAction: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.white, borderWidth: 1, borderColor: theme.colors.line },
-  hero: { borderRadius: 24, backgroundColor: theme.colors.mint, minHeight: 172, padding: 22, flexDirection: 'row', gap: 10, overflow: 'hidden' }, heroText: { flex: 1, gap: 9 }, heroTitle: { color: theme.colors.deep, fontSize: 24, lineHeight: 28, fontWeight: '800', letterSpacing: -0.8 }, heroBody: { color: theme.colors.muted, fontSize: 13, lineHeight: 19 }, heroArt: { width: 74, height: 74, borderRadius: 26, backgroundColor: theme.colors.white, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-13deg' }] },
-  cardHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 }, iconBox: { width: 44, height: 44, borderRadius: 13, backgroundColor: theme.colors.mint, alignItems: 'center', justifyContent: 'center' }, cardTitle: { color: theme.colors.ink, fontWeight: '800', fontSize: 16 }, smallText: { color: theme.colors.muted, fontSize: 12, lineHeight: 17 }, disclaimer: { color: theme.colors.muted, fontSize: 11, lineHeight: 17 }, feedback: { color: theme.colors.primary, fontSize: 12, lineHeight: 17, fontWeight: '700' },
-  filters: { gap: 18 }, filterGroup: { gap: 9 }, filterLabel: { color: theme.colors.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.1 }, chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, budgetError: { color: theme.colors.error, fontSize: 12, fontWeight: '700', lineHeight: 18 }, resultsHeading: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
-  profileHead: { flexDirection: 'row', alignItems: 'center', gap: 12 }, profileName: { color: theme.colors.ink, fontWeight: '800', fontSize: 17 }, profileMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 }, meta: { flexDirection: 'row', alignItems: 'center', gap: 5 }, metaText: { color: theme.colors.muted, fontSize: 12 }, explanation: { color: theme.colors.muted, fontSize: 12, lineHeight: 18 }, priceRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }, price: { color: theme.colors.deep, fontSize: 19, fontWeight: '800' }, perHour: { fontWeight: '500', fontSize: 12, color: theme.colors.muted }, exclusion: { gap: 3, paddingVertical: 5 }, exclusionName: { color: theme.colors.ink, fontSize: 13, fontWeight: '700' }
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12 }, back: { width: 44, height: 44, borderRadius: 11, backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.borderStrong, alignItems: 'center', justifyContent: 'center' }, headerText: { flex: 1, gap: 3 }, title: { color: theme.colors.ink, fontSize: 21, lineHeight: 27, fontWeight: '700', letterSpacing: -0.5 }, subtitle: { color: theme.colors.muted, fontSize: 13 },
+  intentCompact: { minHeight: 58, borderRadius: 12, borderWidth: 1, borderColor: theme.colors.borderStrong, backgroundColor: theme.colors.surface, paddingHorizontal: 15, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 9 }, intentSummary: { flex: 1, color: theme.colors.ink, fontSize: 15, lineHeight: 22 }, intentPlaceholder: { color: theme.colors.muted }, intentEditor: { borderRadius: 12, borderWidth: 1, borderColor: theme.colors.borderStrong, backgroundColor: theme.colors.surface, padding: 12, gap: 6 }, intentInput: { minHeight: 42, color: theme.colors.ink, fontSize: 15, lineHeight: 22, textAlignVertical: 'top' }, apply: { alignSelf: 'flex-end', minHeight: 44, paddingHorizontal: 12, borderRadius: 10, backgroundColor: theme.colors.accent, flexDirection: 'row', alignItems: 'center', gap: 7 }, applyDisabled: { opacity: 0.45 }, applyText: { color: theme.colors.ink, fontSize: 13, fontWeight: '700' },
+  notice: { flexDirection: 'row', gap: 8, padding: 9, borderRadius: 11, backgroundColor: theme.colors.surfaceMuted }, noticeText: { flex: 1, color: theme.colors.ink, fontSize: 12, lineHeight: 17 }, educationLink: { minHeight: 38, flexDirection: 'row', alignItems: 'center', gap: 6 }, educationText: { flex: 1, color: theme.colors.ink, fontSize: 12, fontWeight: '800', textDecorationLine: 'underline' }, filterBar: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 }, filterButton: { minHeight: 44, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 10, borderWidth: 1, borderColor: theme.colors.borderStrong, backgroundColor: theme.colors.surface }, filterActive: { backgroundColor: theme.colors.accent, borderColor: theme.colors.ink }, filterText: { color: theme.colors.ink, fontSize: 13, fontWeight: '700' }, filterPanel: { padding: 15, borderRadius: 14, borderWidth: 1, borderColor: theme.colors.line, backgroundColor: theme.colors.surface, gap: 13 }, filterTitle: { color: theme.colors.ink, fontSize: 14, fontWeight: '700' }, chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, error: { color: theme.colors.error, fontSize: 13 },
+  clarify: { borderRadius: 16, borderWidth: 1, borderColor: theme.colors.line, backgroundColor: theme.colors.surface, padding: 18, gap: 13 }, clarifyTitle: { color: theme.colors.ink, fontSize: 19, fontWeight: '700' }, body: { color: theme.colors.muted, fontSize: 13, lineHeight: 19 }, resultsHead: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 }, resultsCopy: { flex: 1, gap: 5 }, resultsTitle: { color: theme.colors.ink, fontSize: 19, lineHeight: 24, fontWeight: '700' }, sort: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 3 }, sortText: { color: theme.colors.ink, fontSize: 12, fontWeight: '700' },
+  profileCard: { borderRadius: 16, borderWidth: 1, borderColor: theme.colors.line, backgroundColor: theme.colors.surface, padding: 16, gap: 14 }, profileTop: { flexDirection: 'row', gap: 11, alignItems: 'center' }, profileIdentity: { flex: 1, gap: 2 }, profileName: { color: theme.colors.ink, fontSize: 17, fontWeight: '700' }, profileService: { color: theme.colors.muted, fontSize: 13 }, profileRegion: { color: theme.colors.muted, fontSize: 12 }, badges: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 }, slotLabel: { color: theme.colors.muted, fontSize: 10, fontWeight: '700', letterSpacing: 0.8 }, slots: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 }, slot: { minHeight: 44, paddingHorizontal: 13, borderRadius: 9, borderWidth: 1, borderColor: theme.colors.borderStrong, justifyContent: 'center' }, slotSelected: { backgroundColor: theme.colors.accent, borderColor: theme.colors.ink }, slotText: { color: theme.colors.ink, fontSize: 13, fontWeight: '700' }, cardFoot: { borderTopWidth: 1, borderColor: theme.colors.line, paddingTop: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }, cardFootLarge: { flexDirection: 'column', alignItems: 'stretch' }, price: { color: theme.colors.ink, fontSize: 19, fontWeight: '700' }, perHour: { color: theme.colors.muted, fontSize: 12, fontWeight: '400' }, demoNote: { color: theme.colors.muted, fontSize: 11, marginTop: 3 }, profileAction: { minHeight: 44, paddingHorizontal: 11, borderRadius: 10, backgroundColor: theme.colors.ink, flexDirection: 'row', alignItems: 'center', gap: 5 }, profileActionLarge: { alignSelf: 'stretch', justifyContent: 'center' }, profileActionText: { color: theme.colors.white, fontSize: 13, fontWeight: '700' }, demand: { minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14, borderRadius: 11, backgroundColor: theme.colors.accent }, demandText: { color: theme.colors.ink, fontSize: 13, fontWeight: '700' }, disclaimer: { color: theme.colors.muted, fontSize: 11, lineHeight: 17 }
 });

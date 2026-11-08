@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Tato — formas que se encontram</title>
+  <path d="M26 10C16 10 9 18 9 28v7c0 10 7 18 17 18h4" stroke="#29232C" stroke-width="7" stroke-linecap="round"/>
+  <path d="M38 54c10 0 17-8 17-18v-7c0-10-7-18-17-18h-4" stroke="#29232C" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="7" fill="#DCEA9C"/>
+</svg>

@@ -1,13 +1,15 @@
 {
   "expo": {
-    "name": "HomeCare Grid",
-    "slug": "homecare-grid",
+    "name": "Tato",
+    "slug": "tato",
     "version": "0.1.0",
-    "scheme": "homecaregrid",
+    "scheme": "tato",
     "orientation": "default",
     "userInterfaceStyle": "light",
-    "backgroundColor": "#F8FBF9",
+    "backgroundColor": "#F8F7F4",
     "platforms": ["android", "ios"],
-    "plugins": ["expo-router"]
+    "icon": "./assets/brand/tato-icon.png",
+    "android": { "adaptiveIcon": { "foregroundImage": "./assets/brand/tato-icon-foreground.png", "backgroundColor": "#29232C" } },
+    "plugins": ["expo-router", ["expo-audio", { "microphonePermission": "Permita que o Tato grave sua voz para conversar com a TatinhIA." }]]
   }
 }
