@@ -1,13 +1,13 @@
-# Fluxo
+# Fluxo do hackathon
 
-main estável; develop integração. Bootstrap chore/2-bootstrap-foundation -> develop no commit inicial. Tarefas feature/<issue>-slug, fix/<issue>-slug, chore/<issue>-slug. Release develop -> main revisada pelo árbitro.
+DUAL_AGENT_MODE: um Lucas Operacional e um Lucas Árbitro, em checkouts diferentes.
 
-Issue pronta -> dependências integradas -> reserva de workspace/branch/arquivos -> implementação/testes -> PR develop -> revisão independente -> correções -> merge pelo árbitro -> validação -> fechamento da Issue.
+Issue → código/testes → PR para develop. Árbitro → revisão/correções → quality e pr-policy atuais → merge. O operacional continua a próxima funcionalidade após integração. Status/labels são organização, não autorização administrativa.
 
-Labels substituem Projects: status:backlog/ready/in-progress/in-review/changes-requested/done/blocked. Ready exige dependências e segurança válidas; labels não são bloqueio técnico. Sem automação noturna ativa. Não executar concorrência no mesmo checkout. Runbook em docs/operations/runbook.md.
+Qualquer branch de tarefa é aceita, incluindo codex/hackathon-mvp; usar uma Issue principal na descrição (Refs #numero). Dependências técnicas podem ser implementadas juntas no mesmo PR. Declarar bloqueios técnicos reais na seção Bloqueios técnicos; não usar encerramento de Issues como substituto de testes/código.
 
-## Operação atual: DUAL_AGENT_MODE
+main recebe develop por PR. PR #52 é a promoção histórica; revisar seu escopo antes de integrar como entrega do app. A release do MVP continua rastreável no backlog.
 
-Lucas Operacional executa todas as Stories MVP, uma de cada vez, em branch própria baseada em develop. Lucas Árbitro trabalha em outro checkout, revisa o SHA atual e integra somente após os gates. A próxima implementação aguarda integração validada da anterior. A fila diagnóstica e a precedência real estão em scripts/dual-agent.mjs e .agents/mode.json.
+Não são gates: #2/#17/#53/#56/#58/#59 fechadas, cinco ambientes, piloto, broker, reservas ou revisão humana obrigatória. Não falsificar aceites ou fechar itens para deixar CI verde.
 
-#56/#58 e PR #57 são infraestrutura opcional do modo legado de cinco agentes. Não são pré-requisitos do modo dual. #2/#17, dependências de código, critérios de aceite, CI e revisão independente continuam obrigatórios. Fluxo e início em docs/operations/DUAL-AGENTS.md. Nenhum daemon/autonomia irrestrita é ativado por essa adaptação.
+O ruleset temporário mantém PR, checks, atualização da branch, conversas resolvidas e proteção contra exclusão/force push. Backup e restauração em docs/operations/ruleset-hackathon.json.

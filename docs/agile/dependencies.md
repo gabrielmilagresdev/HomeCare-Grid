@@ -1,30 +1,21 @@
-# Dependências e execução
+# Dependências técnicas — hackathon
 
-Referências GitHub são reais; arestas nativas/sub-issues não disponíveis no conector. Labels + links e pr-policy oferecem coordenação verificável, sem substituir proteções administrativas.
+Lucas Operacional implementa; Lucas Árbitro revisa/integra com CI atual. Nenhum fechamento de Issue administrativa, owner de arquivo, piloto ou infraestrutura antiga impede trabalho. Conferir código existente e testes: uma dependência pode estar satisfeita no mesmo PR. originalDependsOn preserva o histórico.
 
-Wave 0 (0–6h): bootstrap, revisão dos contratos/qualidade/políticas e proteção externa. Wave 1 (6–16h): quatro operadores em UI, domínio, perfis e Auth/fixtures. Wave 2 (16–28h): busca/reserva/aceite/família e concorrência. Wave 3 (28–36h): jornada, smoke e correções; Demand/FamilyPay apenas se a jornada P0 estiver estável. Wave 4: futuro, sem consumir hackathon.
+Prioridade: navegação/visual, marketplace/perfis, concierge/match, solicitação/aceite/confirmação, Family Hub, Grid Demand e demo. A jornada existente está em codex/hackathon-mvp (PR #62); não duplicar. F.* é pós-MVP.
 
-Caminho crítico: BOOT -> 0.1/0.2/0.5 -> 2.1/2.2 -> 4.1 -> 4.4 e 5.1 -> 5.2 -> 8.2 -> 8.3/8.4 -> 8.5. A disponibilidade do árbitro, identidades e API administrativa também bloqueia. Serializar contratos, package/lock, CI e migrations.
-
-Após fundação integrada e 0.5 resolvida, podem começar independentemente: Gabriel 1.1; Lucas 2.2/3.4 em sequência; Julio 1.3 ou 3.1; Matheus 2.3 ou 2.1. Não há Story dependente Ready agora.
-
-| Story | Bloqueada por |
+| Story | Dependências técnicas |
 | --- | --- |
-| [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13) (0.1) | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) |
-| [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14) (0.2) | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) |
-| [#15](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/15) (0.3) | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) |
-| [#16](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/16) (0.4) | [#2](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/2) |
-| [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) (0.5) | identidade/API/proteções externas |
-| [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18) (1.1) | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#15](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/15), [#16](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/16), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
-| [#20](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/20) (1.2) | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) |
-| [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21) (1.3) | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
-| [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22) (2.1) | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
-| [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) (2.2) | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
-| [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23) (2.3) | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
-| [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) (3.1) | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
+| [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18) (1.1) | — |
+| [#20](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/20) (1.2) | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) |
+| [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21) (1.3) | — |
+| [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22) (2.1) | — |
+| [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) (2.2) | — |
+| [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23) (2.3) | — |
+| [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) (3.1) | — |
 | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26) (3.2) | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18), [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24), [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) |
-| [#27](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/27) (3.3) | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) |
-| [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) (3.4) | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) |
+| [#27](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/27) (3.3) | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) |
+| [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) (3.4) | — |
 | [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) (4.1) | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) |
 | [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29) (4.2) | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18), [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) |
 | [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30) (4.3) | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22), [#28](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/28) |
@@ -39,7 +30,7 @@ Após fundação integrada e 0.5 resolvida, podem começar independentemente: Ga
 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40) (8.1) | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) |
 | [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) (8.2) | [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#31](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/31), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) |
 | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41) (8.3) | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) |
-| [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) (8.4) | [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) |
+| [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) (8.4) | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) |
 | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) (8.5) | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41), [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) |
 | [#44](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/44) (F.1) | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) |
 | [#45](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/45) (F.2) | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) |

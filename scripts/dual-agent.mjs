@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
-import { ROLES, orderedStories, queue, readiness } from './dual-agent-policy.mjs';
+import { ROLES, orderedStories, queue } from './dual-agent-policy.mjs';
 const json = async file => JSON.parse(await fs.readFile(file, 'utf8'));
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
 export async function initialize(root) {
@@ -57,23 +57,14 @@ export async function prepare(root, token = process.env.HCG_CLONE_TOKEN, runner)
   return { ...manifest, active: false };
 }
 export async function main(args = process.argv.slice(2)) {
-  const [command, target, snapshot] = args;
+  const [command, target] = args;
   const [mode, plan, map] = await Promise.all(['.agents/mode.json','docs/agile/backlog.json','docs/agile/github-map.json'].map(p => json(path.join(sourceRoot, p))));
   if (command === 'plan') return orderedStories(plan, mode).map(s => ({ issue: map[s.id].number, title: s.title, originalOwner: s.owner, executor: s.role === 'arbiter' ? 'lucas-arbiter' : 'lucas-operational' }));
   if (command === 'init') return initialize(target);
   if (command === 'prepare') return prepare(target);
   if (command === 'queue') return queue(plan, map, mode, await json(target));
-  if (command === 'check') {
-    const manifest = await json(path.join(target, 'manifest.json')), evidence = await json(path.join(target, 'evidence.json'));
-    const result = readiness(mode, evidence, await json(snapshot));
-    for (const role of ROLES) {
-      const expected = path.resolve(target, role, 'workspace');
-      if (manifest.roles[role]?.workspace !== expected || !manifest.roles[role]?.cloned) { result.ready = false; result.blockers.push('Clone pending: ' + role); }
-    }
-    if (!result.ready) result.verdict = 'NOT READY — BLOCKERS REMAIN';
-    return result;
-  }
-  return { usage: 'node scripts/dual-agent.mjs plan | init <root> | prepare <root> | queue <issues-snapshot.json> | check <root> <issues-snapshot.json>',
+  if(command==='check')return {mode:mode.mode,scope:'entire-project',workflow:'Issue → implementação → testes → PR; árbitro → CI atual → merge',administrativeGates:false,humanApprovalRequired:false,note:'Configuração do fluxo; não substitui revisão técnica ou checks reais.'};
+  return { usage: 'node scripts/dual-agent.mjs plan | init <root> | prepare <root> | queue <issues-snapshot.json> | check',
     note: 'Conventional GitHub flow; no broker, distributed lock, daemon or containers required. Snapshots are diagnostic, never authorization.' };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
