@@ -13,7 +13,7 @@ export async function prepareSnapshot(task,workspace,{brokerUrl,key,config,signa
     const dest=path.join(workspace,file.path);await fs.mkdir(path.dirname(dest),{recursive:true});
     await fs.writeFile(dest,Buffer.from(file.content,'base64'),{mode:file.mode==='100755'?0o755:0o644});
   }
-  for(const args of [['init'],['add','--all'],['-c','user.name=HomeCare snapshot','-c','user.email=snapshot@invalid','-c','commit.gpgsign=false','commit','-m','Trusted immutable snapshot '+task.baseSha]]) {
+  for(const args of [['init','--initial-branch',task.branch],['add','--all'],['-c','user.name=HomeCare snapshot','-c','user.email=snapshot@invalid','-c','commit.gpgsign=false','commit','-m','Trusted immutable snapshot '+task.baseSha]]) {
     const result=await processRunner('git',args,{cwd:workspace,timeoutMs:60000,signal});
     if(!result.ok)throw new Error('Local snapshot initialization failed');
   }

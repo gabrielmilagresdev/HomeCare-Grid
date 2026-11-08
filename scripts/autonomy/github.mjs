@@ -97,6 +97,11 @@ export class GitHub {
     }
     return {pr,files,reviews:await this.pages('pulls/'+number+'/reviews')};
   }
+  async feedback(number) {
+    const data={reviews:await this.pages('pulls/'+number+'/reviews'),inline:await this.pages('pulls/'+number+'/comments'),conversation:await this.pages('issues/'+number+'/comments')};
+    if(JSON.stringify(data).length>100000)throw new Error('Feedback exceeds automatic review limit; manual reconciliation required');
+    return data;
+  }
   async ready(number) {
     if(roleOf(this.actor.id)!=='operational')throw new Error('Operational publication only');
     const pr=await this.api('pulls/'+number);

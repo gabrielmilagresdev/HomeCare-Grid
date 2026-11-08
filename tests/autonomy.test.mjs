@@ -90,9 +90,11 @@ test('model quota is persistent and denied outside active sessions',t=>{
 });
 test('Ready requires owner, canonical scope and all integrated dependencies',async()=>{
   const actor=actors[0],issue={number:18,state:'open',body:'Blocked by #2',labels:['owner:gabriel','agent:operational','status:ready']};
-  const plan={stories:[{id:'x',files:['docs/**'],dependsOn:['BOOT']}]},map={x:{number:18},BOOT:{number:2}};
+  const plan={stories:[{id:'x',owner:'gabriel',role:'operational',files:['docs/**'],dependsOn:['BOOT']}]},map={x:{number:18},BOOT:{number:2}};
   assert.equal((await eligible(issue,actor,{plan,map,readIssue:async n=>completed(n)})).ready,true);
   assert.equal((await eligible(issue,actor,{plan,map,readIssue:async n=>({...completed(n),state_reason:'not_planned'})})).ready,false);
+  const relabeled=structuredClone(issue);relabeled.labels=['owner:lucas','agent:operational','status:ready'];
+  assert.equal((await eligible(relabeled,actors[1],{plan,map,readIssue:async n=>completed(n)})).ready,false);
   issue.labels.push('status:blocked');assert.equal((await eligible(issue,actor,{plan,map,readIssue:async n=>completed(n)})).ready,false);
 });
 test('native rule requires no bypass, strict current Actions checks and last-push review',()=>{
@@ -187,7 +189,7 @@ test('runtime initialization is offline, isolated and refuses credential overwri
 
 test('reserved task body and base SHA are immutable before publication',async t=>{
   const f=fixture(t),actor=actors[0];let issue={number:18,title:'Example',body:'Reviewed acceptance',state:'open',labels:[{name:'owner:gabriel'},{name:'agent:operational'},{name:'status:ready'}]};
-  f.context.contracts={plan:{stories:[{id:'x',files:['docs/**'],dependsOn:[]}]},map:{x:{number:18}}};
+  f.context.contracts={plan:{stories:[{id:'x',owner:'gabriel',role:'operational',files:['docs/**'],dependsOn:[]}]},map:{x:{number:18}}};
   f.client.issue=async n=>n===18?structuredClone(issue):completed(n);
   f.client.status=async(n,status)=>{issue.labels=issue.labels.filter(l=>!l.name.startsWith('status:'));issue.labels.push({name:'status:'+status});};
   let published=false;f.client.publish=async()=>{published=true;return {number:88};};

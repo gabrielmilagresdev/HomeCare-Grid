@@ -67,10 +67,11 @@ export class Broker {
         if(!result.ready)throw new Error(result.reasons.join('; '));
         const pr=await client.api('pulls/'+row.pr);
         if(pr.state!=='open'||pr.user.login!==actor.githubLogin||pr.head.ref!=='feature/'+issue.number+'-'+id)throw new Error('Resume PR ownership mismatch');
+        const feedback=await client.feedback(row.pr);
         const lease=this.store.resume(issue.number,id,this.config.leaseSeconds*1000);
         this.store.bind(lease,pr.head.sha,taskHash(issue));
         await client.status(issue.number,'in-progress');
-        return {lease,issue,scopes:result.scopes,baseSha:pr.head.sha,branch:pr.head.ref};
+        return {lease,issue,feedback,scopes:result.scopes,baseSha:pr.head.sha,branch:pr.head.ref};
       }
       const ready=pilot?await this.pilotcheck():await this.preflight();if(!ready.ready)throw new Error(ready.verdict+': '+ready.blockers.join('; '));
       const issue=await client.issue(input.issue);

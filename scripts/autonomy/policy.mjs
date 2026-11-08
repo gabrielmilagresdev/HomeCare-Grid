@@ -38,6 +38,7 @@ export async function eligible(issue, actor, {plan,map,readIssue,statuses=['stat
   if(!statuses.includes(labels.filter(l=>l.startsWith('status:')).join()))reasons.push('Issue is not Ready');
   const story=plan.stories.find(s=>map[s.id]?.number===issue.number);
   if(!story||!story.files?.length)reasons.push('No reviewed canonical scope');
+  if(story&&(story.owner!==owner||story.role!==role))reasons.push('Canonical owner/role mismatch');
   for(const n of dependenciesFor(issue,plan,map)) {
     const dep=await readIssue(n), ls=(dep.labels??[]).map(l=>typeof l==='string'?l:l.name);
     if(dep.state!=='closed'||dep.state_reason!=='completed'||!ls.includes('integration:verified'))reasons.push('Dependency #'+n+' not integrated/verified');
