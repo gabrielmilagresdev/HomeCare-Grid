@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "sha",
+    "analysis",
+    "findings"
+  ],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "CHANGES REQUESTED",
+        "BLOCKED",
+        "REVIEW INCOMPLETE"
+      ]
+    },
+    "sha": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

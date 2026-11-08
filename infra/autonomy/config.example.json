@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "repository": "gabrielmilagresdev/HomeCare-Grid",
+  "rulesetId": 26781801,
+  "baseBranch": "develop",
+  "model": null,
+  "modelMaxRequests": 60,
+  "maxRunSeconds": 5400,
+  "maxAttempts": 2,
+  "leaseSeconds": 180,
+  "codexVersion": "0.166.0-alpha.6",
+  "workerImage": "homecare-grid-worker:validated",
+  "humanReviewers": [
+    "gabrielmilagresdev",
+    "Lucas-Phelipe"
+  ],
+  "actors": [
+    {
+      "id": "gabriel-operational",
+      "humanLogin": "gabrielmilagresdev",
+      "githubLogin": "gabrielmilagresdev",
+      "githubTokenEnv": "HCG_GH_GABRIEL_TOKEN"
+    },
+    {
+      "id": "lucas-operational",
+      "humanLogin": "Lucas-Phelipe",
+      "githubLogin": "Lucas-Phelipe",
+      "githubTokenEnv": "HCG_GH_LUCAS_TOKEN"
+    },
+    {
+      "id": "julio-operational",
+      "humanLogin": "juliocgsouza",
+      "githubLogin": "juliocgsouza",
+      "githubTokenEnv": "HCG_GH_JULIO_TOKEN"
+    },
+    {
+      "id": "matheus-operational",
+      "humanLogin": "MathiasWhite1023",
+      "githubLogin": "MathiasWhite1023",
+      "githubTokenEnv": "HCG_GH_MATHEUS_TOKEN"
+    },
+    {
+      "id": "lucas-arbiter",
+      "humanLogin": "Lucas-Phelipe",
+      "githubLogin": null,
+      "githubTokenEnv": "HCG_GH_ARBITER_TOKEN"
+    }
+  ],
+  "arbiterAppId": null,
+  "exclusiveRulesetId": null
+}

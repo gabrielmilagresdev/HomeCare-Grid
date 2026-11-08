@@ -1,0 +1,31 @@
+# Run only on a dedicated Docker host. Workers are started by the trusted controller.
+# No Docker socket, personal HOME or GitHub credentials may enter a worker.
+services:
+  broker:
+    build:
+      context: ../..
+      dockerfile: infra/autonomy/Dockerfile
+    image: homecare-grid-worker:validated
+    entrypoint: ["node", "/opt/hcg/scripts/autonomy/cli.mjs", "serve", "/runtime"]
+    working_dir: /opt/hcg
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ports: ["127.0.0.1:8080:8080"]
+    volumes:
+      - type: bind
+        source: ${HCG_RUNTIME_ROOT:?Set dedicated absolute runtime root}
+        target: /runtime
+    env_file:
+      - ${HCG_BROKER_ENV_FILE:?Set outside-repository broker-only credentials file}
+    environment:
+      HCG_BIND: 0.0.0.0
+    tmpfs: ["/tmp:rw,nosuid,size=64m"]
+    networks: [workers, egress]
+networks:
+  workers:
+    name: hcg-workers
+    internal: true
+  egress:
+    name: hcg-build
