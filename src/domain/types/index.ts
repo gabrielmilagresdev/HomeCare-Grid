@@ -24,6 +24,7 @@ export interface ConciergeFilters {
   frequency: string | null; accessibilityTags: string[]; clarificationNeeded: boolean;
 }
 export interface Match { professionalId: ID; reasons: string[]; hourlyPriceCents: number }
+export interface MatchEvaluation { eligible: boolean; reasons: string[] }
 export interface Booking extends TimeWindow {
   id: ID; requestId: ID; recipientId: ID; requesterUserId: ID; professionalId: ID;
   status: BookingStatus; version: number;

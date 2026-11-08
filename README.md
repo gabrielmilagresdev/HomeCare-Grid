@@ -1,78 +1,45 @@
 # HomeCare Grid
 
-**O cuidado certo, onde você está.**
+**O cuidado certo, onde você está.** Aplicativo mobile Expo para aproximar pessoas com barreiras de deslocamento, profissionais independentes e famílias autorizadas.
 
-Fundação mobile para conectar pessoas com barreiras de deslocamento a profissionais independentes de cuidado e apoio domiciliar. Não exclusiva para idosos. Papéis: pessoa atendida, contratante autorizado e profissional; uma pessoa pode ter múltiplos papéis.
+## MVP demonstrável
 
-## Estado do bootstrap
+A experiência local funciona sem conta ou credenciais e usa exclusivamente dados fictícios. A jornada cobre busca por serviço, região, horário, acessibilidade e valor; sugestão administrativa de filtros; matching determinístico com explicação; perfil profissional; solicitação; aceite ou recusa; agenda; permissões familiares revogáveis; demanda sem cobertura com consentimento; e FamilyPay **SIMULADO**, sem cobrança.
 
-Scaffold Expo Go SDK 58 + React Native + Expo Router + TypeScript strict; navegação demonstrativa, tema, contratos/validadores, helpers puros e catálogo sintético. Fluxos completos de marketplace, Auth, reservas persistentes, Family Hub, Concierge remoto e pagamentos ainda são backlog. Não há Supabase remoto configurado.
-
-Nenhum dado real, diagnóstico, prontuário, pagamento real ou módulo que exija development build. FamilyPay futuro é exclusivamente simulado neste MVP. Preço premium R$ 49,90 é hipótese comercial.
+O modo local mantém o estado apenas enquanto o aplicativo está aberto. A escolha de um papel fictício serve para percorrer a demonstração e **não é autenticação real**. Os contratos de backend, RLS e RPCs estão em `supabase/migrations/` para implantação futura em projeto dedicado; não foram aplicados nem conectados ao app. Nenhum diagnóstico, prontuário, pagamento real ou dado pessoal é tratado.
 
 ## Executar
 
-Node 24.11.1 e npm 11.6.2. Com o lockfile versionado:
+Requer Node.js 24.11.1 ou superior na linha 24, npm e Expo Go compatível com SDK 58.
 
 ```sh
 npm ci
 npm start
 ```
 
-Abrir QR no Expo Go compatível com SDK 58. O scaffold não precisa de .env ou credenciais; .env.example contém apenas configuração pública reservada. Consultar docs/demo/demo-flow.md para smoke e registro de evidências.
+Abra o QR no Expo Go. Na tela inicial, escolha **Preciso de cuidado**. O logotipo em cada tela volta ao início para trocar o papel fictício. Veja o [roteiro completo](docs/demo/demo-flow.md).
 
-Neste sandbox, rede npm/Git e escrita em .git estão bloqueadas. O conector GitHub autorizado publica a branch remota; CI resolve/valida dependências. O lockfile gerado na CI foi incorporado; consulte os checks atuais do PR para o resultado final. Não inferir teste físico de bundle.
-
-## Qualidade
+## Qualidade local
 
 ```sh
 npm run typecheck
 npm run lint
 npm test
 npm run test:ui
-npm run check:foundation
-npm run check:secrets
-npx expo install --check
 npm run doctor
 npm run bundle
 ```
 
-npm test roda regras TS reais via Node 24 sem dependências. UI usa Jest/Expo e React Native Testing Library. Scanner de segredos é heurístico. CI tem quality e pr-policy; isso não ativa proteção de branches por si só.
-
-## Arquitetura e governança
-
-- [Entrada dos agentes](AGENTS.md), [arquitetura](docs/architecture/overview.md), [modelo](docs/architecture/data-model.md), [permissões](docs/architecture/access-control.md).
-- [Backlog com links](docs/agile/backlog.md), [dependências e waves](docs/agile/dependencies.md), [ownership](.agents/ownership.md).
-- [Auditoria inicial](docs/audit/initial-state.md), [relatório de entrega](docs/audit/delivery.md).
-- [Isolamento e segurança](docs/operations/security-and-isolation.md), [runbook](docs/operations/runbook.md), [revisão do árbitro](.agents/arbiter.md).
-
-Fluxo: Issue pronta -> branch individual/workspace isolado -> PR develop -> revisão independente -> merge por Lucas Árbitro -> integração validada -> Issue fechada. Operadores nunca fazem merge. main recebe release por PR de develop. Fundação pendente de revisão/integração; não iniciar Stories dependentes.
-
-Um único token contents:write não garante isolamento de merges. API administrativa da integração indisponível e identidade independente do árbitro pendente: execução autônoma bloqueada até enforcement externo verificado. Não há executor noturno ativo, quadro Projects criado, containers ou credenciais separadas provisionadas.
+Os testes de domínio cobrem elegibilidade, transições, conflitos locais, idempotência, autorização familiar, revogação, consentimento e divisão exata em centavos. A exportação de bundles Android/iOS não comprova uso em dispositivo. O teste concorrente de PostgreSQL e o smoke físico exigem ambiente externo e permanecem pendentes.
 
 ## Estrutura
 
-```text
-app/                         rotas mobile demonstrativas
-src/components/{ui,common}/  componentes acessíveis
-src/domain/{types,schemas,rules}/ contratos únicos e regras
-src/services/{demo}/         ports e catálogo sintético
-src/testing/                 fixtures
-src/theme/                   identidade visual
-supabase/                    requisitos para backend futuro
-tests/ scripts/              testes e ferramentas
-.agents/ .codex/ .github/     políticas, config e CI
-docs/{architecture,adr,agile,audit,demo,operations}/
-```
+- `app/`: rotas Expo Router e composição da navegação.
+- `src/features/`: telas e estado da demonstração.
+- `src/domain/`: tipos, parsers e regras puras.
+- `src/services/demo/`: adaptadores locais e fallback administrativo do Concierge.
+- `src/components/ui/` e `src/theme/`: identidade visual e componentes acessíveis.
+- `supabase/migrations/`: schema, RLS e RPCs preparados para backend, ainda não aplicados.
+- `docs/audit/mvp-implementation.md`: análise de todas as issues e PRs, entregas e limites.
 
-Features surgirão por Story, sem diretórios vazios. Nunca editar contratos/configurações centrais em paralelo sem reserva. Dados externos passam por parser; mutações remotas exigem RLS e operação atômica para agenda.
-
-## Backlog e atualização
-
-`npm run backlog:render` regenera docs a partir de docs/agile/backlog.json e github-map.json. `npm run backlog:plan` é dry-run. Reconciliação de Issues existentes exige ambiente externo autorizado com token efêmero, nunca credencial pessoal lida pelo agente. O script não faz merge nem fecha Issues.
-
-31 Stories MVP, oito itens pós-MVP, dez Epics. Responsáveis lógicos não são usernames inventados; Lucas Operacional e Lucas Árbitro estão explicitamente separados. Tasks são checklists T1/T2 nas Stories. Dependências usam links reais e status blocked; relações nativas não foram criadas pelo conector.
-
-## Referências de compatibilidade
-
-[Expo Go atual](https://expo.dev/go), [SDK 58](https://docs.expo.dev/versions/v58.0.0/), [versões nativas oficiais](https://raw.githubusercontent.com/expo/expo/sdk-58/packages/expo/bundledNativeModules.json), [configuração Codex](https://learn.chatgpt.com/docs/config-file/config-reference). Versões diretas fixas; lockfile deve ser revisado e versionado antes de concluir bootstrap.
+O backlog original, as dependências e as regras de trabalho estão em [docs/agile/backlog.md](docs/agile/backlog.md) e [AGENTS.md](AGENTS.md). As histórias de pagamentos reais, geografia real, WhatsApp, notificações e rotas avançadas continuam pós-MVP.
