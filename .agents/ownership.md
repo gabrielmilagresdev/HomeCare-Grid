@@ -1,4 +1,4 @@
-# Ownership
+# Ownership histórico e executor atual
 
 | Agente | Módulos predominantes |
 | --- | --- |
@@ -8,6 +8,7 @@
 | Matheus — Operacional | auth, fixtures, demo, fluxo profissional, demanda UI, demo docs |
 | Lucas — Árbitro | revisão independente, integração e auditoria |
 
-Centrais: package/lock, app.json, tsconfig, app/_layout, domain/**, services/contracts.ts, supabase/**, .github/**, AGENTS.md, .agents/**, .codex/**. Uma Issue editando cada grupo; reserva na Issue com responsável, base SHA, escopo/expiração. Árbitro resolve disputas. Ownership lógico não é permissão.
 
-Mudança compartilhada exige seção Contratos no PR e revisão arquitetural. Não integrar por cópia entre workspaces.
+## Regra atual
+
+A tabela é histórico do planejamento. Lucas Operacional executa todas as funcionalidades e pode editar qualquer arquivo do projeto; Lucas Árbitro revisa/integra e pode corrigir infraestrutura. Não há lista rígida de arquivos, reserva distribuída ou aprovação administrativa por módulo.

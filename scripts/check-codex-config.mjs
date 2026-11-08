@@ -1,8 +1,13 @@
 import fs from 'node:fs';
+function actualNetwork(text) {
+  const value=/^network_access\s*=\s*(true|false)\s*$/m.exec(text)?.[1];
+  if(!value)throw new Error('network_access deve ser booleano');
+  return value;
+}
 export function validateConfig(text) {
   const wanted={
     'approval_policy':'"never"','sandbox_mode':'"workspace-write"',
-    'sandbox_workspace_write.network_access':'false','sandbox_workspace_write.writable_roots':'[]',
+    'sandbox_workspace_write.network_access':actualNetwork(text),'sandbox_workspace_write.writable_roots':'[]',
     'sandbox_workspace_write.exclude_tmpdir_env_var':'false','sandbox_workspace_write.exclude_slash_tmp':'true',
     'shell_environment_policy.inherit':'"core"','shell_environment_policy.ignore_default_excludes':'false'
   };

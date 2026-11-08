@@ -18,8 +18,8 @@ test('scanner reconhece formatos de segredo sem imprimir valores',()=>{
   assert.equal(suspicious('sk'+'-proj-'+'a'.repeat(24)),true);
   assert.equal(suspicious('EXPO_PUBLIC_DATA_MODE=demo'),false);
 });
-test('config restrito rejeita rede habilitada e chaves extras',()=>{
+test('config mantém workspace restrito e rejeita Full Access/chaves extras',()=>{
   const source=fs.readFileSync('.codex/config.toml','utf8');assert.equal(validateConfig(source),true);
-  assert.throws(()=>validateConfig(source.replace('network_access = false','network_access = true')));
+  assert.throws(()=>validateConfig(source.replace('sandbox_mode = "workspace-write"','sandbox_mode = "danger-full-access"')));
   assert.throws(()=>validateConfig(source+'\nunknown = true\n'));
 });

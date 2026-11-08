@@ -1,3 +1,5 @@
+> Histórico Agile preservado. O fluxo atual é DUAL_AGENT_MODE: Lucas Operacional implementa todo o projeto e Lucas Árbitro revisa/integra com CI. Owners/status abaixo são planejamento original, não gates administrativos. Dependências técnicas atuais estão em backlog.json e dependencies.md.
+
 # Backlog HomeCare Grid
 
 Fonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories só ficam Done após integração validada; nenhum recurso é inferido do planejamento.
@@ -18,26 +20,26 @@ Fonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories s�
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1.1 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18) Tema e componentes básicos | Gabriel — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#15](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/15), [#16](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/16), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
-| 1.2 | [#20](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/20) Navegação e layouts por papel | Lucas — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) | blocked |
-| 1.3 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21) Estados visuais e acessibilidade | Julio — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 1.1 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18) Tema e componentes básicos | Gabriel — Operacional | p0 | 1 | 2 |  | blocked |
+| 1.2 | [#20](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/20) Navegação e layouts por papel | Lucas — Operacional | p0 | 1 | 2 | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) | blocked |
+| 1.3 | [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21) Estados visuais e acessibilidade | Julio — Operacional | p0 | 1 | 2 |  | blocked |
 
 ## [#4](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/4) — Authentication & User Roles
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22) Autenticação compatível com Expo Go | Matheus — Operacional | p0 | 1 | 3 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
-| 2.2 | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) Papéis e autorização por recurso | Lucas — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
-| 2.3 | [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23) Fixtures e ambiente demonstrativo | Matheus — Operacional | p0 | 1 | 2 | [#13](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/13), [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 2.1 | [#22](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/22) Autenticação compatível com Expo Go | Matheus — Operacional | p0 | 1 | 3 |  | blocked |
+| 2.2 | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19) Papéis e autorização por recurso | Lucas — Operacional | p0 | 1 | 2 |  | blocked |
+| 2.3 | [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23) Fixtures e ambiente demonstrativo | Matheus — Operacional | p0 | 1 | 2 |  | blocked |
 
 ## [#5](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/5) — Marketplace & Discovery
 
 | ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3.1 | [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) Catálogo e perfis profissionais | Julio — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 3.1 | [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) Catálogo e perfis profissionais | Julio — Operacional | p0 | 1 | 2 |  | blocked |
 | 3.2 | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26) Listagem, filtros e busca | Gabriel — Operacional | p0 | 2 | 3 | [#18](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/18), [#21](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/21), [#23](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/23), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24), [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) | blocked |
-| 3.3 | [#27](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/27) AI Care Concierge com saída validada | Lucas — Operacional | p1 | 2 | 3 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) | blocked |
-| 3.4 | [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) Smart Match determinístico e explicável | Lucas — Operacional | p0 | 1 | 2 | [#14](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/14), [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17) | blocked |
+| 3.3 | [#27](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/27) AI Care Concierge com saída validada | Lucas — Operacional | p1 | 2 | 3 | [#19](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/19), [#24](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/24) | blocked |
+| 3.4 | [#25](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/25) Smart Match determinístico e explicável | Lucas — Operacional | p0 | 1 | 2 |  | blocked |
 
 ## [#6](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/6) — Bookings & Professional Workflow
 
@@ -77,7 +79,7 @@ Fonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories s�
 | 8.1 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40) Compatibilidade, bundle e Expo Go | Gabriel — Operacional | p0 | 3 | 2 | [#26](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/26), [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) | blocked |
 | 8.2 | [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) Jornada principal integrada | Lucas — Operacional | p0 | 3 | 3 | [#29](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/29), [#30](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/30), [#31](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/31), [#33](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/33) | blocked |
 | 8.3 | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41) Documentação e roteiro demonstrativo | Matheus — Operacional | p0 | 3 | 1 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
-| 8.4 | [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) Auditar PRs e autorizar integrações | Lucas — Árbitro | p0 | 3 | 2 | [#17](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/17), [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
+| 8.4 | [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) Auditar PRs e autorizar integrações | Lucas — Árbitro | p0 | 3 | 2 | [#40](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/40), [#34](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/34) | blocked |
 | 8.5 | [#43](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/43) Release candidata e integração final | Lucas — Árbitro | p0 | 3 | 1 | [#41](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/41), [#42](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/42) | blocked |
 
 ## [#11](https://github.com/gabrielmilagresdev/HomeCare-Grid/issues/11) — Post-MVP
@@ -389,11 +391,7 @@ Expandir tokens e Button/Input/Card reutilizáveis sem editar layout global
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #13
-- Blocked by #14
-- Blocked by #15
-- Blocked by #16
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -445,9 +443,6 @@ Compor layouts e retorno por capacidade sem usar seletor visual como autorizaç�
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #13
-- Blocked by #14
-- Blocked by #17
 - Blocked by #19
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
@@ -500,9 +495,7 @@ Criar loading, empty, error e recuperação para telas consumidoras
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #13
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -550,9 +543,7 @@ Integrar Supabase Auth se credenciais disponíveis; preservar demo separada
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #13
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -607,8 +598,7 @@ Definir capacidades acumuláveis e negar acesso fora de vínculo explícito
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -658,9 +648,7 @@ Dados sintéticos reproduzíveis e adapters sem chamada remota
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #13
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -713,8 +701,7 @@ Modelar projeção pública e tela de perfil; credencial nunca autodeclarada
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -820,7 +807,6 @@ Interpretar linguagem em filtros administrativos via ambiente protegido; fallbac
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #14
 - Blocked by #19
 - Blocked by #24
 
@@ -877,8 +863,7 @@ Revisar/expandir regra base com hard filters antes da ordenação e explicação
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #14
-- Blocked by #17
+Nenhuma de código. Bloqueada por API administrativa, credenciais/identidades independentes e enforcement de merge.
 
 Dependências representadas por referências reais e labels; relações nativas da API não foram configuradas pelo conector. Não marcar Ready enquanto dependências/condições não estiverem integradas e validadas.
 
@@ -1669,7 +1654,6 @@ Revisar PRs reais por identidade independente, incluindo Lucas Operacional
 Funcionalidades fora desta Story, dados reais, pagamentos reais, diagnóstico e alterações centrais sem coordenação.
 
 ## Dependências
-- Blocked by #17
 - Blocked by #40
 - Blocked by #34
 
@@ -2133,4 +2117,3 @@ Mudanças centrais exigem reserva na Issue e revisão arquitetural.
 
 ## Definition of Done
 Aceite comprovado, CI atual, sem segredos, contratos/permissões revisados, revisão por identidade independente, merge pelo árbitro e integração validada. Não fechar por código escrito. Consulte .agents/definition-of-done.md.
-
