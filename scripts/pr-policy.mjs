@@ -7,6 +7,35 @@ export const FOUNDATION_PROMOTION = Object.freeze({
 });
 export const FOUNDATION_BASELINE = '6dbaa779d39635bd6525d255f72620bc01cff412';
 
+export const FOUNDATION_INFRASTRUCTURE_FILES = Object.freeze([
+  "scripts/autonomy/store.mjs",
+  "scripts/autonomy/policy.mjs",
+  "infra/autonomy/config.example.json",
+  "scripts/autonomy/github.mjs",
+  "scripts/autonomy/broker.mjs",
+  "scripts/autonomy/process.mjs",
+  "scripts/autonomy/worker.mjs",
+  "scripts/autonomy/controller.mjs",
+  "scripts/autonomy/prepare.mjs",
+  "infra/autonomy/arbiter-result.schema.json",
+  "scripts/autonomy/arbiter-worker.mjs",
+  "scripts/autonomy/entry.mjs",
+  "scripts/autonomy/cli.mjs",
+  "infra/autonomy/Dockerfile",
+  "infra/autonomy/compose.yml",
+  "tests/autonomy.test.mjs",
+  ".dockerignore",
+  ".github/CODEOWNERS",
+  ".agents/workflow.md",
+  ".agents/arbiter.md",
+  "docs/operations/START-AGENTS.md",
+  "docs/operations/autonomy-pilot.md",
+  "docs/audit/autonomy-delivery.md",
+  "docs/audit/autonomy-retrospective.md",
+  "docs/audit/autonomy-pilot-result.md",
+  "tests/autonomy-pilot.test.mjs"
+]);
+
 function prose(body = '') {
   return body.replace(/<!--[\s\S]*?-->/g, '').replace(/^```[\s\S]*?^```[^\n]*/gm, '').replace(/^>.*$/gm, '');
 }
@@ -65,12 +94,12 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
       }
       if (pr.head.sha !== FOUNDATION_BASELINE) {
         const allowed = new Set(['scripts/check-pr.mjs', 'scripts/pr-policy.mjs', 'tests/pr-policy.test.mjs',
-          '.github/workflows/ci.yml', 'docs/audit/pr-52-policy.md']);
+          '.github/workflows/ci.yml', 'docs/audit/pr-52-policy.md', ...FOUNDATION_INFRASTRUCTURE_FILES]);
         if (!foundationComparison || !['ahead', 'identical'].includes(foundationComparison.status) ||
             foundationComparison.merge_base_commit?.sha !== FOUNDATION_BASELINE ||
-            !Array.isArray(foundationComparison.files) ||
+            !Array.isArray(foundationComparison.files) || foundationComparison.files.length >= 300 ||
             foundationComparison.files.some(file => !allowed.has(file.filename) || file.status === 'removed')) {
-          errors.push('Promoção inicial fora do escopo: head deve ser a fundação auditada ou conter apenas os cinco arquivos da correção de governança #54. Funcionalidades MVP exigem a release #43.');
+          errors.push('Promoção inicial fora do escopo: head deve ser a fundação auditada ou conter apenas os cinco arquivos da correção de governança #54 e a lista exata da infraestrutura #56/#58, após aceitação verificada. Funcionalidades MVP exigem a release #43.');
         }
       }
       if (!labels(issue).includes('type:foundation-promotion')) errors.push('Issue #53 não está identificada como promoção inicial da fundação.');
@@ -101,7 +130,12 @@ export async function evaluatePullRequest({ pr, eventPr = pr, repository, readIs
   }
   // Pisos explícitos impedem retirar pré-requisitos críticos editando o texto da Issue.
   if (kind === 'bootstrap') dependencies.add(17);
-  if (kind === 'foundation-promotion') [2, 17].forEach(n => dependencies.add(n));
+  if (kind === 'foundation-promotion') {
+    [2, 17].forEach(n => dependencies.add(n));
+    const paths=foundationComparison?.files?.map(f=>f.filename)??[];
+    if(paths.some(p=>FOUNDATION_INFRASTRUCTURE_FILES.includes(p)))dependencies.add(56);
+    if(paths.some(p=>['docs/audit/autonomy-pilot-result.md','tests/autonomy-pilot.test.mjs'].includes(p)))dependencies.add(58);
+  }
   if (kind === 'release') [41, 42].forEach(n => dependencies.add(n));
   if (dependencies.size > 100) throw new Error('Mais de 100 dependências: revisar a modelagem antes de validar.');
   for (const depNumber of dependencies) {

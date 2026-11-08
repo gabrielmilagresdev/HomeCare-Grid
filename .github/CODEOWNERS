@@ -1,0 +1,18 @@
+# Both currently accepted collaborators have write permission.
+# GitHub excludes the PR author from satisfying their own required review.
+* @gabrielmilagresdev @Lucas-Phelipe
+/.github/ @gabrielmilagresdev @Lucas-Phelipe
+/.agents/ @gabrielmilagresdev @Lucas-Phelipe
+/.codex/ @gabrielmilagresdev @Lucas-Phelipe
+/AGENTS.md @gabrielmilagresdev @Lucas-Phelipe
+/package.json @gabrielmilagresdev @Lucas-Phelipe
+/package-lock.json @gabrielmilagresdev @Lucas-Phelipe
+/app.json @gabrielmilagresdev @Lucas-Phelipe
+/tsconfig.json @gabrielmilagresdev @Lucas-Phelipe
+/app/_layout.tsx @gabrielmilagresdev @Lucas-Phelipe
+/src/domain/ @gabrielmilagresdev @Lucas-Phelipe
+/src/services/contracts.ts @gabrielmilagresdev @Lucas-Phelipe
+/supabase/ @gabrielmilagresdev @Lucas-Phelipe
+/scripts/ @gabrielmilagresdev @Lucas-Phelipe
+/infra/ @gabrielmilagresdev @Lucas-Phelipe
+/.dockerignore @gabrielmilagresdev @Lucas-Phelipe

@@ -181,3 +181,20 @@ test('promoção admite somente a correção de governança revisável #54 após
   });
   assert.deepEqual(result.errors, []);
 });
+
+test('promoção de infraestrutura exige #56 aceita, com lista exata e sem MVP',async()=>{
+  const p=promotion();p.head.sha='c'.repeat(40);
+  const comparison={status:'ahead',merge_base_commit:{sha:FOUNDATION_BASELINE},files:[{filename:'scripts/autonomy/broker.mjs',status:'added'}]};
+  const entries=[promotionIssue(),completed(2),completed(17),issue(56)];
+  has(await evaluate(p,entries,{foundationComparison:comparison}),/Dependência #56/);
+  entries[3]=completed(56);assert.deepEqual((await evaluate(p,entries,{foundationComparison:comparison})).errors,[]);
+  comparison.files.push({filename:'app/future-mvp.tsx',status:'added'});has(await evaluate(p,entries,{foundationComparison:comparison}),/fora do escopo/);
+});
+test('artefatos do piloto exigem #58 aceita e comparação truncada falha fechada',async()=>{
+  const p=promotion();p.head.sha='c'.repeat(40);
+  const comparison={status:'ahead',merge_base_commit:{sha:FOUNDATION_BASELINE},files:[{filename:'docs/audit/autonomy-pilot-result.md',status:'added'}]};
+  const entries=[promotionIssue(),completed(2),completed(17),completed(56),issue(58)];
+  has(await evaluate(p,entries,{foundationComparison:comparison}),/Dependência #58/);
+  entries[4]=completed(58);assert.deepEqual((await evaluate(p,entries,{foundationComparison:comparison})).errors,[]);
+  comparison.files=Array.from({length:300},()=>({filename:'scripts/check-pr.mjs',status:'added'}));has(await evaluate(p,entries,{foundationComparison:comparison}),/fora do escopo/);
+});
