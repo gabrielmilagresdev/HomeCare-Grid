@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {canTransition, overlaps} from '../src/domain/rules/bookings.ts';
 import {canAccessRecipient} from '../src/domain/rules/authorization.ts';
-import {rankProfessionals} from '../src/domain/rules/matching.ts';
-import {isUtcInstant, parseCareRequest, parseConciergeFilters} from '../src/domain/schemas/index.ts';
+import {evaluateProfessional, rankProfessionals} from '../src/domain/rules/matching.ts';
+import {isUtcInstant, parseCareRequest, parseConciergeFilters, parseHourlyPriceLimit} from '../src/domain/schemas/index.ts';
 import {demoRequest as request, demoService as service, demoProfessionals as pros} from '../src/testing/fixtures.ts';
 
 test('UTC explícito, calendário real e milissegundos', () => {
@@ -16,6 +16,12 @@ test('solicitação válida descarta campos não permitidos', () => {
 });
 test('solicitação rejeita intervalo invertido, preço fracionário e campos ausentes', () => {
   for (const input of [{...request, endsAt:request.startsAt},{...request,maxPriceCents:1.5},{...request,regionCode:''},{...request,requiredAccessibilityTags:['']},{}]) assert.equal(parseCareRequest(input).ok,false);
+});
+test('limite por hora interpreta centavos e não aceita entrada ambígua', () => {
+  for (const [input, cents] of [['', null], ['100', 10000], ['100,50', 10050], ['R$ 80.5', 8050], ['0', 0]]) {
+    assert.deepEqual(parseHourlyPriceLimit(input), {ok:true,data:cents});
+  }
+  for (const input of ['abc', 'R$', '-1', '1,234', '1.000,50', '999999999999999']) assert.equal(parseHourlyPriceLimit(input).ok, false);
 });
 test('Concierge valida catálogo e não transporta campos clínicos', () => {
   const input={serviceId:service.id,regionCode:request.regionCode,window:request,frequency:null,accessibilityTags:[],clarificationNeeded:false,diagnosis:'ignored'};
@@ -41,6 +47,27 @@ test('intervalos adjacentes não conflitam; sobreposição sim', () => {
 test('matching elimina não elegíveis antes de ordenar', () => {
   const candidates=[...pros,{...pros[0],id:'bad-region',hourlyPriceCents:1,regionCodes:['OTHER']},{...pros[0],id:'bad-slot',availability:[]},{...pros[0],id:'bad-service',serviceIds:[]}];
   assert.deepEqual(rankProfessionals(request,service,candidates).map(p=>p.professionalId),[pros[0].id]);
+});
+test('matching explica cada exclusão administrativa sem alterar as entradas', () => {
+  const originalRequest = structuredClone(request);
+  const originalProfessionals = structuredClone(pros);
+  const cases = [
+    [{...pros[0],serviceIds:[]}, request, service, 'Serviço não oferecido'],
+    [{...pros[0],regionCodes:[]}, request, service, 'Região não atendida'],
+    [{...pros[0],availability:[]}, request, service, 'Horário não disponível'],
+    [{...pros[0],accessibilityTags:[]}, {...request,requiredAccessibilityTags:['mobilidade']}, service, 'Acessibilidade solicitada não disponível'],
+    [pros[0], {...request,maxPriceCents:1}, service, 'Valor acima do limite informado'],
+    [pros[0], {...request,maxPriceCents:NaN}, service, 'Limite de valor inválido'],
+    [pros[0], request, {...service,requiresCredential:true}, 'Credencial exigida não verificada']
+  ];
+  for (const [professional, input, selectedService, reason] of cases) {
+    const evaluation = evaluateProfessional(input, selectedService, professional);
+    assert.equal(evaluation.eligible, false);
+    assert.ok(evaluation.reasons.includes(reason));
+  }
+  rankProfessionals(request, service, pros);
+  assert.deepEqual(request, originalRequest);
+  assert.deepEqual(pros, originalProfessionals);
 });
 test('credencial exigida falha fechada', () => {
   assert.equal(rankProfessionals(request,{...service,requiresCredential:true},pros).length,0);

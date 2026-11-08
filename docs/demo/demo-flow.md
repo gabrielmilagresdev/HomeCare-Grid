@@ -14,7 +14,8 @@
 
 ## Cenários de recuperação
 
-- **Sem cobertura:** na busca, selecione **Zona Norte**. Não há match. Abra a opção de demanda, deixe o consentimento desmarcado e veja que o envio fica indisponível. Marque o consentimento, registre e depois revogue. O registro não contém endereço ou texto livre.
+- **Sem cobertura:** na busca, selecione **Zona Norte**. Confira os motivos administrativos de exclusão dos perfis. Abra a opção de demanda, deixe o consentimento desmarcado e veja que o envio fica indisponível. Marque o consentimento, registre e depois revogue. O registro não contém endereço ou texto livre.
+- **Limite de preço:** digite um valor como `100,50` para filtrar por hora. Uma entrada inválida exibe erro e suspende os resultados até ser corrigida ou apagada.
 - **Conflito de agenda:** faça duas solicitações de Marina no mesmo horário; no papel profissional, aceite uma e tente aceitar a outra. A segunda deve informar conflito. Horários adjacentes podem coexistir.
 - **Recusa:** em uma nova solicitação, use **Recusar**. A pessoa vê o estado atualizado e pode solicitar novamente, com revalidação de filtros.
 - **Profissionais alternativos:** solicite Caio ou Lia onde houver cobertura. Em **Sou profissional**, selecione o mesmo nome; somente o destinatário vê e responde a solicitação.
