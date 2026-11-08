@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import {validatePlan,issueBody,names} from './backlog-lib.mjs';
+const plan=JSON.parse(fs.readFileSync('docs/agile/backlog.json','utf8'));validatePlan(plan);
+const map=fs.existsSync('docs/agile/github-map.json')?JSON.parse(fs.readFileSync('docs/agile/github-map.json','utf8')):{};
+const ref=id=>map[id]?'[#'+map[id].number+']('+map[id].url+')':id;
+let output='# Backlog HomeCare Grid\n\nFonte estruturada: backlog.json. Estado remoto/URLs: github-map.json. Stories só ficam Done após integração validada; nenhum recurso é inferido do planejamento.\n\n31 Stories MVP (65 horas-agente estimadas), oito itens pós-MVP, dez Epics e um bootstrap. Tasks T1/T2 são checklists dentro de cada Story, sem Issues artificiais. Estimativas não são promessa de entrega; Lucas central concentra caminho crítico.\n';
+for(const epic of plan.epics){output+='\n## '+ref('epic-'+epic.id)+' — '+epic.title+'\n\n| ID | Story | Responsável | P | Wave | h | Depende de | Estado inicial |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n';for(const s of plan.stories.filter(x=>x.epic===epic.id)){output+='| '+s.id+' | '+ref(s.id)+' '+s.title+' | '+names[s.owner]+' — '+(s.role==='arbiter'?'Árbitro':'Operacional')+' | '+s.priority+' | '+s.wave+' | '+(s.hours??'futuro')+' | '+s.dependsOn.map(ref).join(', ')+' | '+s.status+' |\n';}}
+output+='\n## Escopo detalhado\n\n';
+for(const s of plan.stories) output+='\n### '+s.id+' — '+s.title+'\n\n'+issueBody(s,plan,map)+'\n';
+fs.writeFileSync('docs/agile/backlog.md',output);
+let dep='# Dependências e execução\n\nReferências GitHub são reais; arestas nativas/sub-issues não disponíveis no conector. Labels + links e pr-policy oferecem coordenação verificável, sem substituir proteções administrativas.\n\nWave 0 (0–6h): bootstrap, revisão dos contratos/qualidade/políticas e proteção externa. Wave 1 (6–16h): quatro operadores em UI, domínio, perfis e Auth/fixtures. Wave 2 (16–28h): busca/reserva/aceite/família e concorrência. Wave 3 (28–36h): jornada, smoke e correções; Demand/FamilyPay apenas se a jornada P0 estiver estável. Wave 4: futuro, sem consumir hackathon.\n\nCaminho crítico: BOOT -> 0.1/0.2/0.5 -> 2.1/2.2 -> 4.1 -> 4.4 e 5.1 -> 5.2 -> 8.2 -> 8.3/8.4 -> 8.5. A disponibilidade do árbitro, identidades e API administrativa também bloqueia. Serializar contratos, package/lock, CI e migrations.\n\nApós fundação integrada e 0.5 resolvida, podem começar independentemente: Gabriel 1.1; Lucas 2.2/3.4 em sequência; Julio 1.3 ou 3.1; Matheus 2.3 ou 2.1. Não há Story dependente Ready agora.\n\n| Story | Bloqueada por |\n| --- | --- |\n';
+for(const s of plan.stories)dep+='| '+ref(s.id)+' ('+s.id+') | '+(s.dependsOn.map(ref).join(', ')||'identidade/API/proteções externas')+' |\n';
+fs.writeFileSync('docs/agile/dependencies.md',dep);
+console.log('Backlog e dependências renderizados.');
