@@ -4,6 +4,7 @@ const plan=JSON.parse(fs.readFileSync('docs/agile/backlog.json','utf8'));validat
 const map=JSON.parse(fs.readFileSync('docs/agile/github-map.json','utf8'));
 if(!process.argv.includes('--apply')){console.log(JSON.stringify({mode:'dry-run',epics:plan.epics.length,stories:plan.stories.length,existing:Object.keys(map).length,action:'Reconciliar corpos de Issues existentes; sem merge, fechamento ou alteração de credenciais.'},null,2));}
 else {
+  if(fs.existsSync('.agents/mode.json') && JSON.parse(fs.readFileSync('.agents/mode.json','utf8')).mode==='DUAL_AGENT_MODE')throw new Error('Bulk legacy sync disabled in DUAL_AGENT_MODE: preserve current acceptance and original ownership; update only the executor block.');
   if(!process.env.GH_TOKEN)throw new Error('GH_TOKEN efêmero deve ser injetado externamente; não ler credenciais pessoais.');
   for(const story of plan.stories){
     const entry=map[story.id];if(!entry)throw new Error('Issue sem mapeamento: '+story.id);
