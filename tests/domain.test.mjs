@@ -66,3 +66,14 @@ test('familiar view-only não reserva e revogação remove acesso',()=>{
   assert.equal(canAccessRecipient('family',recipient,[{...membership,revokedAt:'2026-11-07T00:00:00Z'}],'viewSchedule'),false);
   assert.equal(canAccessRecipient('family',{...recipient,id:'other'},[membership],'viewSchedule'),false);
 });
+
+test('catálogo demo retorna cópias isoladas de fixtures', async () => {
+  const { demoCatalog } = await import('../src/services/demo/catalog.ts');
+  const first = await demoCatalog.listProfessionals();
+  assert.equal(first.ok, true);
+  first.data[0].regionCodes.push('mutated');
+  first.data[0].availability[0].startsAt = 'bad';
+  const second = await demoCatalog.listProfessionals();
+  assert.equal(second.data[0].regionCodes.includes('mutated'), false);
+  assert.equal(isUtcInstant(second.data[0].availability[0].startsAt), true);
+});
